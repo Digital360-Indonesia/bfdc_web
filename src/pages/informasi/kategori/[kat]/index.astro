@@ -46,7 +46,7 @@ const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
       <div class="mt-5 flex flex-wrap justify-center gap-2">
         <a href="/informasi" class="rounded-full bg-primary px-4 py-2 text-sm font-bold text-white shadow-sm">Semua</a>
         {Object.entries(CAT_LABEL).map(([k, label]) => (
-          <a href={`/informasi/kategori/${k}`} class={`rounded-full px-4 py-2 text-sm font-bold transition ${k === kat ? "border border-primary/40 bg-primary-soft text-primary" : "border border-line bg-white text-ink-soft hover:border-primary/40 hover:text-primary"}`}>{label}</a>
+          <a href={k === "promo" ? "/promo" : `/informasi/kategori/${k}`} class={`rounded-full px-4 py-2 text-sm font-bold transition ${k === kat ? "border border-primary/40 bg-primary-soft text-primary" : "border border-line bg-white text-ink-soft hover:border-primary/40 hover:text-primary"}`}>{label}</a>
         ))}
       </div>
     </div>

@@ -33,7 +33,7 @@ const activeCat = "semua";
       <div class="mt-6 flex flex-wrap justify-center gap-2">
         <a href="/informasi" class="rounded-full bg-primary px-4 py-2 text-sm font-bold text-white shadow-sm">Semua</a>
         {CATEGORIES.map((k) => (
-          <a href={`/informasi/kategori/${k}`} class="rounded-full border border-line bg-white px-4 py-2 text-sm font-bold text-ink-soft transition hover:border-primary/40 hover:text-primary">{CAT_LABEL[k]}</a>
+          <a href={k === "promo" ? "/promo" : `/informasi/kategori/${k}`} class="rounded-full border border-line bg-white px-4 py-2 text-sm font-bold text-ink-soft transition hover:border-primary/40 hover:text-primary">{CAT_LABEL[k]}</a>
         ))}
       </div>
     </div>

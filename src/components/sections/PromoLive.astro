@@ -29,6 +29,7 @@ const tanggalID = (iso: string) =>
     ? "grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
     : "snap-strip -mx-4 flex gap-4 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-4 md:overflow-visible md:px-0"}
   data-promo-root
+  data-variant={variant}
   data-api={API}
   data-detail={DETAIL}
   data-booking={bookingUrl}
@@ -69,7 +70,7 @@ const tanggalID = (iso: string) =>
   const api = root?.dataset.api;
   const detail = root?.dataset.detail ?? "https://app.bfreshgigi.com/promo";
   const BOOKING = root?.dataset.booking ?? "https://app.bfreshgigi.com/reservasi";
-  const compact = !root?.classList.contains("md:grid");
+  const compact = root?.dataset.variant === "strip";
 
   type PromoApi = {
     id: number;

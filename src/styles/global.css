@@ -93,22 +93,26 @@ h1, h2, h3, h4, h5, h6, .font-display {
 }
 
 /* Skeleton shimmer — bg gradien animasi di belakang gambar; otomatis tertutup
-   saat gambar termuat (pure CSS, tanpa JS). Pasang class="skeleton" pada <img>. */
+   saat gambar termuat (pure CSS, tanpa JS). Pasang class="skeleton" pada <img>
+   atau blok placeholder. Kontras cukup terlihat tapi tetap lembut. */
 .skeleton {
+  background-color: #e2e8f0;
   background-image: linear-gradient(
     100deg,
-    var(--color-primary-soft) 40%,
-    #ffffff 50%,
-    var(--color-primary-soft) 60%
+    transparent 20%,
+    rgba(255, 255, 255, 0.85) 50%,
+    transparent 80%
   );
-  background-size: 200% 100%;
-  animation: shimmer 1.3s linear infinite;
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  animation: shimmer 1.5s ease-in-out infinite;
 }
 @keyframes shimmer {
-  to { background-position: -200% 0; }
+  0% { background-position: 120% 0; }
+  100% { background-position: -120% 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .skeleton { animation: none; }
+  .skeleton { animation: none; background-image: none; }
 }
 
 /* Prose tweak utk artikel blog */

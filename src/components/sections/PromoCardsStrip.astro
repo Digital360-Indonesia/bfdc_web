@@ -30,14 +30,14 @@ const sdShort = (iso: string) =>
                 <a
                   href={`${DETAIL}/${p.id}`}
                   target="_blank" rel="noopener"
-                  class="flex w-60 shrink-0 items-center gap-3 rounded-2xl border border-line bg-white p-2.5 shadow-card transition duration-200 hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-card-hover"
+                  class="flex w-[88vw] max-w-[26rem] shrink-0 items-center gap-3 rounded-2xl border border-line bg-white p-3 shadow-card transition duration-200 hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-card-hover sm:w-60 md:w-auto"
                 >
                   {p.img && (
                     <img
                       src={`/images/promo/promo-${p.id}.webp`}
                       alt={`Promo ${p.nama}`}
                       width="96" height="96" loading="lazy" decoding="async"
-                      class="size-14 shrink-0 rounded-xl object-cover"
+                      class="size-16 shrink-0 rounded-xl object-cover sm:size-14"
                     />
                   )}
                   <span class="min-w-0">
@@ -78,8 +78,8 @@ const sdShort = (iso: string) =>
         const cards = items
           .map(
             (p) => `<a href="${DETAIL}/${p.id}" target="_blank" rel="noopener"
-              class="flex w-60 shrink-0 items-center gap-3 rounded-2xl border border-line bg-white p-2.5 shadow-card transition duration-200 hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-card-hover">
-              ${p.gambar_url ? `<img src="${p.gambar_url}" alt="Promo ${esc(p.nama)}" width="96" height="96" loading="lazy" decoding="async" class="size-14 shrink-0 rounded-xl object-cover" />` : ""}
+              class="flex w-[88vw] max-w-[26rem] shrink-0 items-center gap-3 rounded-2xl border border-line bg-white p-3 shadow-card transition duration-200 hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-card-hover sm:w-60 md:w-auto">
+              ${p.gambar_url ? `<img src="${p.gambar_url}" alt="Promo ${esc(p.nama)}" width="96" height="96" loading="lazy" decoding="async" class="size-16 shrink-0 rounded-xl object-cover sm:size-14" />` : ""}
               <span class="min-w-0">
                 <span class="block truncate text-xs font-bold text-primary-deep">${esc(p.nama)}</span>
                 ${p.harga ? `<span class="mt-0.5 block font-heading text-sm font-extrabold text-accent">${p.harga}</span>` : ""}

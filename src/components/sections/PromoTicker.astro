@@ -1,0 +1,89 @@
+---
+/**
+ * Ticker promo — strip menempel di bawah Hero, marquee halus, live dari
+ * /api/public/promo (fallback: promos.json hasil build). Setiap item klik
+ * → halaman detail promo di app. Full-width, warna accent (urgensi komersial).
+ */
+import promosJson from "../../data/promos.json";
+import { publicApi } from "../../utils/api";
+import type { Promo } from "../../data/types";
+
+const promos = promosJson as Promo[];
+const API = `${publicApi}/api/public/promo`;
+const DETAIL = `${publicApi}/promo`;
+---
+<div
+  class="border-y border-accent-dark/20 bg-accent text-white"
+  data-promo-ticker
+  data-api={API}
+  data-detail={DETAIL}
+>
+  <div class="mx-auto flex max-w-7xl items-stretch">
+    <span class="hidden shrink-0 items-center gap-1.5 bg-accent-dark px-5 py-2.5 text-xs font-extrabold tracking-widest uppercase sm:inline-flex">
+      🎁 Promo
+    </span>
+    <div class="group relative flex-1 overflow-hidden">
+      <div class="flex w-max animate-ticker items-center gap-0 py-2.5 group-hover:[animation-play-state:paused]" data-ticker-track>
+        {[0, 1].map((dup) => (
+          <ul class="flex shrink-0 items-center" aria-hidden={dup === 1 ? "true" : undefined} data-ticker-list>
+            {promos.map((p) => (
+              <li class="flex items-center">
+                <a
+                  href={`${DETAIL}/${p.id}`}
+                  target="_blank" rel="noopener"
+                  class="px-5 text-xs font-bold whitespace-nowrap transition hover:text-accent-soft md:text-sm"
+                >
+                  {p.nama}{p.harga ? ` — ${p.harga}` : ""}
+                </a>
+                <span class="text-accent-soft/70" aria-hidden="true">•</span>
+              </li>
+            ))}
+            <li class="flex items-center">
+              <a href="/promo" class="px-5 text-xs font-extrabold whitespace-nowrap underline decoration-white/40 underline-offset-2 transition hover:text-accent-soft md:text-sm">
+                Lihat semua promo →
+              </a>
+              <span class="text-accent-soft/70" aria-hidden="true">•</span>
+            </li>
+          </ul>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-promo-ticker]");
+  const api = root?.dataset.api;
+  const detail = root?.dataset.detail ?? "https://app.bfreshgigi.com/promo";
+
+  type PromoApi = { id: number; nama: string; harga: string | null };
+  const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+
+  if (root && api) {
+    fetch(api)
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((d: { promo: PromoApi[] }) => {
+        const items = d.promo ?? [];
+        if (!items.length) return; // fallback statis tetap
+        const li = items
+          .map(
+            (p) => `<li class="flex items-center">
+              <a href="${detail}/${p.id}" target="_blank" rel="noopener" class="px-5 text-xs font-bold whitespace-nowrap transition hover:text-accent-soft md:text-sm">${esc(p.nama)}${p.harga ? ` — ${esc(p.harga)}` : ""}</a>
+              <span class="text-accent-soft/70" aria-hidden="true">•</span>
+            </li>`,
+          )
+          .join("");
+        const tail = `<li class="flex items-center">
+          <a href="/promo" class="px-5 text-xs font-extrabold whitespace-nowrap underline decoration-white/40 underline-offset-2 transition hover:text-accent-soft md:text-sm">Lihat semua promo →</a>
+          <span class="text-accent-soft/70" aria-hidden="true">•</span>
+        </li>`;
+        root.querySelectorAll("[data-ticker-list]").forEach((ul, i) => {
+          ul.innerHTML = i === 0 ? li + tail : li + tail;
+          if (i === 1) ul.setAttribute("aria-hidden", "true");
+        });
+      })
+      .catch(() => {
+        /* fallback statis */
+      });
+  }
+</script>

@@ -4,7 +4,7 @@ import Hero from "../components/sections/Hero.astro";
 import TrustBar from "../components/sections/TrustBar.astro";
 import BranchLocator from "../components/sections/BranchLocator.astro";
 import ServiceGrid from "../components/sections/ServiceGrid.astro";
-import PromoLive from "../components/sections/PromoLive.astro";
+import PromoTicker from "../components/sections/PromoTicker.astro";
 import WhyUs from "../components/sections/WhyUs.astro";
 import DoctorsGrid from "../components/sections/DoctorsGrid.astro";
 import DentalQuiz from "../components/sections/DentalQuiz.astro";
@@ -16,26 +16,10 @@ import ClosingCTA from "../components/sections/ClosingCTA.astro";
 
 <BaseLayout>
   <Hero />
+  <PromoTicker />
   <TrustBar />
   <BranchLocator />
   <ServiceGrid />
-
-  <section id="promo" class="bg-bg py-14 md:py-16">
-    <div class="mx-auto max-w-7xl px-4">
-      <div class="reveal mb-8 flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <span class="mb-2 inline-block rounded-full bg-accent-soft px-4 py-1 text-xs font-bold tracking-widest text-accent-dark uppercase">🎁 Promo Berjalan</span>
-          <h2 class="font-heading text-2xl font-extrabold text-primary-deep md:text-3xl">Harga Spesial Bulan Ini</h2>
-        </div>
-        <a href="/promo" class="inline-flex items-center gap-1.5 rounded-full border-2 border-primary/20 bg-white px-5 py-2.5 text-sm font-bold text-primary transition hover:border-primary">
-          Semua promo
-          <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
-        </a>
-      </div>
-      <PromoLive variant="strip" />
-    </div>
-  </section>
-
   <WhyUs />
   <DoctorsGrid />
   <DentalQuiz />

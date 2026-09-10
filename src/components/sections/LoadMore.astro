@@ -86,12 +86,20 @@ const { nextUrl, total } = Astro.props;
         const html = new DOMParser().parseFromString(await res.text(), "text/html");
         const cards = html.querySelectorAll<HTMLElement>("[data-post-card]");
         const nextLink = html.querySelector<HTMLAnchorElement>('a[rel="next"]');
-        cards.forEach((c, i) => {
+        const appended: HTMLElement[] = [];
+        cards.forEach((c) => {
+          // masuk dgn state reveal (transparan)…
           c.classList.add("reveal");
-          c.style.animation = `fade-up .5s ease ${i * 70}ms both`;
           grid.append(c);
+          appended.push(c);
         });
         holders.forEach((h) => h.remove());
+        // …lalu trigger transisi stagger di frame berikutnya
+        // (observer global hanya mengamati elemen saat load — kartu baru harus
+        //  di-visible-kan manual)
+        requestAnimationFrame(() => {
+          appended.forEach((c, i) => setTimeout(() => c.classList.add("is-visible"), i * 70));
+        });
         nextUrl = nextLink?.getAttribute("href") ?? "";
         updateCount(grid.querySelectorAll("[data-post-card]").length);
         if (!nextUrl) finish();

@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import branches from "../../data/branches.json";
+import BranchCard from "../../components/cards/BranchCard.astro";
+import { SITE } from "../../data/siteConfig";
+
+const cities = [...new Set(branches.map((b) => b.cityLabel))];
+---
+<BaseLayout
+  title="15 Cabang Klinik Gigi di 5 Kota"
+  description="Lokasi B Fresh Dental Care: 15 cabang di Sidoarjo, Surabaya, Gresik, Pasuruan & Malang. Alamat lengkap, telepon & reservasi online."
+>
+  <section class="bg-gradient-to-b from-primary-soft to-white py-14 md:py-18">
+    <div class="mx-auto max-w-3xl px-4 text-center">
+      <span class="mb-3 inline-block rounded-full bg-white px-4 py-1 text-xs font-bold tracking-widest text-primary uppercase shadow-card">Cabang Kami</span>
+      <h1 class="text-balance font-heading text-4xl font-extrabold text-primary-deep md:text-5xl">Selalu Ada di Dekat Anda</h1>
+      <p class="mt-4 text-ink-soft md:text-lg">{branches.length} cabang di {cities.length} kota — standar pelayanan yang sama di mana pun Anda memeriksa.</p>
+      <div class="mt-6 flex flex-wrap justify-center gap-2">
+        {cities.map((c) => (
+          <a href={`?kota=${c.toLowerCase()}#daftar`} class="rounded-full border-2 border-primary/20 bg-white px-4 py-2 text-sm font-bold text-primary transition hover:border-primary">{c}</a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="daftar" class="scroll-mt-24 bg-white py-12 md:py-16">
+    <div class="mx-auto max-w-7xl px-4">
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {branches.map((b) => <BranchCard branch={b} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-bg py-12 text-center">
+    <div class="mx-auto max-w-xl px-4">
+      <h2 class="font-heading text-2xl font-extrabold text-primary-deep">Belum Ada di Kota Anda?</h2>
+      <p class="mt-2 text-sm text-ink-soft">Jaringan kami terus tumbuh. Reservasi di kota terdekat, atau hubungi CS untuk info cabang baru.</p>
+      <div class="mt-5 flex flex-col justify-center gap-3 sm:flex-row">
+        <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="rounded-full bg-accent px-6 py-3 text-sm font-bold text-white transition hover:bg-accent-dark">Reservasi Online</a>
+        <a href={`tel:${SITE.phone.replace(/-/g, "")}`} class="rounded-full border-2 border-primary/25 bg-white px-6 py-3 text-sm font-bold text-primary transition hover:border-primary">Hubungi CS {SITE.phone}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

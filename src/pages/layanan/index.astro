@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { KATEGORI } from "../../data/services";
+import { rupiah } from "../../utils/format";
+
+const services = await getCollection("services");
+const byKategori = (slug: string) =>
+  services
+    .filter((s) => s.data.kategori === slug)
+    .sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout
+  title="Layanan Klinik Gigi"
+  description="Layanan lengkap B Fresh Dental Care: scaling, tambal gigi, saluran akar, behel, gigi tiruan, bleaching, veneer, bedah mulut & perawatan gigi anak — harga transparan di 15 cabang."
+>
+  <section class="bg-gradient-to-b from-primary-soft to-white py-14 md:py-18">
+    <div class="mx-auto max-w-3xl px-4 text-center">
+      <span class="mb-3 inline-block rounded-full bg-white px-4 py-1 text-xs font-bold tracking-widest text-primary uppercase shadow-card">Layanan Kami</span>
+      <h1 class="text-balance font-heading text-4xl font-extrabold text-primary-deep md:text-5xl">Semua yang Senyum Anda Butuhkan</h1>
+      <p class="mt-4 text-ink-soft md:text-lg">Dari perawatan rutin hingga kasus spesialis — dengan estimasi biaya yang jelas sejak awal.</p>
+    </div>
+  </section>
+
+  {
+    KATEGORI.map((k) => (
+      <section id={k.slug} class="scroll-mt-24 border-t border-line/60 bg-white py-14 first:border-t-0 md:py-16">
+        <div class="mx-auto max-w-7xl px-4">
+          <div class="reveal flex flex-wrap items-end justify-between gap-4">
+            <div class="max-w-xl">
+              <div class="flex items-center gap-3">
+                <span class="flex size-12 items-center justify-center rounded-2xl bg-primary-soft text-xl">{k.icon}</span>
+                <div>
+                  <h2 class="font-heading text-2xl font-extrabold text-primary-deep md:text-3xl">{k.label}</h2>
+                  <p class="text-xs font-bold tracking-wide text-secondary uppercase">{k.tagline}</p>
+                </div>
+              </div>
+              <p class="mt-3 text-sm leading-relaxed text-ink-soft md:text-base">{k.desc}</p>
+            </div>
+            <p class="rounded-full bg-secondary-soft px-4 py-2 text-xs font-bold text-secondary-dark">
+              Mulai dari <span class="font-heading text-sm font-extrabold">{rupiah(k.priceFrom)}</span>
+            </p>
+          </div>
+
+          <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {byKategori(k.slug).map((s) => (
+              <a href={`/layanan/${s.data.slug}`} class="reveal group flex flex-col rounded-card border border-line bg-white p-6 shadow-card transition duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-card-hover">
+                <h3 class="font-heading text-lg font-bold text-primary-deep group-hover:text-primary">{s.data.title}</h3>
+                <p class="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-ink-soft">{s.data.excerpt}</p>
+                {s.data.pricing.length > 0 && (
+                  <p class="mt-4 text-xs text-ink-soft">
+                    <span class="font-semibold">Mulai</span>
+                    <strong class="ml-1 font-heading text-sm font-extrabold text-primary">{s.data.pricing[0].price.replace(/^Mulai\s*/i, "")}</strong>
+                  </p>
+                )}
+                <span class="mt-4 inline-flex items-center gap-1 border-t border-line pt-4 text-xs font-bold text-accent transition group-hover:gap-2">
+                  Detail layanan
+                  <svg class="size-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+</BaseLayout>

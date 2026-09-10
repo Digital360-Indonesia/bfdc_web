@@ -1,0 +1,85 @@
+---
+import galeri from "../../data/galeri.json";
+import SectionHeading from "../ui/SectionHeading.astro";
+
+interface Item { slug: string; title: string; kategori: string; local_images: string[] }
+const items = (galeri as Item[]).filter((i) => i.kategori !== "lainnya" && i.local_images.length > 0);
+const KAT = [
+  ["behel", "Behel"],
+  ["tambal", "Tambal Gigi"],
+  ["scaling", "Scaling"],
+  ["bleaching", "Bleaching"],
+  ["gigi-palsu", "Gigi Palsu"],
+  ["cabut-anak", "Gigi Anak"],
+  ["odontektomi", "Odontektomi"],
+] as const;
+const byKat = Object.fromEntries(KAT.map(([k]) => [k, items.filter((i) => i.kategori === k)]));
+---
+
+<section id="hasil" class="bg-bg py-16 md:py-20">
+  <div class="mx-auto max-w-7xl px-4">
+    <SectionHeading
+      eyebrow="Hasil Perawatan Nyata"
+      title="Galery Before & After Pasien Kami"
+      sub="Dokumentasi kasus asli dari klinik kami — lihat hasilnya sebelum Anda memutuskan."
+    >
+      <a href="/galeri" slot="cta" class="inline-flex items-center gap-2 rounded-full border-2 border-primary/25 bg-white px-6 py-3 text-sm font-bold text-primary transition hover:border-primary hover:bg-primary-soft">
+        Lihat semua {items.length}+ kasus
+        <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+    </SectionHeading>
+
+    <div class="reveal mt-10" data-gallery-tabs>
+      <div class="flex snap-strip -mx-4 gap-2 overflow-x-auto px-4 md:mx-0 md:flex-wrap md:justify-center md:px-0" role="tablist">
+        {KAT.map(([k, label], i) => (
+          <button type="button" role="tab" aria-selected={i === 0 ? "true" : "false"} data-tab={k}
+            class={`shrink-0 cursor-pointer rounded-full px-5 py-2 text-sm font-bold transition ${i === 0 ? "bg-primary text-white shadow-sm" : "border border-line bg-white text-ink-soft hover:border-primary/40 hover:text-primary"}`}>
+            {label} <span class={i === 0 ? "text-primary-light" : "text-ink-soft/50"}>({byKat[k].length})</span>
+          </button>
+        ))}
+      </div>
+
+      {KAT.map(([k], i) => (
+        <div class="mt-8" data-panel={k} role="tabpanel" hidden={i !== 0}>
+          <div class="snap-strip -mx-4 flex gap-4 overflow-x-auto px-4 pb-4 md:mx-0 md:grid md:grid-cols-3 md:px-0 lg:grid-cols-4">
+            {byKat[k].slice(0, 8).map((item) => (
+              <figure class="group w-[70%] shrink-0 overflow-hidden rounded-2xl border border-line bg-white shadow-card md:w-auto">
+                <div class="relative aspect-[4/5] overflow-hidden bg-primary-soft">
+                  <img
+                    src={item.local_images[0]}
+                    alt={`${item.title} — hasil perawatan B Fresh Dental Care`}
+                    width="400" height="500" loading="lazy" decoding="async"
+                    class="size-full object-cover transition duration-300 group-hover:scale-[1.03]"
+                  />
+                </div>
+                <figcaption class="px-4 py-3 text-xs font-bold text-primary-deep">{item.title}</figcaption>
+              </figure>
+            ))}
+          </div>
+          <p class="mt-4 text-center">
+            <a href={`/galeri#${k}`} class="text-xs font-bold text-primary underline-offset-2 hover:underline">Lihat semua kasus {KAT.find(([kk]) => kk === k)?.[1]} →</a>
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector("[data-gallery-tabs]");
+  root?.querySelectorAll<HTMLButtonElement>("[data-tab]").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const key = tab.dataset.tab;
+      root.querySelectorAll<HTMLButtonElement>("[data-tab]").forEach((t) => {
+        const on = t === tab;
+        t.setAttribute("aria-selected", String(on));
+        t.className = on
+          ? "shrink-0 cursor-pointer rounded-full bg-primary px-5 py-2 text-sm font-bold text-white shadow-sm transition"
+          : "shrink-0 cursor-pointer rounded-full border border-line bg-white px-5 py-2 text-sm font-bold text-ink-soft transition hover:border-primary/40 hover:text-primary";
+      });
+      root.querySelectorAll<HTMLElement>("[data-panel]").forEach((p) => {
+        p.hidden = p.dataset.panel !== key;
+      });
+    });
+  });
+</script>

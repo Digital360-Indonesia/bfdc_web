@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { SITE } from "../../data/siteConfig";
+
+const roles = [
+  { icon: "🦷", title: "Dokter Gigi (Umum & Spesialis)", desc: "Bergabunglah dengan tim medis yang kompetensi dan pengembangan dirinya didukung penuh — termasuk dokter Sp.Ort, Sp.KGA, Sp.Perio." },
+  { icon: "🧑‍⚕️", title: "Perawat & Asisten Dokter Gigi", desc: "Bagian penting dari setiap perawatan — terlatih standar sterilisasi dan penanganan pasien yang nyaman." },
+  { icon: "💬", title: "CS & Resepsionis", desc: "Wajah ramah klinik kami — berkomunikasi dengan empati, membantu pasien dari reservasi hingga pulang." },
+  { icon: "⚙️", title: "Tim Operasional & Support", desc: "IT, keuangan, HR, dan operasional yang menjaga 15 cabang berjalan dengan standar yang sama." },
+];
+---
+<BaseLayout
+  title="Karir — Lowongan Kerja"
+  description={`Karir di B Fresh Dental Care (${SITE.legalName}) — lowongan dokter gigi, perawat, CS, dan tim support di 15 cabang Jawa Timur.`}
+>
+  <section class="bg-gradient-to-b from-primary-soft to-white py-14 md:py-18">
+    <div class="mx-auto max-w-3xl px-4 text-center">
+      <span class="mb-3 inline-block rounded-full bg-white px-4 py-1 text-xs font-bold tracking-widest text-primary uppercase shadow-card">Karir</span>
+      <h1 class="text-balance font-heading text-4xl font-extrabold text-primary-deep md:text-5xl">Tumbuh Bersama, Merawat Banyak Senyum</h1>
+      <p class="mt-4 text-ink-soft md:text-lg">Kami percaya tim yang bahagia menghasilkan pasien yang bahagia. Mari berkarya bersama {SITE.legalName}.</p>
+      <a href={SITE.careersUrl} target="_blank" rel="noopener" class="mt-7 inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-bold text-white shadow-sm transition hover:bg-accent-dark hover:shadow-md">
+        Lihat Lowongan Terbaru
+        <svg class="size-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg>
+      </a>
+      <p class="mt-3 text-xs text-ink-soft">Semua lamaran diproses melalui portal HR resmi kami</p>
+    </div>
+  </section>
+
+  <section class="bg-white py-12 md:py-16">
+    <div class="mx-auto max-w-6xl px-4">
+      <h2 class="text-center font-heading text-2xl font-extrabold text-primary-deep md:text-3xl">Peran di Organisasi Kami</h2>
+      <div class="mt-10 grid gap-5 sm:grid-cols-2">
+        {
+          roles.map((r) => (
+            <div class="reveal flex gap-4 rounded-card border border-line bg-bg p-6">
+              <span class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-white text-xl shadow-card">{r.icon}</span>
+              <div>
+                <h3 class="font-heading text-base font-bold text-primary-deep">{r.title}</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-ink-soft">{r.desc}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="reveal mt-12 rounded-card bg-primary-deep p-8 text-center md:p-10">
+        <h2 class="font-heading text-2xl font-extrabold text-white">Kenapa Berkarya di B Fresh?</h2>
+        <ul class="mx-auto mt-6 grid max-w-3xl gap-4 text-left text-sm text-primary-light sm:grid-cols-3">
+          <li class="rounded-2xl bg-white/5 p-4"><strong class="block text-white">Pengembangan Berkelanjutan</strong>Pelatihan internal & program kompetensi berkala untuk semua peran.</li>
+          <li class="rounded-2xl bg-white/5 p-4"><strong class="block text-white">Jaringan yang Tumbuh</strong>15 cabang dan terus bertambah — ruang karir yang ikut bertumbuh.</li>
+          <li class="rounded-2xl bg-white/5 p-4"><strong class="block text-white">Budaya Kekeluargaan</strong>Tim yang saling mendukung, dengan nilai kejujuran dan amanah.</li>
+        </ul>
+        <a href={SITE.careersUrl} target="_blank" rel="noopener" class="mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-bold text-white transition hover:bg-accent-dark">
+          Buka Portal Lowongan
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

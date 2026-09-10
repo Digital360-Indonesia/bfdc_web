@@ -1,0 +1,110 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import branches from "../../data/branches.json";
+import doctorsFeatured from "../../data/doctors-featured.json";
+import galeri from "../../data/galeri.json";
+import { SITE, waLink } from "../../data/siteConfig";
+import { jsonLdClinic } from "../../utils/schema";
+import type { GaleriItem } from "../../data/types";
+
+export async function getStaticPaths() {
+  return branches.map((b) => ({ params: { slug: b.slug }, props: { branch: b } }));
+}
+
+const { branch } = Astro.props;
+const doctors = (doctorsFeatured as Record<string, string[]>)[String(branch.id)] ?? [];
+const cases = (galeri as GaleriItem[]).filter((g) => g.kategori !== "lainnya").slice(0, 0); // galeri tidak spesifik cabang
+const waBranch = waLink(`Halo B Fresh Dental Care ${branch.name}, saya ingin reservasi di cabang ${branch.name}.`);
+const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(`B Fresh Dental Care ${branch.name} ${branch.cityLabel}`)}&output=embed`;
+---
+<BaseLayout
+  title={`Klinik Gigi ${branch.name}`}
+  description={`B Fresh Dental Care ${branch.name} — ${branch.address}. Telepon ${branch.phone}. Reservasi online, harga transparan.`}
+  jsonLd={jsonLdClinic(branch)}
+>
+  <section class="bg-gradient-to-b from-primary-soft to-white py-12 md:py-16">
+    <div class="mx-auto max-w-5xl px-4">
+      <nav class="mb-4 text-xs font-semibold text-ink-soft" aria-label="Breadcrumb">
+        <a href="/cabang" class="hover:text-primary">Cabang</a>
+        <span class="mx-1.5">/</span>
+        <span>{branch.name}</span>
+      </nav>
+      <div class="grid gap-8 md:grid-cols-2 md:items-center">
+        <div>
+          <span class="mb-3 inline-block rounded-full bg-secondary-soft px-4 py-1 text-xs font-bold tracking-widest text-secondary-dark uppercase">📍 {branch.cityLabel}</span>
+          <h1 class="text-balance font-heading text-3xl font-extrabold text-primary-deep md:text-4xl">B Fresh Dental Care {branch.name}</h1>
+          <p class="mt-4 text-sm leading-relaxed text-ink-soft md:text-base">{branch.address}</p>
+          <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-bold text-white transition hover:bg-accent-dark">
+              Reservasi {branch.name}
+            </a>
+            <a href={waBranch} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-secondary/30 bg-white px-6 py-3.5 text-sm font-bold text-secondary transition hover:border-secondary">
+              WhatsApp Cabang
+            </a>
+          </div>
+        </div>
+        <div class="overflow-hidden rounded-card border border-line shadow-card">
+          <iframe
+            src={mapEmbed}
+            title={`Peta B Fresh Dental Care ${branch.name}`}
+            width="600" height="380" loading="lazy" decoding="async"
+            class="h-72 w-full md:h-[22rem]" style="border:0" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-12">
+    <div class="mx-auto grid max-w-5xl gap-5 px-4 sm:grid-cols-3">
+      <div class="rounded-card border border-line bg-bg p-5 text-center">
+        <p class="text-xs font-bold tracking-widest text-ink-soft uppercase">Telepon</p>
+        <a href={`tel:${branch.phone.replace(/\D/g, "")}`} class="mt-2 block font-heading text-lg font-extrabold text-primary hover:text-primary-dark">{branch.phone}</a>
+      </div>
+      <div class="rounded-card border border-line bg-bg p-5 text-center">
+        <p class="text-xs font-bold tracking-widest text-ink-soft uppercase">Jam Buka</p>
+        <p class="mt-2 font-heading text-lg font-extrabold text-primary">{SITE.hours.split("·")[1]?.trim() ?? "09.00–21.00"}</p>
+        <p class="text-xs text-ink-soft">{SITE.hours.split("·")[0]?.trim() ?? "Setiap Hari"}</p>
+      </div>
+      <div class="rounded-card border border-line bg-bg p-5 text-center">
+        <p class="text-xs font-bold tracking-widest text-ink-soft uppercase">Rute</p>
+        <a href={branch.mapUrl} target="_blank" rel="noopener" class="mt-2 inline-block font-heading text-lg font-extrabold text-primary hover:text-primary-dark">Petunjuk Arah →</a>
+      </div>
+    </div>
+  </section>
+
+  {
+    doctors.length > 0 && (
+      <section class="bg-bg py-12">
+        <div class="mx-auto max-w-5xl px-4">
+          <h2 class="font-heading text-2xl font-extrabold text-primary-deep">Dokter di Cabang Ini</h2>
+          <div class="mt-6 grid gap-3 sm:grid-cols-2">
+            {doctors.slice(0, 4).map((d) => (
+              <div class="flex items-center gap-3 rounded-2xl border border-line bg-white p-4">
+                <span class="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary-soft font-heading text-sm font-extrabold text-primary">
+                  {d.replace(/^drg\.?\s+/i, "").split(/\s+/).slice(0, 2).map((w) => w[0]).join("").toUpperCase()}
+                </span>
+                <div>
+                  <p class="text-sm font-bold text-primary-deep">{d}</p>
+                  <p class="text-xs text-ink-soft">Dokter Gigi</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p class="mt-4 text-xs text-ink-soft">Jadwal praktik dapat berubah — konfirmasi ketersediaan dokter saat reservasi.</p>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="bg-white py-12 text-center">
+    <div class="mx-auto max-w-xl px-4">
+      <h2 class="font-heading text-2xl font-extrabold text-primary-deep">Layanan di {branch.name}</h2>
+      <p class="mt-2 text-sm text-ink-soft">Semua layanan tersedia: scaling, tambal, behel, gigi tiruan, bleaching, hingga perawatan spesialis.</p>
+      <div class="mt-5 flex flex-col justify-center gap-3 sm:flex-row">
+        <a href="/layanan" class="rounded-full border-2 border-primary/25 bg-white px-6 py-3 text-sm font-bold text-primary transition hover:border-primary">Lihat Semua Layanan</a>
+        <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="rounded-full bg-accent px-6 py-3 text-sm font-bold text-white transition hover:bg-accent-dark">Reservasi Sekarang</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

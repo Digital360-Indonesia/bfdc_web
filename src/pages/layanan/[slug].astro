@@ -1,0 +1,108 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+import { KATEGORI } from "../../data/services";
+import { SITE, waLink } from "../../data/siteConfig";
+import { jsonLdFaq } from "../../utils/schema";
+
+export async function getStaticPaths() {
+  const services = await getCollection("services");
+  return services.map((s) => ({ params: { slug: s.data.slug }, props: { service: s } }));
+}
+
+const { service } = Astro.props;
+const { Content } = await render(service);
+const kat = KATEGORI.find((k) => k.slug === service.data.kategori);
+const related = (await getCollection("blog", ({ data }) => !data.draft))
+  .filter((p) => p.data.tags.some((t) => service.data.slug.includes(t.replace(/\s+/g, "-").toLowerCase()) || service.data.title.toLowerCase().includes(t.toLowerCase())))
+  .sort((a, b) => +b.data.date - +a.data.date)
+  .slice(0, 3);
+
+const jsonLd = service.data.faq?.length ? jsonLdFaq(service.data.faq.map((f) => ({ question: f.question, answer: f.answer }))) : undefined;
+---
+<BaseLayout title={service.data.title} description={service.data.excerpt} jsonLd={jsonLd}>
+  <article>
+    <header class="bg-gradient-to-b from-primary-soft to-white py-12 md:py-16">
+      <div class="mx-auto max-w-3xl px-4">
+        <nav class="mb-4 text-xs font-semibold text-ink-soft" aria-label="Breadcrumb">
+          <a href="/layanan" class="hover:text-primary">Layanan</a>
+          <span class="mx-1.5">/</span>
+          <a href={`/layanan#${kat?.slug}`} class="hover:text-primary">{kat?.label}</a>
+        </nav>
+        <h1 class="text-balance font-heading text-4xl font-extrabold text-primary-deep md:text-5xl">{service.data.title}</h1>
+        <p class="mt-4 text-base leading-relaxed text-ink-soft md:text-lg">{service.data.excerpt}</p>
+        <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+          <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-accent-dark">
+            Reservasi {service.data.title}
+          </a>
+          <a href={waLink(`Halo B Fresh Dental Care, saya ingin tanya-tanya soal ${service.data.title}.`)} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-secondary/30 bg-white px-7 py-3.5 text-sm font-bold text-secondary transition hover:border-secondary">
+            Tanya dulu via WhatsApp
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <div class="mx-auto max-w-3xl px-4 py-10 md:py-14">
+      {
+        service.data.features.length > 0 && (
+          <ul class="mb-10 grid gap-3 sm:grid-cols-3">
+            {service.data.features.map((f) => (
+              <li class="flex items-center gap-2.5 rounded-2xl border border-line bg-bg px-4 py-3 text-sm font-semibold text-primary-deep">
+                <svg class="size-5 shrink-0 text-secondary" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
+                {f}
+              </li>
+            ))}
+          </ul>
+        )
+      }
+
+      <div class="prose prose-lg">
+        <Content />
+      </div>
+
+      {
+        service.data.pricing.length > 0 && (
+          <section class="mt-12 rounded-card border border-line bg-bg p-6 md:p-8">
+            <h2 class="font-heading text-xl font-extrabold text-primary-deep">Estimasi Biaya</h2>
+            <p class="mt-1 text-xs text-ink-soft">Harga dapat berubah sesuai kondisi klinis — dokter selalu memberi estimasi sebelum perawatan dimulai.</p>
+            <ul class="mt-5 divide-y divide-line">
+              {service.data.pricing.map((p) => (
+                <li class="flex items-baseline justify-between gap-4 py-3.5">
+                  <div>
+                    <p class="text-sm font-bold text-ink">{p.name}</p>
+                    {p.desc && <p class="mt-0.5 text-xs text-ink-soft">{p.desc}</p>}
+                  </div>
+                  <p class="shrink-0 font-heading text-base font-extrabold text-primary">
+                    {p.original && <s class="mr-2 text-xs font-medium text-ink-soft/70">{p.original}</s>}
+                    {p.price}
+                  </p>
+                </li>
+              ))}
+            </ul>
+            <p class="mt-5 text-center">
+              <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-bold text-white transition hover:bg-primary-dark">Reservasi Sekarang</a>
+            </p>
+          </section>
+        )
+      }
+
+      {
+        related.length > 0 && (
+          <section class="mt-12">
+            <h2 class="font-heading text-xl font-extrabold text-primary-deep">Baca Juga</h2>
+            <ul class="mt-4 grid gap-4 sm:grid-cols-3">
+              {related.map((r) => (
+                <li>
+                  <a href={`/informasi/${r.data.slug}`} class="group flex h-full flex-col rounded-2xl border border-line bg-white p-4 shadow-card transition hover:border-primary/40 hover:shadow-card-hover">
+                    <p class="text-xs font-semibold text-secondary uppercase">{r.data.category}</p>
+                    <p class="mt-1 flex-1 text-sm leading-snug font-bold text-primary-deep group-hover:text-primary">{r.data.title}</p>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+    </div>
+  </article>
+</BaseLayout>

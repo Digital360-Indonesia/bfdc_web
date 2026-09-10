@@ -1,0 +1,110 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+import { tanggalID } from "../../utils/format";
+import { SITE } from "../../data/siteConfig";
+import { jsonLdArticle, jsonLdFaq } from "../../utils/schema";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((p) => ({ params: { slug: p.data.slug }, props: { post: p } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const related = (await getCollection("blog", ({ data }) => !data.draft))
+  .filter((p) => p.id !== post.id && p.data.tags.some((t) => post.data.tags.includes(t)))
+  .sort((a, b) => +b.data.date - +a.data.date)
+  .slice(0, 3);
+
+const ld = [jsonLdArticle({ title: post.data.title, excerpt: post.data.excerpt, image: post.data.image, date: post.data.date, author: post.data.author, slug: post.data.slug })];
+if (post.data.faq?.length) ld.push(jsonLdFaq(post.data.faq));
+---
+<BaseLayout title={post.data.title} description={post.data.excerpt} image={post.data.image} jsonLd={ld}>
+  <article class="bg-white">
+    <header class="bg-gradient-to-b from-primary-soft to-white py-12 md:py-16">
+      <div class="mx-auto max-w-3xl px-4">
+        <nav class="mb-4 text-xs font-semibold text-ink-soft" aria-label="Breadcrumb">
+          <a href="/informasi" class="hover:text-primary">Edukasi</a>
+          <span class="mx-1.5">/</span>
+          <a href={`/informasi?kategori=${post.data.category}`} class="hover:text-primary">{post.data.category}</a>
+        </nav>
+        <h1 class="text-balance font-heading text-3xl leading-tight font-extrabold text-primary-deep md:text-4xl">{post.data.title}</h1>
+        <p class="mt-4 text-sm font-semibold text-ink-soft">
+          {post.data.author} · {tanggalID(post.data.date)}
+          {post.data.updated && post.data.updated > post.data.date && <span class="ml-2 text-ink-soft/70">· Diperbarui {tanggalID(post.data.updated)}</span>}
+        </p>
+      </div>
+    </header>
+
+    <div class="mx-auto max-w-3xl px-4 py-10 md:py-14">
+      {
+        post.data.image && (
+          <img
+            src={post.data.image}
+            alt={post.data.title}
+            width="1200" height="675" loading="eager" decoding="async"
+            class="mb-10 aspect-[16/9] w-full rounded-card object-cover shadow-card"
+          />
+        )
+      }
+
+      <div class="prose prose-lg">
+        <Content />
+      </div>
+
+      {
+        post.data.faq && post.data.faq.length > 0 && (
+          <section class="mt-12">
+            <h2 class="font-heading text-xl font-extrabold text-primary-deep">Pertanyaan yang Sering Diajukan</h2>
+            <div class="mt-5 space-y-3">
+              {post.data.faq.map((f) => (
+                <details class="group rounded-2xl border border-line bg-bg px-5 py-4 open:border-primary/30">
+                  <summary class="cursor-pointer list-none text-sm font-bold text-primary-deep marker:hidden">
+                    <span class="flex items-center justify-between gap-3">{f.question}<svg class="size-4 shrink-0 text-primary transition group-open:rotate-45" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+                  </summary>
+                  <p class="mt-3 text-sm leading-relaxed text-ink-soft">{f.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      {
+        post.data.tags.length > 0 && (
+          <div class="mt-10 flex flex-wrap gap-2">
+            {post.data.tags.map((t) => (
+              <span class="rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary">#{t}</span>
+            ))}
+          </div>
+        )
+      }
+
+      <aside class="mt-12 rounded-card bg-primary-deep p-6 text-center md:p-8">
+        <p class="font-heading text-lg font-extrabold text-white">Masih ada pertanyaan soal {post.data.tags[0] ?? "kesehatan gigi"}?</p>
+        <p class="mt-1.5 text-sm text-primary-light">Konsultasikan langsung dengan dokter gigi kami — gratis konsultasi pertama.</p>
+        <div class="mt-5 flex flex-col justify-center gap-3 sm:flex-row">
+          <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="rounded-full bg-accent px-6 py-3 text-sm font-bold text-white transition hover:bg-accent-dark">Reservasi Sekarang</a>
+          <a href="/cabang" class="rounded-full border-2 border-white/30 px-6 py-3 text-sm font-bold text-white transition hover:border-white">Cari Cabang Terdekat</a>
+        </div>
+      </aside>
+
+      {
+        related.length > 0 && (
+          <section class="mt-12">
+            <h2 class="font-heading text-xl font-extrabold text-primary-deep">Artikel Terkait</h2>
+            <div class="mt-5 grid gap-4 sm:grid-cols-3">
+              {related.map((r) => (
+                <a href={`/informasi/${r.data.slug}`} class="group flex flex-col rounded-2xl border border-line bg-white p-4 shadow-card transition hover:border-primary/40 hover:shadow-card-hover">
+                  <p class="text-xs font-semibold text-ink-soft">{tanggalID(r.data.date)}</p>
+                  <p class="mt-1 flex-1 text-sm leading-snug font-bold text-primary-deep group-hover:text-primary">{r.data.title}</p>
+                </a>
+              ))}
+            </div>
+          </section>
+        )
+      }
+    </div>
+  </article>
+</BaseLayout>

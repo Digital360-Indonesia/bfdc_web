@@ -1,0 +1,45 @@
+---
+import { KATEGORI } from "../../data/services";
+import { getCollection } from "astro:content";
+import { rupiah } from "../../utils/format";
+import SectionHeading from "../ui/SectionHeading.astro";
+
+const services = await getCollection("services");
+const servicesBySlug = new Map(services.map((s) => [s.slug, s.data.slug]));
+---
+
+<section id="layanan" class="bg-white py-16 md:py-20">
+  <div class="mx-auto max-w-7xl px-4">
+    <SectionHeading
+      eyebrow="Layanan Kami"
+      title="Perawatan Lengkap, dari Rutin hingga Spesialis"
+      sub="Setiap perawatan dilakukan dengan standar keamanan yang sama di seluruh cabang — harga jelas sejak awal."
+    />
+
+    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        KATEGORI.map((k) => (
+          <a
+            href={`/layanan#${k.slug}`}
+            class="reveal group relative flex flex-col overflow-hidden rounded-card border border-line bg-white p-6 shadow-card transition duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-card-hover"
+          >
+            <span class="pointer-events-none absolute -top-10 -right-10 size-28 rounded-full bg-primary-soft/60 transition group-hover:scale-150" aria-hidden="true" />
+            <span class="relative mb-4 flex size-14 items-center justify-center rounded-2xl bg-primary-soft text-2xl">{k.icon}</span>
+            <h3 class="relative font-heading text-lg font-bold text-primary-deep">{k.label}</h3>
+            <p class="relative mt-0.5 text-xs font-bold tracking-wide text-secondary uppercase">{k.tagline}</p>
+            <p class="relative mt-3 flex-1 text-sm leading-relaxed text-ink-soft">{k.desc}</p>
+            <div class="relative mt-5 flex items-center justify-between border-t border-line pt-4">
+              <span class="text-xs text-ink-soft">
+                Mulai <strong class="font-heading text-sm font-extrabold text-primary">{rupiah(k.priceFrom)}</strong>
+              </span>
+              <span class="inline-flex items-center gap-1 text-xs font-bold text-accent transition group-hover:gap-2">
+                Detail
+                <svg class="size-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+              </span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

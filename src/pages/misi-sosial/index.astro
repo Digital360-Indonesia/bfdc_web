@@ -1,0 +1,17 @@
+---
+// Redirect legacy URL WordPress lama → struktur baru (meta refresh; utk SEO penuh
+// gunakan 301 di level server — lihat DEPLOY.md)
+const dest = "/tentang#misi-sosial";
+---
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="0;url={dest}" />
+    <link rel="canonical" href={dest} />
+    <title>Berpindah halaman…</title>
+  </head>
+  <body>
+    <p>Halaman telah pindah. <a href={dest}>Klik di sini jika tidak otomatis.</a></p>
+  </body>
+</html>

@@ -1,0 +1,96 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { SITE, STATS } from "../../data/siteConfig";
+import branches from "../../data/branches.json";
+
+const milestones = [
+  { year: "2009", title: "Awal Berdiri", desc: "Praktik dokter gigi pertama berdiri di Sidoarjo — awal dari komitmen panjang merawat senyum keluarga Jawa Timur." },
+  { year: "2019", title: "Hadir Digital", desc: "Situs bfreshgigi.com dirilis untuk memudahkan pasien menemukan layanan & artikel edukasi kesehatan gigi." },
+  { year: "2022", title: "Ekspansi Cepat", desc: "Jaringan tumbuh lintas kota — Gresik, Surabaya, hingga Pasuruan. Sistem manajemen klinik internal dikembangkan." },
+  { year: "2026", title: `${branches.length} Cabang, 5 Kota`, desc: `Kini ${branches.length} cabang dengan 80+ dokter gigi dan 9 dokter spesialis — dan terus bertumbuh menuju kota-kota baru.` },
+];
+const values = [
+  { icon: "❤️", title: "Keluarga", desc: "Pasien diperlakukan seperti keluarga sendiri: didengarkan, dijelaskan, dan dirawat dengan tulus." },
+  { icon: "🤲", title: "Amanah", desc: "Rekomendasi perawatan selalu berdasarkan kebutuhan — bukan target penjualan. Kejujuran adalah standar kami." },
+  { icon: "🌱", title: "Tumbuh Bersama", desc: "Kompetensi tim terus dikembangkan lewat pelatihan internal; jaringan cabang tumbuh untuk semakin dekat dengan Anda." },
+];
+---
+<BaseLayout
+  title="Tentang Kami"
+  description={`B Fresh Dental Care — jaringan klinik gigi keluarga sejak ${SITE.since}. ${branches.length} cabang di 5 kota Jawa Timur, 80+ dokter gigi & 9 spesialis. Bagian dari ${SITE.legalName}.`}
+>
+  <section class="bg-gradient-to-b from-primary-soft to-white py-14 md:py-18">
+    <div class="mx-auto max-w-3xl px-4 text-center">
+      <span class="mb-3 inline-block rounded-full bg-white px-4 py-1 text-xs font-bold tracking-widest text-primary uppercase shadow-card">Tentang Kami</span>
+      <h1 class="text-balance font-heading text-4xl font-extrabold text-primary-deep md:text-5xl">Merawat Senyum Keluarga Jawa Timur Sejak {SITE.since}</h1>
+      <p class="mt-4 text-ink-soft md:text-lg">Dari satu praktik kecil di Sidoarjo, tumbuh menjadi jaringan klinik gigi kekeluargaan — tanpa kehilangan kehangatan yang menjadi alasan pasien kembali.</p>
+    </div>
+  </section>
+
+  <section class="bg-white py-12 md:py-16">
+    <div class="mx-auto max-w-4xl px-4">
+      <h2 class="text-center font-heading text-2xl font-extrabold text-primary-deep md:text-3xl">Perjalanan Kami</h2>
+      <ol class="relative mx-auto mt-10 max-w-2xl border-l-2 border-primary-light pl-8">
+        {
+          milestones.map((m) => (
+            <li class="reveal relative pb-10 last:pb-0">
+              <span class="absolute top-1 -left-[2.6rem] flex size-8 items-center justify-center rounded-full bg-primary text-[10px] font-extrabold text-white" aria-hidden="true">●</span>
+              <p class="font-heading text-sm font-extrabold text-accent">{m.year}</p>
+              <h3 class="mt-0.5 font-heading text-lg font-bold text-primary-deep">{m.title}</h3>
+              <p class="mt-1.5 text-sm leading-relaxed text-ink-soft">{m.desc}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="bg-bg py-12 md:py-16">
+    <div class="mx-auto max-w-6xl px-4">
+      <h2 class="text-center font-heading text-2xl font-extrabold text-primary-deep md:text-3xl">Nilai yang Kami Pegang</h2>
+      <div class="mt-10 grid gap-5 md:grid-cols-3">
+        {
+          values.map((v) => (
+            <div class="reveal rounded-card border border-line bg-white p-6 text-center shadow-card">
+              <span class="mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl bg-primary-soft text-2xl">{v.icon}</span>
+              <h3 class="font-heading text-lg font-bold text-primary-deep">{v.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink-soft">{v.desc}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section id="misi-sosial" class="scroll-mt-24 bg-white py-12 md:py-16">
+    <div class="mx-auto grid max-w-5xl items-center gap-8 px-4 md:grid-cols-2">
+      <div class="reveal">
+        <span class="mb-3 inline-block rounded-full bg-secondary-soft px-4 py-1 text-xs font-bold tracking-widest text-secondary-dark uppercase">Misi Sosial</span>
+        <h2 class="font-heading text-2xl font-extrabold text-primary-deep md:text-3xl">Senyang yang Merata</h2>
+        <p class="mt-4 text-sm leading-relaxed text-ink-soft md:text-base">
+          Kesehatan gigi adalah hak semua orang. Rutin kami menggelar pemeriksaan gigi gratis di sekolah, pondok pesantren, dan lingkungan sekitar cabang — edukasi sikat gigi yang benar sejak dini, agar generasi berikutnya tumbuh tanpa takut ke dokter gigi.
+        </p>
+        <p class="mt-3 text-sm leading-relaxed text-ink-soft md:text-base">
+          Kami juga menaungi kegiatan pembinaan di fasilitas pendidikan sekitar kantor pusat Sidoarjo — karena tumbuh bersama komunitas adalah bagian dari Tujuan kami.
+        </p>
+      </div>
+      <img
+        src="/images/about-clinic.webp"
+        alt="Suasana klinik B Fresh Dental Care"
+        width="880" height="660" loading="lazy" decoding="async"
+        class="reveal aspect-[4/3] w-full rounded-card object-cover shadow-card"
+      />
+    </div>
+  </section>
+
+  <section class="bg-primary py-12 md:py-14">
+    <dl class="mx-auto grid max-w-5xl grid-cols-2 gap-8 px-4 text-center md:grid-cols-4">
+      {STATS.slice(0, 4).map((s) => (
+        <div>
+          <dd class="font-heading text-3xl font-extrabold text-white">{s.value}{"suffix" in s && s.suffix}</dd>
+          <dt class="mt-1 text-xs font-semibold tracking-wide text-primary-light uppercase">{s.label}</dt>
+        </div>
+      ))}
+    </dl>
+  </section>
+</BaseLayout>

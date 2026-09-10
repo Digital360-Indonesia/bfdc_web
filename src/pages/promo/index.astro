@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import promos from "../../data/promos.json";
+import { SITE } from "../../data/siteConfig";
+import type { Promo } from "../../data/types";
+---
+
+<BaseLayout
+  title="Promo Terbaru"
+  description="Promo perawatan gigi terbaru B Fresh Dental Care — scaling, tambal gigi, behel, gigi palsu & lainnya. Berlaku di 15 cabang."
+>
+  <section class="bg-gradient-to-b from-primary-soft to-white py-14 md:py-18">
+    <div class="mx-auto max-w-3xl px-4 text-center">
+      <span class="mb-3 inline-block rounded-full bg-white px-4 py-1 text-xs font-bold tracking-widest text-primary uppercase shadow-card">Promo Berjalan</span>
+      <h1 class="text-balance font-heading text-4xl font-extrabold text-primary-deep md:text-5xl">Senyum Sehat, Harga Bersahabat</h1>
+      <p class="mt-4 text-ink-soft md:text-lg">Promo diperbarui berkala — ikuti Instagram kami untuk info terbaru.</p>
+    </div>
+  </section>
+
+  <section class="bg-white py-12 md:py-16">
+    <div class="mx-auto max-w-7xl px-4">
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          (promos as Promo[]).map((p) => (
+            <article class="reveal group flex flex-col overflow-hidden rounded-card border border-line bg-white shadow-card transition duration-200 hover:-translate-y-1 hover:shadow-card-hover">
+              {p.img && (
+                <div class="relative aspect-[542/286] overflow-hidden bg-primary-soft">
+                  <img src={`/images/promo/promo-${p.id}.webp`} alt={`Promo ${p.nama}`} width="542" height="286" loading="lazy" decoding="async" class="size-full object-cover transition duration-300 group-hover:scale-[1.03]" />
+                  {p.special && <span class="absolute top-3 left-3 rounded-full bg-accent px-3 py-1 text-[10px] font-bold tracking-wider text-white uppercase">Spesial</span>}
+                </div>
+              )}
+              <div class="flex flex-1 flex-col p-5">
+                <h2 class="font-heading text-base leading-snug font-bold text-primary-deep">{p.nama}</h2>
+                {p.harga && <p class="mt-2 font-heading text-xl font-extrabold text-accent">{p.harga}</p>}
+                <div class="mt-4 flex-1" />
+                <p class="text-xs text-ink-soft">Berlaku s.d. {new Date(p.akhir).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}</p>
+                <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="mt-4 inline-flex items-center justify-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-xs font-bold text-white transition hover:bg-primary-dark">
+                  Klaim Promo — Reservasi
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="reveal mt-12 rounded-card border border-secondary/25 bg-secondary-soft p-6 text-sm leading-relaxed text-ink-soft md:p-8">
+        <h2 class="font-heading text-base font-extrabold text-secondary-dark">Syarat &amp; Ketentuan Umum Promo</h2>
+        <ul class="mt-3 list-inside list-disc space-y-1.5">
+          <li>Berlaku di semua cabang B Fresh Dental Care kecuali disebutkan lain.</li>
+          <li>Reservasi melalui CS <a href={`tel:${SITE.phone.replace(/-/g, "")}`} class="font-semibold text-primary hover:underline">{SITE.phone}</a> atau reservasi online.</li>
+          <li>Gratis konsultasi dokter gigi untuk peserta promo.</li>
+          <li>Promo terbatas — dapat berakhir jika kuota penuh.</li>
+          <li>WAJIB konfirmasi kedatangan sebelum ke klinik.</li>
+          <li>Tidak dapat digabung dengan promo lain kecuali disetujui klinik.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,89 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { tanggalID } from "../../utils/format";
+
+const all = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => +b.data.date - +a.data.date);
+const CATS = [
+  ["semua", "Semua"],
+  ["edukasi", "Edukasi"],
+  ["informasi", "Informasi"],
+  ["promo", "Promo"],
+] as const;
+const page = Number(Astro.url.searchParams.get("page") ?? "1");
+const perPage = 12;
+const activeCat = Astro.url.searchParams.get("kategori") ?? "semua";
+const filtered = activeCat === "semua" ? all : all.filter((p) => p.data.category === activeCat);
+const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+const posts = filtered.slice((page - 1) * perPage, page * perPage);
+const q = (over: Record<string, string | number>) => {
+  const sp = new URLSearchParams();
+  if (activeCat !== "semua") sp.set("kategori", activeCat);
+  for (const [k, v] of Object.entries(over)) if (v) sp.set(k, String(v));
+  const s = sp.toString();
+  return s ? `/informasi?${s}` : "/informasi";
+};
+---
+<BaseLayout
+  title="Edukasi Kesehatan Gigi"
+  description="Artikel edukasi kesehatan gigi & mulut dari tim medis B Fresh Dental Care — tips merawat gigi, jawaban dokter, dan panduan perawatan."
+>
+  <section class="bg-gradient-to-b from-primary-soft to-white py-14 md:py-18">
+    <div class="mx-auto max-w-3xl px-4 text-center">
+      <span class="mb-3 inline-block rounded-full bg-white px-4 py-1 text-xs font-bold tracking-widest text-primary uppercase shadow-card">Edukasi</span>
+      <h1 class="text-balance font-heading text-4xl font-extrabold text-primary-deep md:text-5xl">Belajar Merawat Senyum</h1>
+      <p class="mt-4 text-ink-soft md:text-lg">{all.length} artikel ditinjau tim medis kami — dari tips harian hingga panduan perawatan.</p>
+      <div class="mt-6 flex flex-wrap justify-center gap-2">
+        {CATS.map(([k, label]) => (
+          <a href={k === "semua" ? "/informasi" : `/informasi?kategori=${k}`} class={`rounded-full px-4 py-2 text-sm font-bold transition ${k === activeCat ? "bg-primary text-white shadow-sm" : "border border-line bg-white text-ink-soft hover:border-primary/40 hover:text-primary"}`}>
+            {label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-12 md:py-16">
+    <div class="mx-auto max-w-7xl px-4">
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          posts.map((p) => (
+            <a href={`/informasi/${p.data.slug}`} class="reveal group flex flex-col overflow-hidden rounded-card border border-line bg-white shadow-card transition duration-200 hover:-translate-y-1 hover:shadow-card-hover">
+              <div class="relative aspect-[16/10] overflow-hidden bg-primary-soft">
+                <img
+                  src={p.data.image ?? "/og-image.jpg"}
+                  alt={p.data.title}
+                  width="640" height="400" loading="lazy" decoding="async"
+                  class="size-full object-cover transition duration-300 group-hover:scale-[1.04]"
+                />
+                <span class="absolute top-3 left-3 rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold tracking-wider text-primary uppercase backdrop-blur">{p.data.category}</span>
+              </div>
+              <div class="flex flex-1 flex-col p-5">
+                <p class="text-xs font-semibold text-ink-soft">{tanggalID(p.data.date)}</p>
+                <h2 class="mt-1.5 font-heading text-base leading-snug font-bold text-primary-deep transition group-hover:text-primary">{p.data.title}</h2>
+                <p class="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-ink-soft">{p.data.excerpt}</p>
+                <span class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-accent transition group-hover:gap-2">
+                  Baca selengkapnya
+                  <svg class="size-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+                </span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+
+      {
+        totalPages > 1 && (
+          <nav class="mt-10 flex items-center justify-center gap-2" aria-label="Navigasi halaman">
+            {page > 1 && <a href={q({ page: page - 1 })} class="rounded-full border border-line bg-white px-4 py-2 text-sm font-bold text-primary transition hover:border-primary">← Sebelumnya</a>}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).slice(Math.max(0, page - 3), Math.max(0, page - 3) + 5).map((n) => (
+              <a href={q({ page: n })} class={`min-w-10 rounded-full px-4 py-2 text-center text-sm font-bold transition ${n === page ? "bg-primary text-white" : "border border-line bg-white text-ink-soft hover:border-primary/40 hover:text-primary"}`}>{n}</a>
+            ))}
+            {page < totalPages && <a href={q({ page: page + 1 })} class="rounded-full border border-line bg-white px-4 py-2 text-sm font-bold text-primary transition hover:border-primary">Selanjutnya →</a>}
+          </nav>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

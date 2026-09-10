@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import galeri from "../../data/galeri.json";
+import { SITE } from "../../data/siteConfig";
+import SectionHeading from "../../components/ui/SectionHeading.astro";
+import type { GaleriItem } from "../../data/types";
+
+const items = (galeri as GaleriItem[]).filter((i) => i.kategori !== "lainnya" && i.local_images.length > 0);
+const KAT = [
+  ["behel", "Behel Gigi"],
+  ["tambal", "Tambal Gigi"],
+  ["scaling", "Scaling"],
+  ["bleaching", "Bleaching"],
+  ["gigi-palsu", "Gigi Palsu"],
+  ["cabut-anak", "Gigi Anak"],
+  ["odontektomi", "Odontektomi"],
+] as const;
+---
+<BaseLayout
+  title="Galeri Hasil Perawatan"
+  description="Dokumentasi before & after perawatan pasien B Fresh Dental Care: behel, tambal gigi, scaling, bleaching, gigi palsu, odontektomi — hasil nyata dari klinik kami."
+>
+  <section class="bg-gradient-to-b from-primary-soft to-white py-14 md:py-18">
+    <div class="mx-auto max-w-3xl px-4 text-center">
+      <span class="mb-3 inline-block rounded-full bg-white px-4 py-1 text-xs font-bold tracking-widest text-primary uppercase shadow-card">Hasil Nyata</span>
+      <h1 class="text-balance font-heading text-4xl font-extrabold text-primary-deep md:text-5xl">Galeri Hasil Perawatan</h1>
+      <p class="mt-4 text-ink-soft md:text-lg">{items.length} dokumentasi kasus — diperbolehkan untuk dipublikasikan, ditampilkan dengan penuh rasa hormat pada privasi pasien.</p>
+      <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="mt-6 inline-flex rounded-full bg-accent px-7 py-3.5 text-sm font-bold text-white transition hover:bg-accent-dark">
+        Ingin hasil seperti ini? Reservasi
+      </a>
+    </div>
+  </section>
+
+  {
+    KAT.map(([k, label]) => {
+      const list = items.filter((i) => i.kategori === k);
+      if (list.length === 0) return null;
+      return (
+        <section id={k} class="scroll-mt-24 bg-white py-12">
+          <div class="mx-auto max-w-7xl px-4">
+            <SectionHeading align="left" eyebrow={`${list.length} kasus`} title={label} />
+            <div class="mt-8 columns-2 gap-4 md:columns-3 lg:columns-4">
+              {list.flatMap((item) =>
+                item.local_images.slice(0, 3).map((img, i) => (
+                  <figure class="mb-4 break-inside-avoid overflow-hidden rounded-2xl border border-line bg-bg shadow-card">
+                    <img
+                      src={img}
+                      alt={`${item.title} — hasil perawatan kasus ${i + 1} di B Fresh Dental Care`}
+                      width="400" height="500" loading="lazy" decoding="async"
+                      class="w-full object-cover"
+                    />
+                    {i === 0 && <figcaption class="px-3 py-2 text-xs font-bold text-primary-deep">{item.title}</figcaption>}
+                  </figure>
+                )),
+              )}
+            </div>
+          </div>
+        </section>
+      );
+    })
+  }
+</BaseLayout>

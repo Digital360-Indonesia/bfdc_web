@@ -1,0 +1,28 @@
+---
+import { SITE, waLink } from "../../data/siteConfig";
+---
+<!-- Floating bar mobile: WhatsApp + Reservasi (spec §4.5) -->
+<div class="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-white/95 p-2.5 shadow-[0_-4px_16px_rgb(8_63_107/0.08)] backdrop-blur md:hidden">
+  <div class="grid grid-cols-2 gap-2.5">
+    <a
+      href={waLink()}
+      target="_blank"
+      rel="noopener"
+      class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-secondary/40 py-3 text-sm font-bold text-secondary"
+    >
+      <svg class="size-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.5 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.4.2.5.7 1.8.8 1.9.1.1.1.3 0 .5-.1.2-.1.3-.3.5l-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.7-.1.2-.2.8-.9 1-1.2.2-.3.4-.3.7-.2.3.1 1.6.8 1.9.9.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>
+      WhatsApp
+    </a>
+    <a
+      href={SITE.bookingUrl}
+      target="_blank"
+      rel="noopener"
+      class="inline-flex items-center justify-center gap-2 rounded-full bg-accent py-3 text-sm font-bold text-white"
+    >
+      <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+      Reservasi
+    </a>
+  </div>
+</div>
+<!-- ruang agar footer tidak tertutup floating bar -->
+<div class="h-16 md:hidden" aria-hidden="true"></div>

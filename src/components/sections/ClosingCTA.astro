@@ -1,0 +1,40 @@
+---
+import { SITE, waLink } from "../../data/siteConfig";
+---
+
+<section class="relative overflow-hidden bg-primary py-16 md:py-20">
+  <div class="pointer-events-none absolute -top-20 right-0 size-72 rounded-full bg-primary-light/20 blur-3xl" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -bottom-24 left-10 size-72 rounded-full bg-secondary/20 blur-3xl" aria-hidden="true"></div>
+
+  <div class="reveal relative mx-auto max-w-3xl px-4 text-center">
+    <h2 class="text-balance font-heading text-3xl font-extrabold text-white md:text-4xl">
+      Senyum Sehat Dimulai dari Satu Keputusan Hari Ini
+    </h2>
+    <p class="mx-auto mt-4 max-w-xl text-primary-light">
+      Reservasi online dalam 1 menit — pilih cabang terdekat, tanpa antre. Konsultasi dokter gigi gratis untuk first check-up kondisi mulut Anda.
+    </p>
+    <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+      <a
+        href={SITE.bookingUrl}
+        target="_blank"
+        rel="noopener"
+        class="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-bold text-white shadow-lg transition hover:bg-accent-dark hover:shadow-xl"
+      >
+        <svg class="size-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+        Reservasi Sekarang
+      </a>
+      <a
+        href={waLink()}
+        target="_blank"
+        rel="noopener"
+        class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/30 px-8 py-4 text-base font-bold text-white transition hover:border-white hover:bg-white/10"
+      >
+        <svg class="size-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.5 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.4.2.5.7 1.8.8 1.9.1.1.1.3 0 .5-.1.2-.1.3-.3.5l-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.7-.1.2-.2.8-.9 1-1.2.2-.3.4-.3.7-.2.3.1 1.6.8 1.9.9.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>
+        Chat WhatsApp CS
+      </a>
+    </div>
+    <p class="mt-6 text-xs text-primary-light/80">
+      {SITE.hours} · Reservasi CS {SITE.phone} · Follow us @{SITE.social.instagram.split(".com/")[1]?.replace(/\/$/, "")}
+    </p>
+  </div>
+</section>

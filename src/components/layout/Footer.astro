@@ -1,0 +1,85 @@
+---
+import { SITE, waLink } from "../../data/siteConfig";
+import { KATEGORI } from "../../data/services";
+import branches from "../../data/branches.json";
+
+const year = new Date().getFullYear();
+const cities = [...new Set(branches.map((b) => b.cityLabel))];
+---
+<footer class="bg-primary-deep text-white/80">
+  <div class="mx-auto max-w-7xl px-4 py-14">
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-12">
+      <!-- Brand & kontak -->
+      <div class="lg:col-span-4">
+        <img src="/images/logos/logo-white.png" alt="B Fresh Dental Care" width="200" height="75" class="mb-4 h-12 w-auto" />
+        <p class="mb-5 text-sm leading-relaxed">
+          Jaringan klinik gigi keluarga terpercaya sejak {SITE.since}. {branches.length} cabang di
+          {cities.length} kota — Sidoarjo, Surabaya, Gresik, Pasuruan & Malang.
+        </p>
+        <ul class="space-y-2.5 text-sm">
+          <li class="flex items-center gap-2.5">
+            <svg class="size-4 shrink-0 text-primary-light" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>
+            <a href={`tel:${SITE.phone.replace(/-/g, "")}`} class="hover:text-white">{SITE.phone}</a>
+          </li>
+          <li class="flex items-center gap-2.5">
+            <svg class="size-4 shrink-0 text-primary-light" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <a href={`mailto:${SITE.email}`} class="hover:text-white">{SITE.email}</a>
+          </li>
+          <li class="flex items-center gap-2.5">
+            <svg class="size-4 shrink-0 text-primary-light" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            {SITE.hours}
+          </li>
+        </ul>
+        <div class="mt-5 flex gap-3">
+          <a href={SITE.social.instagram} target="_blank" rel="noopener" aria-label="Instagram" class="rounded-full bg-white/10 p-2.5 transition hover:bg-primary"><svg class="size-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.3-.1-4.8-1.7-4.9-4.9-.1-1.3-.1-1.6-.1-4.8s0-3.6.1-4.8C2.4 4 4 2.4 7.2 2.3c1.2-.1 1.6-.1 4.8-.1zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-9.4a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg></a>
+          <a href={SITE.social.facebook} target="_blank" rel="noopener" aria-label="Facebook" class="rounded-full bg-white/10 p-2.5 transition hover:bg-primary"><svg class="size-4" fill="currentColor" viewBox="0 0 24 24"><path d="M13.5 21v-7h2.4l.4-3h-2.8V9.1c0-.9.3-1.5 1.6-1.5h1.3V4.9c-.3 0-1.1-.1-2.1-.1-2.1 0-3.6 1.3-3.6 3.7V11H8.3v3h2.4v7h2.8z"/></svg></a>
+          <a href={SITE.social.youtube} target="_blank" rel="noopener" aria-label="YouTube" class="rounded-full bg-white/10 p-2.5 transition hover:bg-primary"><svg class="size-4" fill="currentColor" viewBox="0 0 24 24"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8c1.6.4 7.8.4 7.8.4s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15.2V8.8L15.5 12 10 15.2z"/></svg></a>
+        </div>
+      </div>
+
+      <!-- Layanan -->
+      <div class="lg:col-span-3">
+        <h3 class="mb-4 font-heading text-sm font-bold tracking-wider text-white uppercase">Layanan</h3>
+        <ul class="space-y-2.5 text-sm">
+          {KATEGORI.map((k) => (
+            <li><a href={`/layanan#${k.slug}`} class="transition hover:text-primary-light">{k.label}</a></li>
+          ))}
+          <li><a href="/harga" class="transition hover:text-primary-light">Daftar Harga</a></li>
+        </ul>
+      </div>
+
+      <!-- Cabang -->
+      <div class="lg:col-span-3">
+        <h3 class="mb-4 font-heading text-sm font-bold tracking-wider text-white uppercase">Cabang Kami</h3>
+        <ul class="space-y-2.5 text-sm">
+          {cities.map((c) => (
+            <li><a href={`/cabang?kota=${c.toLowerCase()}`} class="transition hover:text-primary-light">Klinik Gigi {c}</a></li>
+          ))}
+          <li><a href="/cabang" class="font-semibold text-primary-light transition hover:text-white">Semua {branches.length} cabang →</a></li>
+        </ul>
+      </div>
+
+      <!-- Lainnya -->
+      <div class="lg:col-span-2">
+        <h3 class="mb-4 font-heading text-sm font-bold tracking-wider text-white uppercase">Lainnya</h3>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="/tentang" class="transition hover:text-primary-light">Tentang Kami</a></li>
+          <li><a href="/galeri" class="transition hover:text-primary-light">Galeri Hasil</a></li>
+          <li><a href="/informasi" class="transition hover:text-primary-light">Edukasi</a></li>
+          <li><a href="/karir" class="transition hover:text-primary-light">Karir</a></li>
+          <li><a href="/kontak" class="transition hover:text-primary-light">Kontak & FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-white/50 md:flex-row">
+      <p>© {year} {SITE.legalName} — {SITE.name}. Seluruh hak cipta dilindungi.</p>
+      <p>
+        Reservasi online
+        <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="text-primary-light hover:text-white">app.bfreshgigi.com</a>
+        ·
+        <a href={waLink()} target="_blank" rel="noopener" class="text-primary-light hover:text-white">WhatsApp CS</a>
+      </p>
+    </div>
+  </div>
+</footer>

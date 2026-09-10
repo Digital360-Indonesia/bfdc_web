@@ -1,0 +1,66 @@
+[
+ {
+  "q": "Apakah Anda mengalami bau mulut?",
+  "kategori": "perawatan-umum"
+ },
+ {
+  "q": "Apakah Anda merasa gigi sering ngilu?",
+  "kategori": "perawatan-umum"
+ },
+ {
+  "q": "Apakah Anda merasa gigi sakit tiba-tiba?",
+  "kategori": "perawatan-umum"
+ },
+ {
+  "q": "Apakah Anda makan satu sisi?",
+  "kategori": "perawatan-umum"
+ },
+ {
+  "q": "Apakah Anda merasa warna gigi keruh?",
+  "kategori": "estetika"
+ },
+ {
+  "q": "Apakah Anda merasa gigi berdesakan?",
+  "kategori": "ortodonti"
+ },
+ {
+  "q": "Apakah Anda merasa gigi tonggos?",
+  "kategori": "ortodonti"
+ },
+ {
+  "q": "Apakah Anda merasa sakit di sendi rahang?",
+  "kategori": "bedah-mulut"
+ },
+ {
+  "q": "Apakah Anda mempunyai gigi lubang?",
+  "kategori": "tambal"
+ },
+ {
+  "q": "Apakah Anda mempunyai karang gigi?",
+  "kategori": "scaling"
+ },
+ {
+  "q": "Apakah Anda kehilangan sebagian gigi?",
+  "kategori": "gigi-tiruan"
+ },
+ {
+  "q": "Apakah Anda merasa gusi menutupi gigi?",
+  "kategori": "perawatan-umum"
+ },
+ {
+  "q": "Apakah Anda merasa gigi tajam saat menguyah?",
+  "kategori": "perawatan-umum"
+ },
+ {
+  "q": "Apakah Anda merasa ada benjolan di rongga mulut?",
+  "kategori": "bedah-mulut"
+ },
+ {
+  "q": "Apakah gigi bungsu anda mulai tumbuh?",
+  "kategori": "bedah-mulut"
+ },
+ {
+  "q": "Apakah anda merasa sakit gigi sampai pusing?",
+  "kategori": "perawatan-umum"
+ }
+]

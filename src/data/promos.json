@@ -1,0 +1,42 @@
+[
+ {
+  "id": 285,
+  "nama": "Imunisasi TAF",
+  "harga": "179.000",
+  "img": "https://assets.bfreshgigi.com/bfdc-mkt/promo/2026/09/01/promo-6a95c26354960.webp",
+  "deskripsi": "🤗Syarat dan ketentuan:\r\n\r\nBerlaku di semua cabang\r\nReservasi Melalui CS (0857-9238-2539)\r\nGratis konsultasi dokter gigi \r\nPromo terbatas (bisa habis jika kuota penuh)\r\nUsia maksimal anak, 12 tahun\r\n\r\nWAJIB Konfirmasi ke CS",
+  "mulai": "2026-08-31",
+  "akhir": "2026-09-14",
+  "special": false
+ },
+ {
+  "id": 284,
+  "nama": "Behel Metal Regular",
+  "harga": "1.499.000",
+  "img": "https://assets.bfreshgigi.com/bfdc-mkt/promo/2026/09/01/promo-6a95c22f12bea.webp",
+  "deskripsi": "🤗Syarat dan Ketentuan:\r\n\r\nReservasi Melalui CS (0857-9238-2539)\r\nGratis konsultasi dokter gigi\r\nPerawatan Behel tidak termasuk scaling gigi\r\nPromo terbatas (bisa habis jika kuota penuh)\r\n\r\nWAJIB Konfirmasi ke CS",
+  "mulai": "2026-08-31",
+  "akhir": "2026-09-14",
+  "special": false
+ },
+ {
+  "id": 283,
+  "nama": "Tambal Sementara",
+  "harga": "189.000",
+  "img": "https://assets.bfreshgigi.com/bfdc-mkt/promo/2026/09/01/promo-6a95c1fc367e2.webp",
+  "deskripsi": "🤗Syarat dan Ketentuan:\r\n\r\nReservasi Melalui CS\r\n(0857-9238-2539) Gratis konsultasi dokter gigi\r\nPromo terbatas (bisa habis jika kuota penuh)\r\n\r\nWAJIB Konfirmasi ke CS",
+  "mulai": "2026-08-31",
+  "akhir": "2026-09-14",
+  "special": false
+ },
+ {
+  "id": 282,
+  "nama": "Scaling Gigi Regular (Kasus Ringan)",
+  "harga": "169.000",
+  "img": "https://assets.bfreshgigi.com/bfdc-mkt/promo/2026/09/01/promo-6a95c1ceaba6c.webp",
+  "deskripsi": "🤗Syarat dan Ketentuan:\r\n\r\nReservasi Melalui CS\r\n(0857-9238-2539) Gratis konsultasi dokter gigi\r\nPromo terbatas (bisa habis jika kuota penuh)\r\n\r\nWAJIB Konfirmasi ke CS",
+  "mulai": "2026-08-31",
+  "akhir": "2026-09-14",
+  "special": false
+ }
+]

@@ -1,0 +1,62 @@
+---
+import specialists from "../../data/specialists.json";
+import { SITE } from "../../data/siteConfig";
+import SectionHeading from "../ui/SectionHeading.astro";
+import DoctorCard from "../cards/DoctorCard.astro";
+
+/** foto dokter yang tersedia (mdx lama + dita) */
+const PHOTO: Record<string, string> = {
+  kurnia: "/images/doctors/drg-kurnia.webp",
+  dita: "/images/doctors/drg-dita.webp",
+  issy: "/images/doctors/drg-issy.webp",
+  windy: "/images/doctors/drg-windy.webp",
+  annisa: "/images/doctors/drg-annisa.webp",
+  asmaradita: "/images/doctors/drg-dita.webp",
+};
+const SP_LABEL: Record<string, string> = {
+  "Sp.Pros": "Prostodonsi — Gigi Tiruan",
+  "Sp.KG": "Kedokteran Gigi (Spesialis)",
+  "SP.KG": "Kedokteran Gigi (Spesialis)",
+  "Sp.KGA": "Gigi Anak",
+  "Sp.Ort": "Ortodonti — Behel",
+  "Sp. Perio": "Periodonsi — Gusi",
+  "Sp.BMM": "Bedah Mulut & Maksilofasial",
+};
+const getPhoto = (name: string) => {
+  const first = name.replace(/^drg\.?\s+/i, "").split(/\s+/)[0]?.toLowerCase() ?? "";
+  return PHOTO[first] ?? null;
+};
+const getSpec = (name: string) => {
+  const m = name.match(/Sp\.?\s?\w+/i);
+  return m ? (SP_LABEL[m[0]] ?? m[0]) : "Dokter Gigi";
+};
+const getCleanName = (name: string) => name.replace(/,?\s*,?\s*(Sp\.?\s?\w+(\.\w+)?)\s*$/i, "").trim();
+---
+
+<section id="dokter" class="bg-bg py-16 md:py-20">
+  <div class="mx-auto max-w-7xl px-4">
+    <SectionHeading
+      eyebrow="Tim Dokter Kami"
+      title="Ditangani Dokter yang Anda Percaya"
+      sub="9 dokter spesialis dan 80+ dokter gigi umum — kompetensi dikurasi dan dikembangkan secara berkelanjutan."
+    >
+      <a href="/dokter" slot="cta" class="inline-flex items-center gap-2 rounded-full border-2 border-primary/25 bg-white px-6 py-3 text-sm font-bold text-primary transition hover:border-primary hover:bg-primary-soft">
+        Lihat semua dokter
+        <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+    </SectionHeading>
+
+    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        (specialists as { name: string; branch: string; city: string }[]).slice(0, 6).map((s) => (
+          <DoctorCard
+            name={getCleanName(s.name)}
+            specialty={getSpec(s.name)}
+            branch={`${s.branch} · ${s.city}`}
+            photo={getPhoto(s.name)}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,115 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import specialists from "../../data/specialists.json";
+import doctorsFeatured from "../../data/doctors-featured.json";
+import branches from "../../data/branches.json";
+import DoctorCard from "../../components/cards/DoctorCard.astro";
+import SectionHeading from "../../components/ui/SectionHeading.astro";
+
+const PHOTO: Record<string, string> = {
+  kurnia: "/images/doctors/drg-kurnia.webp",
+  dita: "/images/doctors/drg-dita.webp",
+  issy: "/images/doctors/drg-issy.webp",
+  windy: "/images/doctors/drg-windy.webp",
+  annisa: "/images/doctors/drg-annisa.webp",
+};
+const SP_LABEL: Record<string, string> = {
+  "Sp.Pros": "Prostodonsi — Gigi Tiruan",
+  "Sp.KG": "Kedokteran Gigi (Spesialis)",
+  "SP.KG": "Kedokteran Gigi (Spesialis)",
+  "Sp.KGA": "Gigi Anak",
+  "Sp.Ort": "Ortodonti — Behel",
+  "Sp. Perio": "Periodonsi — Gusi",
+  "Sp.BMM": "Bedah Mulut & Maksilofasial",
+};
+const getPhoto = (name: string) => PHOTO[name.replace(/^drg\.?\s+/i, "").split(/\s+/)[0]?.toLowerCase() ?? ""] ?? null;
+const getSpec = (name: string) => {
+  const m = name.match(/Sp\.?\s?\w+/i);
+  return m ? (SP_LABEL[m[0]] ?? m[0]) : "Dokter Gigi";
+};
+const getCleanName = (name: string) => name.replace(/,?\s*(Sp\.?\s?\w+(\.\w+)?)\s*$/i, "").trim();
+
+const profiles = await getCollection("doctors");
+const featuredMap = doctorsFeatured as Record<string, string[]>;
+const branchById = Object.fromEntries(branches.map((b) => [String(b.id), b]));
+---
+<BaseLayout
+  title="Dokter Gigi & Spesialis"
+  description="Tim dokter B Fresh Dental Care: 9 dokter spesialis (Sp.KGA, Sp.Ort, Sp.Perio, Sp.BMM, Sp.Pros) dan 80+ dokter gigi di 15 cabang Jawa Timur."
+>
+  <section class="bg-gradient-to-b from-primary-soft to-white py-14 md:py-18">
+    <div class="mx-auto max-w-3xl px-4 text-center">
+      <span class="mb-3 inline-block rounded-full bg-white px-4 py-1 text-xs font-bold tracking-widest text-primary uppercase shadow-card">Tim Medis Kami</span>
+      <h1 class="text-balance font-heading text-4xl font-extrabold text-primary-deep md:text-5xl">Dokter yang Anda Percaya</h1>
+      <p class="mt-4 text-ink-soft md:text-lg">Kompetensi dikurasi, dikembangkan berkelanjutan lewat program pelatihan internal — dan yang terpenting: menyenangkan saat bertemu pasien.</p>
+    </div>
+  </section>
+
+  <!-- Spesialis -->
+  <section class="bg-white py-14 md:py-16">
+    <div class="mx-auto max-w-7xl px-4">
+      <SectionHeading eyebrow="9 Dokter Spesialis" title="Dokter Spesialis Kami" sub="Kasus kompleks ditangani dokter dengan pendidikan spesialis — tanpa harus jauh ke rumah sakit." />
+      <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          (specialists as { name: string; branch: string; city: string }[]).map((s) => (
+            <DoctorCard name={getCleanName(s.name)} specialty={getSpec(s.name)} branch={`${s.branch} · ${s.city}`} photo={getPhoto(s.name)} />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Profil dokter -->
+  {
+    profiles.length > 0 && (
+      <section class="bg-bg py-14 md:py-16">
+        <div class="mx-auto max-w-7xl px-4">
+          <SectionHeading eyebrow="Kenalan Lebih Dekat" title="Profil Dokter Kami" />
+          <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {profiles.sort((a, b) => a.data.order - b.data.order).map((d) => (
+              <DoctorCard name={d.data.name} specialty={d.data.specialty} branch={d.data.branch} photo={d.data.photo === "/images/doctors/placeholder.webp" ? null : d.data.photo} href={`/dokter/${d.data.slug}`} instagram={d.data.instagram} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Dokter per cabang -->
+  <section class="bg-white py-14 md:py-16">
+    <div class="mx-auto max-w-7xl px-4">
+      <SectionHeading
+        eyebrow="80+ Dokter Gigi"
+        title="Dokter Praktik di Tiap Cabang"
+        sub="Setiap cabang dijaga dokter gigi berpengalaman — berikut sebagian tim kami. Jadwal praktik dapat berubah, konfirmasi via reservasi."
+      />
+      <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          branches.map((b) => {
+            const docs = (featuredMap[String(b.id)] ?? []).slice(0, 2);
+            return (
+              <div class="reveal rounded-card border border-line bg-bg p-5">
+                <a href={`/cabang/${b.slug}`} class="group flex items-center justify-between gap-2">
+                  <h3 class="font-heading text-base font-bold text-primary-deep group-hover:text-primary">{b.name}</h3>
+                  <span class="text-[10px] font-bold tracking-wide text-secondary uppercase">{b.cityLabel}</span>
+                </a>
+                <ul class="mt-3 space-y-2">
+                  {docs.map((d) => (
+                    <li class="flex items-center gap-2.5 text-sm text-ink">
+                      <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary-soft font-heading text-xs font-extrabold text-primary">
+                        {d.replace(/^drg\.?\s+/i, "").split(/\s+/).slice(0, 2).map((w) => w[0]).join("").toUpperCase()}
+                      </span>
+                      <span class="truncate">{d}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a href={`/cabang/${b.slug}`} class="mt-3 inline-block text-xs font-bold text-accent hover:underline">Lihat detail cabang →</a>
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

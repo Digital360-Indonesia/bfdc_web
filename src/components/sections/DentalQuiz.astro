@@ -1,0 +1,174 @@
+---
+import quiz from "../../data/quiz.json";
+import { SITE, waLink } from "../../data/siteConfig";
+import SectionHeading from "../ui/SectionHeading.astro";
+
+const KAT_LABEL: Record<string, string> = {
+  "perawatan-umum": "Perawatan Umum",
+  tambal: "Perawatan Tambal Gigi",
+  scaling: "Scaling / Pembersihan Karang Gigi",
+  estetika: "Estetika Gigi",
+  ortodonti: "Ortodonti (Behel)",
+  "gigi-tiruan": "Gigi Tiruan",
+  "bedah-mulut": "Bedah Mulut",
+};
+const KAT_HREF: Record<string, string> = {
+  "perawatan-umum": "/layanan#perawatan-umum",
+  tambal: "/layanan/tambal-gigi",
+  scaling: "/layanan/scaling-gigi",
+  estetika: "/layanan#estetika",
+  ortodonti: "/layanan/behel-gigi",
+  "gigi-tiruan": "/layanan/gigi-tiruan",
+  "bedah-mulut": "/layanan#bedah-mulut",
+};
+const QUESTIONS = JSON.stringify(quiz);
+const KAT_LABEL_JSON = JSON.stringify(KAT_LABEL);
+const KAT_HREF_JSON = JSON.stringify(KAT_HREF);
+---
+
+<section id="kuis" class="bg-primary-deep py-16 md:py-20">
+  <div class="mx-auto max-w-3xl px-4">
+    <div class="reveal text-center">
+      <span class="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-bold tracking-widest text-primary-light uppercase">
+        <svg class="size-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg>
+        Cek Kesehatan Gigi
+      </span>
+      <h2 class="text-balance font-heading text-3xl font-extrabold text-white md:text-4xl">
+        Perlu Periksa ke Dokter Gigi?
+      </h2>
+      <p class="mx-auto mt-3 max-w-xl text-primary-light/90">
+        Jawab {quiz.length} pertanyaan singkat — 1 menit saja. Dapatkan rekomendasi perawatan yang paling sesuai untuk Anda.
+      </p>
+    </div>
+
+    <div class="reveal mt-10 rounded-card border border-white/10 bg-white p-6 shadow-card-hover md:p-10" data-quiz-root data-questions={QUESTIONS} data-kat-label={KAT_LABEL_JSON} data-kat-href={KAT_HREF_JSON}>
+      <!-- Progress -->
+      <div class="mb-6" data-quiz-progress-wrap>
+        <div class="mb-2 flex items-center justify-between text-xs font-bold tracking-wide text-ink-soft uppercase">
+          <span>Pertanyaan <span data-quiz-now>1</span> dari <span data-quiz-total>{quiz.length}</span></span>
+          <span class="text-secondary" data-quiz-score>0 gejala</span>
+        </div>
+        <div class="h-2 overflow-hidden rounded-full bg-bg">
+          <div class="h-full w-0 rounded-full bg-gradient-to-r from-primary to-secondary transition-all duration-300" data-quiz-bar></div>
+        </div>
+      </div>
+
+      <!-- Soal -->
+      <div data-quiz-body>
+        <p class="font-heading text-xl leading-snug font-bold text-primary-deep md:text-2xl" data-quiz-question>…</p>
+        <div class="mt-6 grid grid-cols-2 gap-3">
+          <button type="button" data-quiz-yes class="cursor-pointer rounded-full border-2 border-secondary/40 bg-secondary-soft py-3.5 text-sm font-bold text-secondary-dark transition hover:border-secondary hover:shadow-md">
+            Ya, saya mengalami
+          </button>
+          <button type="button" data-quiz-no class="cursor-pointer rounded-full border-2 border-line bg-white py-3.5 text-sm font-bold text-ink-soft transition hover:border-primary/40 hover:text-primary">
+            Tidak
+          </button>
+        </div>
+      </div>
+
+      <!-- Hasil -->
+      <div hidden data-quiz-result></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-quiz-root]");
+  if (root) {
+    const QUESTIONS = JSON.parse(root.dataset.questions ?? "[]") as {
+      q: string;
+      kategori: string;
+    }[];
+    const KAT_LABEL = JSON.parse(root.dataset.katLabel ?? "{}") as Record<string, string>;
+    const KAT_HREF = JSON.parse(root.dataset.katHref ?? "{}") as Record<string, string>;
+    const BOOKING = `${"https://app.bfreshgigi.com/reservasi"}`;
+
+    const $now = root.querySelector<HTMLElement>("[data-quiz-now]")!;
+    const $score = root.querySelector<HTMLElement>("[data-quiz-score]")!;
+    const $bar = root.querySelector<HTMLElement>("[data-quiz-bar]")!;
+    const $body = root.querySelector<HTMLElement>("[data-quiz-body]")!;
+    const $result = root.querySelector<HTMLElement>("[data-quiz-result]")!;
+    const $q = root.querySelector<HTMLElement>("[data-quiz-question]")!;
+
+    let idx = 0;
+    let yes = 0;
+    const tally: Record<string, number> = {};
+
+    const render = () => {
+      const item = QUESTIONS[idx];
+      $q.textContent = item.q;
+      $now.textContent = String(idx + 1);
+      $bar.style.width = `${(idx / QUESTIONS.length) * 100}%`;
+    };
+
+    const answer = (isYes: boolean) => {
+      const item = QUESTIONS[idx];
+      if (isYes) {
+        yes++;
+        tally[item.kategori] = (tally[item.kategori] ?? 0) + 1;
+      }
+      idx++;
+      $score.textContent = `${yes} gejala`;
+      if (idx >= QUESTIONS.length) return finish();
+      $bar.style.width = `${(idx / QUESTIONS.length) * 100}%`;
+      render();
+    };
+
+    const finish = () => {
+      $bar.style.width = "100%";
+      const entries = Object.entries(tally).sort((a, b) => b[1] - a[1]);
+      const top = entries[0]?.[0];
+      const total = Object.values(tally).reduce((a, b) => a + b, 0);
+
+      const advice =
+        total === 0
+          ? `<p class="font-heading text-xl font-bold text-primary-deep">Senyum Anda terlihat sehat! 🎉</p>
+             <p class="mt-2 text-sm leading-relaxed text-ink-soft">Tidak ada gejala yang Anda tandai. Tetap jaga rutinitas menyikat gigi 2x sehari dan kontrol tiap 6 bulan — <strong>scaling rutin</strong> tetap disarankan sebagai pencegahan.</p>`
+          : `<p class="font-heading text-xl font-bold text-primary-deep">Anda menandai ${total} gejala — perawatan yang kami sarankan:</p>
+             <ul class="mt-4 space-y-2.5">${entries
+               .slice(0, 3)
+               .map(
+                 ([kat, n]) => `
+                 <li class="flex items-center justify-between gap-3 rounded-xl border border-line bg-bg px-4 py-3">
+                   <span class="text-sm font-bold text-primary-deep">${KAT_LABEL[kat] ?? kat}</span>
+                   <span class="shrink-0 rounded-full bg-secondary-soft px-2.5 py-1 text-xs font-bold text-secondary-dark">${n} tanda</span>
+                 </li>`,
+               )
+               .join("")}</ul>
+             <p class="mt-4 text-xs leading-relaxed text-ink-soft">Hasil ini bukan diagnosis. Tim dokter kami akan memeriksa kondisi mulut Anda langsung sebelum menentukan perawatan.</p>`;
+
+      const cta =
+        total === 0
+          ? `<a href="/layanan#perawatan-umum" class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-primary/25 bg-white py-3 text-sm font-bold text-primary transition hover:border-primary">Lihat Perawatan Pencegahan</a>`
+          : top && KAT_HREF[top]
+            ? `<a href="${KAT_HREF[top]}" class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-primary/25 bg-white py-3 text-sm font-bold text-primary transition hover:border-primary">Pelajari ${KAT_LABEL[top] ?? ""}</a>`
+            : "";
+
+      $result.innerHTML = `
+        <div class="text-center">${advice}</div>
+        <div class="mt-6 grid gap-3 sm:grid-cols-2">
+          ${cta}
+          <a href="${BOOKING}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-accent py-3 text-sm font-bold text-white shadow-sm transition hover:bg-accent-dark">Konsultasi Gratis — Reservasi</a>
+        </div>
+        <button type="button" data-quiz-reset class="mt-4 block w-full cursor-pointer text-center text-xs font-semibold text-ink-soft underline-offset-2 transition hover:text-primary hover:underline">Ulangi kuis</button>
+      `;
+      $body.hidden = true;
+      $result.hidden = false;
+      root.querySelector("[data-quiz-progress-wrap]")!.classList.add("hidden");
+      $result.querySelector("[data-quiz-reset]")?.addEventListener("click", () => {
+        idx = 0;
+        yes = 0;
+        for (const k in tally) delete tally[k];
+        $score.textContent = "0 gejala";
+        $result.hidden = true;
+        $body.hidden = false;
+        root.querySelector("[data-quiz-progress-wrap]")!.classList.remove("hidden");
+        render();
+      });
+    };
+
+    root.querySelector("[data-quiz-yes]")?.addEventListener("click", () => answer(true));
+    root.querySelector("[data-quiz-no]")?.addEventListener("click", () => answer(false));
+    render();
+  }
+</script>

@@ -7,10 +7,11 @@
  */
 import promosJson from "../../data/promos.json";
 import { SITE } from "../../data/siteConfig";
+import { publicApi } from "../../utils/api";
 import type { Promo } from "../../data/types";
 
 const promos = promosJson as Promo[];
-const API = `${SITE.publicApi}/api/public/promo`;
+const API = `${publicApi}/api/public/promo`;
 const tanggalID = (iso: string) =>
   new Date(iso + "T00:00:00").toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
 ---

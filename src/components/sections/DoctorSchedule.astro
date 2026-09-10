@@ -1,9 +1,9 @@
 ---
 /**
  * Jadwal praktik dokter — LIVE dari API publik bfdc_app (roster shifts HRM,
- * sumber yang sama dengan slot reservasi). Graceful fallback saat API belum
- * deploy / tidak terjangkau: pesan singkat, section dokter statis di atasnya
- * tetap ada sebagai baseline SEO & no-JS.
+ * sumber yang sama dengan slot reservasi) + strip "sedang praktik sekarang"
+ * (dihitung client-side dari data yang sama, zona Asia/Jakarta).
+ * API URL env-aware: .env PUBLIC_API_URL (lokal) → default app.bfreshgigi.com.
  */
 interface Props {
   cabangId: number;
@@ -11,8 +11,8 @@ interface Props {
   hari?: number;
 }
 const { cabangId, cabangNama, hari = 14 } = Astro.props;
-import { SITE } from "../../data/siteConfig";
-const API = `${SITE.publicApi}/api/public/jadwal?cabang=${cabangId}&hari=${hari}`;
+import { publicApi } from "../../utils/api";
+const API = `${publicApi}/api/public/jadwal?cabang=${cabangId}&hari=${hari}`;
 ---
 
 <section class="bg-white py-12">
@@ -31,15 +31,25 @@ const API = `${SITE.publicApi}/api/public/jadwal?cabang=${cabangId}&hari=${hari}
       </span>
     </div>
 
-    <div
-      class="mt-6 grid gap-3 sm:grid-cols-2"
-      data-jadwal-root
-      data-api={API}
-    >
+    <!-- sedang praktik sekarang -->
+    <div class="mt-6" data-onduty-root hidden>
+      <div class="flex flex-wrap items-center gap-2 rounded-2xl border border-secondary/30 bg-secondary-soft px-5 py-4">
+        <span class="inline-flex shrink-0 items-center gap-2 text-sm font-extrabold text-secondary-dark">
+          <span class="relative flex size-2.5">
+            <span class="absolute inline-flex size-full animate-ping rounded-full bg-secondary opacity-60"></span>
+            <span class="relative inline-flex size-2.5 rounded-full bg-secondary"></span>
+          </span>
+          Sedang praktik sekarang:
+        </span>
+        <div class="flex flex-wrap gap-2" data-onduty-list></div>
+      </div>
+    </div>
+
+    <div class="mt-6 grid gap-3 sm:grid-cols-2" data-jadwal-root data-api={API}>
       <p class="col-span-full rounded-card border border-dashed border-line bg-bg p-6 text-center text-sm text-ink-soft" data-jadwal-fallback>
         Memuat jadwal terkini…<br />
         <span class="text-xs">Jika tidak muncul, jadwal dokter dapat dilihat saat
-          <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="font-semibold text-primary hover:underline">reservasi online</a>.
+          <a href="https://app.bfreshgigi.com/reservasi" target="_blank" rel="noopener" class="font-semibold text-primary hover:underline">reservasi online</a>.
         </span>
       </p>
     </div>
@@ -58,6 +68,16 @@ const API = `${SITE.publicApi}/api/public/jadwal?cabang=${cabangId}&hari=${hari}
     return `${HARI[d.getDay()]} ${d.getDate()} ${BULAN[d.getMonth()]}`;
   };
   const jam = (t: string) => t.replace(":", ".");
+  const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+
+  // waktu WIB visitor manapun
+  const nowParts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Jakarta", year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", hour12: false,
+  }).formatToParts(new Date());
+  const get = (t: string) => nowParts.find((p) => p.type === t)?.value ?? "00";
+  const todayISO = `${get("year")}-${get("month")}-${get("day")}`;
+  const hhmm = `${get("hour") === "24" ? "00" : get("hour")}:${get("minute")}`;
 
   type Slot = { tanggal: string; mulai: string; selesai: string };
   type Item = { dokter: string; jadwal: Slot[] };
@@ -72,12 +92,36 @@ const API = `${SITE.publicApi}/api/public/jadwal?cabang=${cabangId}&hari=${hari}
             "Belum ada jadwal terpublikasi untuk periode ini — silakan cek via reservasi online.";
           return;
         }
+
+        // ── sedang praktik sekarang ──
+        const onDuty = items.flatMap((it) =>
+          it.jadwal
+            .filter((s) => s.tanggal === todayISO && s.mulai <= hhmm && hhmm < s.selesai)
+            .map((s) => ({ dokter: it.dokter, ...s })),
+        );
+        const dutyRoot = document.querySelector<HTMLElement>("[data-onduty-root]");
+        if (dutyRoot) {
+          const list = dutyRoot.querySelector("[data-onduty-list]")!;
+          if (onDuty.length) {
+            list.innerHTML = onDuty
+              .map(
+                (d) =>
+                  `<span class="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-primary-deep shadow-card">${esc(d.dokter)} <span class="font-semibold text-ink-soft">· s.d. ${jam(d.selesai)}</span></span>`,
+              )
+              .join("");
+            dutyRoot.hidden = false;
+          } else {
+            dutyRoot.hidden = true;
+          }
+        }
+
+        // ── grid jadwal 14 hari ──
         root.innerHTML = items
           .map((it) => {
             const chips = it.jadwal
               .map(
                 (s) =>
-                  `<span class="inline-flex items-center gap-1 rounded-full bg-primary-soft px-2.5 py-1 text-[11px] font-semibold text-primary">${labelTanggal(s.tanggal)} · ${jam(s.mulai)}–${jam(s.selesai)}</span>`,
+                  `<span class="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold ${s.tanggal === todayISO && s.mulai <= hhmm && hhmm < s.selesai ? "bg-secondary text-white" : "bg-primary-soft text-primary"}">${labelTanggal(s.tanggal)} · ${jam(s.mulai)}–${jam(s.selesai)}</span>`,
               )
               .join("");
             const initials = it.dokter
@@ -90,7 +134,7 @@ const API = `${SITE.publicApi}/api/public/jadwal?cabang=${cabangId}&hari=${hari}
             return `<div class="flex items-start gap-3 rounded-2xl border border-line bg-white p-4 shadow-card">
               <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary-light text-xs font-extrabold text-white">${initials}</span>
               <div class="min-w-0">
-                <p class="text-sm font-bold text-primary-deep">${it.dokter}</p>
+                <p class="text-sm font-bold text-primary-deep">${esc(it.dokter)}</p>
                 <div class="mt-1.5 flex flex-wrap gap-1.5">${chips}</div>
               </div>
             </div>`;
@@ -100,7 +144,7 @@ const API = `${SITE.publicApi}/api/public/jadwal?cabang=${cabangId}&hari=${hari}
       .catch(() => {
         const f = root.querySelector("[data-jadwal-fallback]");
         if (f) {
-          f.innerHTML = `Jadwal real-time sedang tidak tersedia.<br /><span class="text-xs">Silakan cek jadwal dokter melalui <a href="${"https://app.bfreshgigi.com/reservasi"}" target="_blank" rel="noopener" class="font-semibold text-primary hover:underline">reservasi online</a>.</span>`;
+          f.innerHTML = `Jadwal real-time sedang tidak tersedia.<br /><span class="text-xs">Silakan cek jadwal dokter melalui <a href="https://app.bfreshgigi.com/reservasi" target="_blank" rel="noopener" class="font-semibold text-primary hover:underline">reservasi online</a>.</span>`;
         }
       });
   }

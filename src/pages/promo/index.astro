@@ -1,8 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import promos from "../../data/promos.json";
+import PromoLive from "../../components/sections/PromoLive.astro";
 import { SITE } from "../../data/siteConfig";
-import type { Promo } from "../../data/types";
 ---
 
 <BaseLayout
@@ -19,29 +18,7 @@ import type { Promo } from "../../data/types";
 
   <section class="bg-white py-12 md:py-16">
     <div class="mx-auto max-w-7xl px-4">
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {
-          (promos as Promo[]).map((p) => (
-            <article class="reveal group flex flex-col overflow-hidden rounded-card border border-line bg-white shadow-card transition duration-200 hover:-translate-y-1 hover:shadow-card-hover">
-              {p.img && (
-                <div class="relative aspect-[542/286] overflow-hidden bg-primary-soft">
-                  <img src={`/images/promo/promo-${p.id}.webp`} alt={`Promo ${p.nama}`} width="542" height="286" loading="lazy" decoding="async" class="size-full object-cover transition duration-300 group-hover:scale-[1.03]" />
-                  {p.special && <span class="absolute top-3 left-3 rounded-full bg-accent px-3 py-1 text-[10px] font-bold tracking-wider text-white uppercase">Spesial</span>}
-                </div>
-              )}
-              <div class="flex flex-1 flex-col p-5">
-                <h2 class="font-heading text-base leading-snug font-bold text-primary-deep">{p.nama}</h2>
-                {p.harga && <p class="mt-2 font-heading text-xl font-extrabold text-accent">{p.harga}</p>}
-                <div class="mt-4 flex-1" />
-                <p class="text-xs text-ink-soft">Berlaku s.d. {new Date(p.akhir).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}</p>
-                <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="mt-4 inline-flex items-center justify-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-xs font-bold text-white transition hover:bg-primary-dark">
-                  Klaim Promo — Reservasi
-                </a>
-              </div>
-            </article>
-          ))
-        }
-      </div>
+      <PromoLive />
 
       <div class="reveal mt-12 rounded-card border border-secondary/25 bg-secondary-soft p-6 text-sm leading-relaxed text-ink-soft md:p-8">
         <h2 class="font-heading text-base font-extrabold text-secondary-dark">Syarat &amp; Ketentuan Umum Promo</h2>

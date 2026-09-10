@@ -16,6 +16,8 @@ export const SITE = {
   email: "marketing@bfreshgigi.com",
   bookingUrl: "https://app.bfreshgigi.com/reservasi",
   careersUrl: "https://hrm.bfreshgigi.com/lowongan",
+  /** API publik read-only di app.bfreshgigi.com (deploy bfdc_app dulu agar live) */
+  publicApi: "https://app.bfreshgigi.com",
   // ⚠️ asumsi sementara — menunggu konfirmasi jam per cabang
   hours: "Setiap Hari · 09.00–21.00",
   social: {

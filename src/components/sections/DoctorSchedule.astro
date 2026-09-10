@@ -1,0 +1,107 @@
+---
+/**
+ * Jadwal praktik dokter — LIVE dari API publik bfdc_app (roster shifts HRM,
+ * sumber yang sama dengan slot reservasi). Graceful fallback saat API belum
+ * deploy / tidak terjangkau: pesan singkat, section dokter statis di atasnya
+ * tetap ada sebagai baseline SEO & no-JS.
+ */
+interface Props {
+  cabangId: number;
+  cabangNama: string;
+  hari?: number;
+}
+const { cabangId, cabangNama, hari = 14 } = Astro.props;
+import { SITE } from "../../data/siteConfig";
+const API = `${SITE.publicApi}/api/public/jadwal?cabang=${cabangId}&hari=${hari}`;
+---
+
+<section class="bg-white py-12">
+  <div class="mx-auto max-w-5xl px-4">
+    <div class="flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <h2 class="font-heading text-2xl font-extrabold text-primary-deep">Jadwal Praktik Dokter</h2>
+        <p class="mt-1 text-sm text-ink-soft">{hari} hari ke depan di {cabangNama} — tersinkron langsung dengan sistem reservasi.</p>
+      </div>
+      <span class="inline-flex items-center gap-1.5 rounded-full bg-secondary-soft px-3 py-1.5 text-xs font-bold text-secondary-dark">
+        <span class="relative flex size-2">
+          <span class="absolute inline-flex size-full animate-ping rounded-full bg-secondary opacity-60"></span>
+          <span class="relative inline-flex size-2 rounded-full bg-secondary"></span>
+        </span>
+        Live
+      </span>
+    </div>
+
+    <div
+      class="mt-6 grid gap-3 sm:grid-cols-2"
+      data-jadwal-root
+      data-api={API}
+    >
+      <p class="col-span-full rounded-card border border-dashed border-line bg-bg p-6 text-center text-sm text-ink-soft" data-jadwal-fallback>
+        Memuat jadwal terkini…<br />
+        <span class="text-xs">Jika tidak muncul, jadwal dokter dapat dilihat saat
+          <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="font-semibold text-primary hover:underline">reservasi online</a>.
+        </span>
+      </p>
+    </div>
+    <p class="mt-4 text-xs text-ink-soft/80">Jadwal dapat berubah — konfirmasi ketersediaan dokter saat reservasi.</p>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-jadwal-root]");
+  const api = root?.dataset.api;
+
+  const HARI = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+  const BULAN = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+  const labelTanggal = (iso: string) => {
+    const d = new Date(iso + "T00:00:00");
+    return `${HARI[d.getDay()]} ${d.getDate()} ${BULAN[d.getMonth()]}`;
+  };
+  const jam = (t: string) => t.replace(":", ".");
+
+  type Slot = { tanggal: string; mulai: string; selesai: string };
+  type Item = { dokter: string; jadwal: Slot[] };
+
+  if (root && api) {
+    fetch(api)
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((d: { jadwal: Item[] }) => {
+        const items = d.jadwal ?? [];
+        if (!items.length) {
+          root.querySelector("[data-jadwal-fallback]")!.textContent =
+            "Belum ada jadwal terpublikasi untuk periode ini — silakan cek via reservasi online.";
+          return;
+        }
+        root.innerHTML = items
+          .map((it) => {
+            const chips = it.jadwal
+              .map(
+                (s) =>
+                  `<span class="inline-flex items-center gap-1 rounded-full bg-primary-soft px-2.5 py-1 text-[11px] font-semibold text-primary">${labelTanggal(s.tanggal)} · ${jam(s.mulai)}–${jam(s.selesai)}</span>`,
+              )
+              .join("");
+            const initials = it.dokter
+              .replace(/^drg\.?\s+/i, "")
+              .split(/\s+/)
+              .slice(0, 2)
+              .map((w) => w[0])
+              .join("")
+              .toUpperCase();
+            return `<div class="flex items-start gap-3 rounded-2xl border border-line bg-white p-4 shadow-card">
+              <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary-light text-xs font-extrabold text-white">${initials}</span>
+              <div class="min-w-0">
+                <p class="text-sm font-bold text-primary-deep">${it.dokter}</p>
+                <div class="mt-1.5 flex flex-wrap gap-1.5">${chips}</div>
+              </div>
+            </div>`;
+          })
+          .join("");
+      })
+      .catch(() => {
+        const f = root.querySelector("[data-jadwal-fallback]");
+        if (f) {
+          f.innerHTML = `Jadwal real-time sedang tidak tersedia.<br /><span class="text-xs">Silakan cek jadwal dokter melalui <a href="${"https://app.bfreshgigi.com/reservasi"}" target="_blank" rel="noopener" class="font-semibold text-primary hover:underline">reservasi online</a>.</span>`;
+        }
+      });
+  }
+</script>

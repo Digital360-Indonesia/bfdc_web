@@ -2,10 +2,9 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import branches from "../../data/branches.json";
 import doctorsFeatured from "../../data/doctors-featured.json";
-import galeri from "../../data/galeri.json";
+import DoctorSchedule from "../../components/sections/DoctorSchedule.astro";
 import { SITE, waLink } from "../../data/siteConfig";
 import { jsonLdClinic } from "../../utils/schema";
-import type { GaleriItem } from "../../data/types";
 
 export async function getStaticPaths() {
   return branches.map((b) => ({ params: { slug: b.slug }, props: { branch: b } }));
@@ -13,7 +12,6 @@ export async function getStaticPaths() {
 
 const { branch } = Astro.props;
 const doctors = (doctorsFeatured as Record<string, string[]>)[String(branch.id)] ?? [];
-const cases = (galeri as GaleriItem[]).filter((g) => g.kategori !== "lainnya").slice(0, 0); // galeri tidak spesifik cabang
 const waBranch = waLink(`Halo B Fresh Dental Care ${branch.name}, saya ingin reservasi di cabang ${branch.name}.`);
 const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(`B Fresh Dental Care ${branch.name} ${branch.cityLabel}`)}&output=embed`;
 ---
@@ -96,6 +94,8 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(`B Fresh De
       </section>
     )
   }
+
+  <DoctorSchedule cabangId={branch.id} cabangNama={branch.name} />
 
   <section class="bg-white py-12 text-center">
     <div class="mx-auto max-w-xl px-4">

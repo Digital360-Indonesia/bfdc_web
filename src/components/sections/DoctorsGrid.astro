@@ -1,5 +1,6 @@
 ---
 import specialists from "../../data/specialists.json";
+import branches from "../../data/branches.json";
 import { SITE } from "../../data/siteConfig";
 import SectionHeading from "../ui/SectionHeading.astro";
 import DoctorCard from "../cards/DoctorCard.astro";
@@ -31,6 +32,7 @@ const getSpec = (name: string) => {
   return m ? (SP_LABEL[m[0]] ?? m[0]) : "Dokter Gigi";
 };
 const getCleanName = (name: string) => name.replace(/,?\s*,?\s*(Sp\.?\s?\w+(\.\w+)?)\s*$/i, "").trim();
+const branchSlug = new Map(branches.map((b) => [`${b.name}|${b.cityLabel}`, b.slug]));
 ---
 
 <section id="dokter" class="bg-bg py-16 md:py-20">
@@ -55,6 +57,7 @@ const getCleanName = (name: string) => name.replace(/,?\s*,?\s*(Sp\.?\s?\w+(\.\w
             branch={`${s.branch} · ${s.city}`}
             photo={getPhoto(s.name)}
             avatar={s.avatar}
+            href={`/cabang/${branchSlug.get(`${s.branch}|${s.city}`) ?? ""}`}
           />
         ))
       }

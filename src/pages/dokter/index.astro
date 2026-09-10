@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getCollection } from "astro:content";
 import specialists from "../../data/specialists.json";
 import doctorsFeatured from "../../data/doctors-featured.json";
 import branches from "../../data/branches.json";
@@ -30,9 +29,8 @@ const getSpec = (name: string) => {
 };
 const getCleanName = (name: string) => name.replace(/,?\s*(Sp\.?\s?\w+(\.\w+)?)\s*$/i, "").trim();
 
-const profiles = await getCollection("doctors");
 const featuredMap = doctorsFeatured as Record<string, { n: string; a: string | null }[]>;
-const branchById = Object.fromEntries(branches.map((b) => [String(b.id), b]));
+const branchSlug = new Map(branches.map((b) => [`${b.name}|${b.cityLabel}`, b.slug]));
 ---
 <BaseLayout
   title="Dokter Gigi & Spesialis"
@@ -53,7 +51,7 @@ const branchById = Object.fromEntries(branches.map((b) => [String(b.id), b]));
       <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {
           (specialists as { name: string; branch: string; city: string; avatar: string | null }[]).map((s) => (
-            <DoctorCard name={getCleanName(s.name)} specialty={getSpec(s.name)} branch={`${s.branch} · ${s.city}`} photo={getPhoto(s.name)} avatar={s.avatar} />
+            <DoctorCard name={getCleanName(s.name)} specialty={getSpec(s.name)} branch={`${s.branch} · ${s.city}`} photo={getPhoto(s.name)} avatar={s.avatar} href={`/cabang/${branchSlug.get(`${s.branch}|${s.city}`) ?? ""}`} />
           ))
         }
       </div>
@@ -61,20 +59,6 @@ const branchById = Object.fromEntries(branches.map((b) => [String(b.id), b]));
   </section>
 
   <!-- Profil dokter -->
-  {
-    profiles.length > 0 && (
-      <section class="bg-bg py-14 md:py-16">
-        <div class="mx-auto max-w-7xl px-4">
-          <SectionHeading eyebrow="Kenalan Lebih Dekat" title="Profil Dokter Kami" />
-          <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {profiles.sort((a, b) => a.data.order - b.data.order).map((d) => (
-              <DoctorCard name={d.data.name} specialty={d.data.specialty} branch={d.data.branch} photo={d.data.photo === "/images/doctors/placeholder.webp" ? null : d.data.photo} href={`/dokter/${d.data.slug}`} instagram={d.data.instagram} />
-            ))}
-          </div>
-        </div>
-      </section>
-    )
-  }
 
   <!-- Dokter per cabang -->
   <section class="bg-white py-14 md:py-16">

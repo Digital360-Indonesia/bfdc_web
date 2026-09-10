@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection, render } from "astro:content";
+import { bookingUrl } from "../../utils/api";
 import { SITE } from "../../data/siteConfig";
 import Icon from "../../components/ui/Icon.astro";
 
@@ -49,7 +50,7 @@ const { Content } = await render(doctor);
       <p class="text-sm font-semibold text-white">
         Ingin periksa dengan {doctor.data.name.replace(/^drg\.?\s*/i, "drg. ")}?
       </p>
-      <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="shrink-0 rounded-full bg-accent px-6 py-3 text-sm font-bold text-white transition hover:bg-accent-dark">
+      <a href={bookingUrl} target="_blank" rel="noopener" class="shrink-0 rounded-full bg-accent px-6 py-3 text-sm font-bold text-white transition hover:bg-accent-dark">
         Reservasi Sekarang
       </a>
     </div>

@@ -5,3 +5,6 @@ import { SITE } from "../data/siteConfig";
 
 export const publicApi: string =
   (import.meta.env.PUBLIC_API_URL as string | undefined) ?? SITE.publicApi;
+
+/** URL reservasi (env-aware) — SAMAKAN dgn BookingGate base agar modal selalu match */
+export const bookingUrl: string = `${publicApi}/reservasi`;

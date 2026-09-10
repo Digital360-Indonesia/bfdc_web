@@ -15,7 +15,7 @@ interface Props {
 const { variant = "grid" } = Astro.props;
 import promosJson from "../../data/promos.json";
 import { SITE } from "../../data/siteConfig";
-import { publicApi } from "../../utils/api";
+import {publicApi, bookingUrl} from "../../utils/api";
 import type { Promo } from "../../data/types";
 
 const promos = promosJson as Promo[];
@@ -31,6 +31,7 @@ const tanggalID = (iso: string) =>
   data-promo-root
   data-api={API}
   data-detail={DETAIL}
+  data-booking={bookingUrl}
 >
   {
     promos.map((p) => (
@@ -53,7 +54,7 @@ const tanggalID = (iso: string) =>
             <span class="inline-flex items-center justify-center rounded-full border-2 border-primary/20 bg-white px-4 py-2 text-xs font-bold text-primary">
               Lihat Detail
             </span>
-            <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="relative z-20 inline-flex items-center justify-center rounded-full bg-primary px-4 py-2 text-xs font-bold text-white transition hover:bg-primary-dark">
+            <a href={bookingUrl} target="_blank" rel="noopener" class="relative z-20 inline-flex items-center justify-center rounded-full bg-primary px-4 py-2 text-xs font-bold text-white transition hover:bg-primary-dark">
               Klaim — Reservasi
             </a>
           </div>
@@ -67,7 +68,7 @@ const tanggalID = (iso: string) =>
   const root = document.querySelector<HTMLElement>("[data-promo-root]");
   const api = root?.dataset.api;
   const detail = root?.dataset.detail ?? "https://app.bfreshgigi.com/promo";
-  const BOOKING = "https://app.bfreshgigi.com/reservasi";
+  const BOOKING = root?.dataset.booking ?? "https://app.bfreshgigi.com/reservasi";
   const compact = !root?.classList.contains("md:grid");
 
   type PromoApi = {

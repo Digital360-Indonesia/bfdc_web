@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import galeri from "../../data/galeri.json";
+import { bookingUrl } from "../../utils/api";
 import { SITE } from "../../data/siteConfig";
 import SectionHeading from "../../components/ui/SectionHeading.astro";
 import type { GaleriItem } from "../../data/types";
@@ -25,7 +26,7 @@ const KAT = [
       <span class="mb-3 inline-block rounded-full bg-white px-4 py-1 text-xs font-bold tracking-widest text-primary uppercase shadow-card">Hasil Nyata</span>
       <h1 class="text-balance font-heading text-4xl font-extrabold text-primary-deep md:text-5xl">Galeri Hasil Perawatan</h1>
       <p class="mt-4 text-ink-soft md:text-lg">{items.length} dokumentasi kasus — diperbolehkan untuk dipublikasikan, ditampilkan dengan penuh rasa hormat pada privasi pasien.</p>
-      <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="mt-6 inline-flex rounded-full bg-accent px-7 py-3.5 text-sm font-bold text-white transition hover:bg-accent-dark">
+      <a href={bookingUrl} target="_blank" rel="noopener" class="mt-6 inline-flex rounded-full bg-accent px-7 py-3.5 text-sm font-bold text-white transition hover:bg-accent-dark">
         Ingin hasil seperti ini? Reservasi
       </a>
     </div>

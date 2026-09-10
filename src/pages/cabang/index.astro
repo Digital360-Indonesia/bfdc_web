@@ -4,6 +4,7 @@ import branches from "../../data/branches.json";
 import BranchCard from "../../components/cards/BranchCard.astro";
 import BranchMap from "../../components/sections/BranchMap.astro";
 import CityFilter from "../../components/sections/CityFilter.astro";
+import { bookingUrl } from "../../utils/api";
 import { SITE } from "../../data/siteConfig";
 
 const cities = [...new Set(branches.map((b) => b.cityLabel))];
@@ -37,7 +38,7 @@ const cities = [...new Set(branches.map((b) => b.cityLabel))];
       <h2 class="font-heading text-2xl font-extrabold text-primary-deep">Belum Ada di Kota Anda?</h2>
       <p class="mt-2 text-sm text-ink-soft">Jaringan kami terus tumbuh. Reservasi di kota terdekat, atau hubungi CS untuk info cabang baru.</p>
       <div class="mt-5 flex flex-col justify-center gap-3 sm:flex-row">
-        <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="rounded-full bg-accent px-6 py-3 text-sm font-bold text-white transition hover:bg-accent-dark">Reservasi Online</a>
+        <a href={bookingUrl} target="_blank" rel="noopener" class="rounded-full bg-accent px-6 py-3 text-sm font-bold text-white transition hover:bg-accent-dark">Reservasi Online</a>
         <a href={`tel:${SITE.phone.replace(/-/g, "")}`} class="rounded-full border-2 border-primary/25 bg-white px-6 py-3 text-sm font-bold text-primary transition hover:border-primary">Hubungi CS {SITE.phone}</a>
       </div>
     </div>

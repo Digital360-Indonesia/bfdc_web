@@ -4,6 +4,7 @@ import branches from "../../data/branches.json";
 import doctorsFeatured from "../../data/doctors-featured.json";
 import DoctorSchedule from "../../components/sections/DoctorSchedule.astro";
 import Icon from "../../components/ui/Icon.astro";
+import { bookingUrl } from "../../utils/api";
 import { SITE, waLink } from "../../data/siteConfig";
 import { jsonLdClinic } from "../../utils/schema";
 
@@ -34,7 +35,7 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(`B Fresh De
           <h1 class="text-balance font-heading text-3xl font-extrabold text-primary-deep md:text-4xl">B Fresh Dental Care {branch.name}</h1>
           <p class="mt-4 text-sm leading-relaxed text-ink-soft md:text-base">{branch.address}</p>
           <div class="mt-6 flex flex-col gap-3 sm:flex-row">
-            <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-bold text-white transition hover:bg-accent-dark">
+            <a href={bookingUrl} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-bold text-white transition hover:bg-accent-dark">
               Reservasi {branch.name}
             </a>
             <a href={waBranch} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-secondary/30 bg-white px-6 py-3.5 text-sm font-bold text-secondary transition hover:border-secondary">
@@ -108,7 +109,7 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(`B Fresh De
       <p class="mt-2 text-sm text-ink-soft">Semua layanan tersedia: scaling, tambal, behel, gigi tiruan, bleaching, hingga perawatan spesialis.</p>
       <div class="mt-5 flex flex-col justify-center gap-3 sm:flex-row">
         <a href="/layanan" class="rounded-full border-2 border-primary/25 bg-white px-6 py-3 text-sm font-bold text-primary transition hover:border-primary">Lihat Semua Layanan</a>
-        <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="rounded-full bg-accent px-6 py-3 text-sm font-bold text-white transition hover:bg-accent-dark">Reservasi Sekarang</a>
+        <a href={bookingUrl} target="_blank" rel="noopener" class="rounded-full bg-accent px-6 py-3 text-sm font-bold text-white transition hover:bg-accent-dark">Reservasi Sekarang</a>
       </div>
     </div>
   </section>

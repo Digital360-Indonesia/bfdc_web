@@ -1,0 +1,61 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import BlogGrid from "../../../components/sections/BlogGrid.astro";
+
+const PER_PAGE = 12;
+
+export async function getStaticPaths({ paginate }) {
+  const PER_PAGE = 12;
+  const all = (await getCollection("blog", ({ data }) => !data.draft))
+    .sort((a, b) => +b.data.date - +b.data.date);
+  // halaman 1 dilayani /informasi — di sini mulai halaman 2
+  const pages = paginate(all, { pageSize: PER_PAGE });
+  return pages.filter((p) => Number(p.params.page) > 1);
+}
+
+const { page } = Astro.props;
+const totalPages = page.lastPage;
+const now = page.currentPage;
+const window = Array.from({ length: totalPages }, (_, i) => i + 1).slice(
+  Math.max(0, Math.min(now - 3, totalPages - 5)),
+  Math.max(5, Math.min(now + 2, totalPages)),
+);
+const q = (n: number) => (n === 1 ? "/informasi" : `/informasi/page/${n}`);
+---
+<BaseLayout
+  title={`Edukasi Kesehatan Gigi — Halaman ${now}`}
+  description="Artikel edukasi kesehatan gigi & mulut dari tim medis B Fresh Dental Care."
+  noindex={now > 1}
+>
+  <section class="bg-gradient-to-b from-primary-soft to-white py-12 md:py-14">
+    <div class="mx-auto max-w-3xl px-4 text-center">
+      <span class="mb-3 inline-block rounded-full bg-white px-4 py-1 text-xs font-bold tracking-widest text-primary uppercase shadow-card">Edukasi</span>
+      <h1 class="font-heading text-3xl font-extrabold text-primary-deep md:text-4xl">Belajar Merawat Senyum</h1>
+      <p class="mt-3 text-sm text-ink-soft md:text-base">Halaman {now} dari {totalPages} — {page.total} artikel.</p>
+      <div class="mt-5 flex flex-wrap justify-center gap-2">
+        <a href="/informasi" class="rounded-full border border-line bg-white px-4 py-2 text-sm font-bold text-ink-soft transition hover:border-primary/40 hover:text-primary">Semua</a>
+        <a href="/informasi/kategori/edukasi" class="rounded-full border border-line bg-white px-4 py-2 text-sm font-bold text-ink-soft transition hover:border-primary/40 hover:text-primary">Edukasi</a>
+        <a href="/informasi/kategori/informasi" class="rounded-full border border-line bg-white px-4 py-2 text-sm font-bold text-ink-soft transition hover:border-primary/40 hover:text-primary">Informasi</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-12">
+    <div class="mx-auto max-w-7xl px-4">
+      <BlogGrid posts={page.data} />
+
+      <nav class="mt-10 flex flex-wrap items-center justify-center gap-2" aria-label="Navigasi halaman">
+        {page.url.prev && (
+          <a href={page.url.prev} class="rounded-full border border-line bg-white px-4 py-2 text-sm font-bold text-primary transition hover:border-primary">← Sebelumnya</a>
+        )}
+        {window.map((n) => (
+          <a href={q(n)} class={`min-w-10 rounded-full px-4 py-2 text-center text-sm font-bold transition ${n === now ? "bg-primary text-white" : "border border-line bg-white text-ink-soft hover:border-primary/40 hover:text-primary"}`}>{n}</a>
+        ))}
+        {page.url.next && (
+          <a href={page.url.next} class="rounded-full border border-line bg-white px-4 py-2 text-sm font-bold text-primary transition hover:border-primary">Selanjutnya →</a>
+        )}
+      </nav>
+    </div>
+  </section>
+</BaseLayout>

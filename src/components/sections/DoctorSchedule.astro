@@ -11,7 +11,7 @@ interface Props {
   hari?: number;
 }
 const { cabangId, cabangNama, hari = 14 } = Astro.props;
-import { publicApi } from "../../utils/api";
+import { publicApi, bookingUrl } from "../../utils/api";
 const API = `${publicApi}/api/public/jadwal?cabang=${cabangId}&hari=${hari}`;
 ---
 
@@ -49,7 +49,7 @@ const API = `${publicApi}/api/public/jadwal?cabang=${cabangId}&hari=${hari}`;
       <p class="col-span-full rounded-card border border-dashed border-line bg-bg p-6 text-center text-sm text-ink-soft" data-jadwal-fallback>
         Memuat jadwal terkini…<br />
         <span class="text-xs">Jika tidak muncul, jadwal dokter dapat dilihat saat
-          <a href="https://app.bfreshgigi.com/reservasi" target="_blank" rel="noopener" class="font-semibold text-primary hover:underline">reservasi online</a>.
+          <a href={bookingUrl} target="_blank" rel="noopener" class="font-semibold text-primary hover:underline">reservasi online</a>.
         </span>
       </p>
     </div>
@@ -60,6 +60,7 @@ const API = `${publicApi}/api/public/jadwal?cabang=${cabangId}&hari=${hari}`;
 <script>
   const root = document.querySelector<HTMLElement>("[data-jadwal-root]");
   const api = root?.dataset.api;
+  const BOOKING = root?.dataset.booking ?? "https://app.bfreshgigi.com/reservasi";
 
   const HARI = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
   const BULAN = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
@@ -147,7 +148,7 @@ const API = `${publicApi}/api/public/jadwal?cabang=${cabangId}&hari=${hari}`;
       .catch(() => {
         const f = root.querySelector("[data-jadwal-fallback]");
         if (f) {
-          f.innerHTML = `Jadwal real-time sedang tidak tersedia.<br /><span class="text-xs">Silakan cek jadwal dokter melalui <a href="https://app.bfreshgigi.com/reservasi" target="_blank" rel="noopener" class="font-semibold text-primary hover:underline">reservasi online</a>.</span>`;
+          f.innerHTML = `Jadwal real-time sedang tidak tersedia.<br /><span class="text-xs">Silakan cek jadwal dokter melalui <a href={bookingUrl} target="_blank" rel="noopener" class="font-semibold text-primary hover:underline">reservasi online</a>.</span>`;
         }
       });
   }

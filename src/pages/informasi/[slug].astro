@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection, render } from "astro:content";
 import { tanggalID } from "../../utils/format";
+import { bookingUrl } from "../../utils/api";
 import { SITE } from "../../data/siteConfig";
 import { jsonLdArticle, jsonLdFaq } from "../../utils/schema";
 
@@ -85,7 +86,7 @@ if (post.data.faq?.length) ld.push(jsonLdFaq(post.data.faq));
         <p class="font-heading text-lg font-extrabold text-white">Masih ada pertanyaan soal {post.data.tags[0] ?? "kesehatan gigi"}?</p>
         <p class="mt-1.5 text-sm text-primary-light">Konsultasikan langsung dengan dokter gigi kami — gratis konsultasi pertama.</p>
         <div class="mt-5 flex flex-col justify-center gap-3 sm:flex-row">
-          <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="rounded-full bg-accent px-6 py-3 text-sm font-bold text-white transition hover:bg-accent-dark">Reservasi Sekarang</a>
+          <a href={bookingUrl} target="_blank" rel="noopener" class="rounded-full bg-accent px-6 py-3 text-sm font-bold text-white transition hover:bg-accent-dark">Reservasi Sekarang</a>
           <a href="/cabang" class="rounded-full border-2 border-white/30 px-6 py-3 text-sm font-bold text-white transition hover:border-white">Cari Cabang Terdekat</a>
         </div>
       </aside>

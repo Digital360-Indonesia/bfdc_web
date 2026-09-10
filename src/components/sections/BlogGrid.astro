@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import PostThumb from "../../components/cards/PostThumb.astro";
+import { tanggalID } from "../../utils/format";
+
+interface Props {
+  posts: { data: { title: string; slug: string; date: Date; excerpt: string; image?: string; category: string } }[];
+}
+
+/**
+ * Grid kartu artikel — dipakai halaman index, paginasi & kategori /informasi.
+ * Shimmer: img punya class skeleton (bg gradien animasi) — tertutup sendiri
+ * saat gambar termuat; container aspect mencegah layout shift.
+ */
+const { posts } = Astro.props;
+---
+<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  {
+    posts.map((p) => (
+      <a href={`/informasi/${p.data.slug}`} class="reveal group flex flex-col overflow-hidden rounded-card border border-line bg-white shadow-card transition duration-200 hover:-translate-y-1 hover:shadow-card-hover">
+        <div class="relative aspect-[16/10] overflow-hidden bg-primary-soft">
+          <PostThumb image={p.data.image} alt={p.data.title} category={p.data.category} cls="skeleton transition duration-300 group-hover:scale-[1.04]" />
+          <span class="absolute top-3 left-3 rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold tracking-wider text-primary uppercase backdrop-blur">{p.data.category}</span>
+        </div>
+        <div class="flex flex-1 flex-col p-5">
+          <p class="text-xs font-semibold text-ink-soft">{tanggalID(p.data.date)}</p>
+          <h2 class="mt-1.5 font-heading text-base leading-snug font-bold text-primary-deep transition group-hover:text-primary">{p.data.title}</h2>
+          <p class="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-ink-soft">{p.data.excerpt}</p>
+          <span class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-accent transition group-hover:gap-2">
+            Baca selengkapnya
+            <svg class="size-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </span>
+        </div>
+      </a>
+    ))
+  }
+</div>

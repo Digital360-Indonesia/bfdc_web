@@ -1,4 +1,5 @@
 ---
+import { bookingUrl } from "../../utils/api";
 import { SITE, STATS, waLink } from "../../data/siteConfig";
 import Button from "../ui/Button.astro";
 ---
@@ -32,7 +33,7 @@ import Button from "../ui/Button.astro";
     </p>
 
     <div class="reveal mt-9 flex flex-col justify-center gap-3 sm:flex-row" style="animation-delay:.24s">
-      <Button href={SITE.bookingUrl} target="_blank" rel="noopener" variant="accent" size="lg">
+      <Button href={bookingUrl} target="_blank" rel="noopener" variant="accent" size="lg">
         <svg class="size-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
         Reservasi Sekarang
       </Button>

@@ -1,153 +1,516 @@
 {
  "1": [
-  "drg. Kurnia Ayu Lestari, Sp.Pros",
-  "Redy Pristanto Putra",
-  "Saifullah Amri",
-  "Achmad Syarifudin",
-  "Ayonda Ashera Masitha",
-  "Dokter UKOM B Fresh",
-  "drg. Delaneira Alvita Durrotul Hikma, Sp.KGA",
-  "drg. Dian Novita Purnamasari, Sp.Ort",
-  "drg. Dita Yuarita, Sp. KG",
-  "drg. Monika Nilam Suryani, Sp.Ort",
-  "drg. Novita Pratiwi, Sp. Perio",
-  "Hertantyo Danu Himawan",
-  "Intan Triatmaja Kusumawati",
-  "Mellania Hanim Wahyu Fitrianingrum",
-  "Nabiela Rahardia",
-  "Natasya Oktaviani Putri",
-  "Nisaa’i Ramilinia Panuluh",
-  "Rania Gees"
+  {
+   "n": "drg. Kurnia Ayu Lestari, Sp.Pros",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2025/12/24/1740457259.png"
+  },
+  {
+   "n": "Redy Pristanto Putra",
+   "a": null
+  },
+  {
+   "n": "Saifullah Amri",
+   "a": null
+  },
+  {
+   "n": "Achmad Syarifudin",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/11/1740456785.png"
+  },
+  {
+   "n": "Ayonda Ashera Masitha",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/11/1740626125.png"
+  },
+  {
+   "n": "Dokter UKOM B Fresh",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/02/1772432443.png"
+  },
+  {
+   "n": "drg. Delaneira Alvita Durrotul Hikma, Sp.KGA",
+   "a": null
+  },
+  {
+   "n": "drg. Dian Novita Purnamasari, Sp.Ort",
+   "a": null
+  },
+  {
+   "n": "drg. Dita Yuarita, Sp. KG",
+   "a": null
+  },
+  {
+   "n": "drg. Monika Nilam Suryani, Sp.Ort",
+   "a": null
+  },
+  {
+   "n": "drg. Novita Pratiwi, Sp. Perio",
+   "a": null
+  },
+  {
+   "n": "Hertantyo Danu Himawan",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/01/19/1764055765.png"
+  },
+  {
+   "n": "Intan Triatmaja Kusumawati",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/01/15/1740457217.png"
+  },
+  {
+   "n": "Mellania Hanim Wahyu Fitrianingrum",
+   "a": "https://hrm.bfreshgigi.com/assets/bfresh/profile/1788406732.jpeg"
+  },
+  {
+   "n": "Nabiela Rahardia",
+   "a": null
+  },
+  {
+   "n": "Natasya Oktaviani Putri",
+   "a": null
+  },
+  {
+   "n": "Nisaa’i Ramilinia Panuluh",
+   "a": null
+  },
+  {
+   "n": "Rania Gees",
+   "a": null
+  }
  ],
  "2": [
-  "Amelia Rosita Sari",
-  "Nanda Putri Yosan",
-  "Richard Kevin Santoso",
-  "Yassir Ahmad Azzaim"
+  {
+   "n": "Amelia Rosita Sari",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/11/1740456834.png"
+  },
+  {
+   "n": "Nanda Putri Yosan",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/04/06/1764561973.png"
+  },
+  {
+   "n": "Richard Kevin Santoso",
+   "a": null
+  },
+  {
+   "n": "Yassir Ahmad Azzaim",
+   "a": null
+  }
  ],
  "3": [
-  "Inneke Dwi Lestari Junaedi",
-  "Naila Rahmah Tania"
+  {
+   "n": "Inneke Dwi Lestari Junaedi",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/11/1751275361.png"
+  },
+  {
+   "n": "Naila Rahmah Tania",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/11/1740457388.png"
+  }
  ],
  "4": [
-  "drg. Singgih Harseno, SP.KG",
-  "Haslinda",
-  "Qurrotul Ainiyah"
+  {
+   "n": "drg. Singgih Harseno, SP.KG",
+   "a": null
+  },
+  {
+   "n": "Haslinda",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/11/1768624880.png"
+  },
+  {
+   "n": "Qurrotul Ainiyah",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/11/1740457422.png"
+  }
  ],
  "5": [
-  "Adjeng Inggar Ariyanti",
-  "Binzzar Pramudya Rumpoko",
-  "Dwi Siti Lativa",
-  "Elle Vintari Febri Anggraini",
-  "Hashfi Hilman",
-  "Hilda Majidah",
-  "Isrofatullaily",
-  "Maya Safitri",
-  "Natya Satwika Wardani",
-  "Nevisyah Putri Widhiyarti",
-  "Pratiwi Mulyo",
-  "Prima Rahman Lazuardi",
-  "Relancari Ade Wiranti",
-  "Shinta Ayu Briliyani"
+  {
+   "n": "Adjeng Inggar Ariyanti",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/24/1782294047.jpeg"
+  },
+  {
+   "n": "Binzzar Pramudya Rumpoko",
+   "a": null
+  },
+  {
+   "n": "Dwi Siti Lativa",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/07/29/1785301281.png"
+  },
+  {
+   "n": "Elle Vintari Febri Anggraini",
+   "a": null
+  },
+  {
+   "n": "Hashfi Hilman",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/02/10/1759741121.png"
+  },
+  {
+   "n": "Hilda Majidah",
+   "a": null
+  },
+  {
+   "n": "Isrofatullaily",
+   "a": null
+  },
+  {
+   "n": "Maya Safitri",
+   "a": null
+  },
+  {
+   "n": "Natya Satwika Wardani",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/07/08/1768625129.png"
+  },
+  {
+   "n": "Nevisyah Putri Widhiyarti",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/05/1768624007.png"
+  },
+  {
+   "n": "Pratiwi Mulyo",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/25/1782378841.png"
+  },
+  {
+   "n": "Prima Rahman Lazuardi",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/08/31/6a957b99be18e.webp"
+  },
+  {
+   "n": "Relancari Ade Wiranti",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/11/1740457476.png"
+  },
+  {
+   "n": "Shinta Ayu Briliyani",
+   "a": null
+  }
  ],
  "6": [
-  "drg. Adi Rizal Soleh, Sp.BMM",
-  "Maya Puspitasari",
-  "Muhammad Salman Widad Wijaya",
-  "Nur Hanifah Adhaah Lestari",
-  "Paramita Rachmawati Zulkarnain",
-  "Ria Chusnita",
-  "Sheila Sucira",
-  "Yunisa Vania Rimasari"
+  {
+   "n": "drg. Adi Rizal Soleh, Sp.BMM",
+   "a": null
+  },
+  {
+   "n": "Maya Puspitasari",
+   "a": null
+  },
+  {
+   "n": "Muhammad Salman Widad Wijaya",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/01/17/1768625982.png"
+  },
+  {
+   "n": "Nur Hanifah Adhaah Lestari",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/05/1768803415.png"
+  },
+  {
+   "n": "Paramita Rachmawati Zulkarnain",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2025/08/15/1740457397.png"
+  },
+  {
+   "n": "Ria Chusnita",
+   "a": null
+  },
+  {
+   "n": "Sheila Sucira",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/04/13/5394-pas foto snelliii.png"
+  },
+  {
+   "n": "Yunisa Vania Rimasari",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/08/1740622637.jpg"
+  }
  ],
  "7": [
-  "Dinda Sabillah",
-  "Dyah Tanzila Amrifa",
-  "Hanifah Hasnaa Khansa",
-  "Noer ‘ Azhar Alfa Nahdlia",
-  "Putri Graesya Melani Octavianus",
-  "Sophia Trifena Caesaria Remiasa",
-  "Vania Aurellia Sumadi"
+  {
+   "n": "Dinda Sabillah",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/01/19/1763976545.png"
+  },
+  {
+   "n": "Dyah Tanzila Amrifa",
+   "a": null
+  },
+  {
+   "n": "Hanifah Hasnaa Khansa",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/11/1768625811.png"
+  },
+  {
+   "n": "Noer ‘ Azhar Alfa Nahdlia",
+   "a": null
+  },
+  {
+   "n": "Putri Graesya Melani Octavianus",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/08/1764076160.png"
+  },
+  {
+   "n": "Sophia Trifena Caesaria Remiasa",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2025/10/06/1759735888.png"
+  },
+  {
+   "n": "Vania Aurellia Sumadi",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2025/09/11/1756959339.png"
+  }
  ],
  "8": [
-  "Alief Ratu Fauziah Kusumawardani",
-  "Aliffala Widianaputri Setya Pangastuti",
-  "Arina Zahrotul 'Ainii",
-  "Azka Kurnia Salsabila",
-  "Galuh Damar Jati",
-  "Ivanda Rizka Amaliah",
-  "Rizky Noor Adha"
+  {
+   "n": "Alief Ratu Fauziah Kusumawardani",
+   "a": null
+  },
+  {
+   "n": "Aliffala Widianaputri Setya Pangastuti",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/23/1781751352.png"
+  },
+  {
+   "n": "Arina Zahrotul 'Ainii",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/05/1772698570.png"
+  },
+  {
+   "n": "Azka Kurnia Salsabila",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/05/04/1777861509.jpeg"
+  },
+  {
+   "n": "Galuh Damar Jati",
+   "a": null
+  },
+  {
+   "n": "Ivanda Rizka Amaliah",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/05/1740457237.png"
+  },
+  {
+   "n": "Rizky Noor Adha",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/01/19/1764748488.png"
+  }
  ],
  "10": [
-  "Nadelia Ansasti Berlian Prananda",
-  "Adinda Putri Salsabila",
-  "Alya Sayyida Faradisa",
-  "Anfasa Isnurhakim",
-  "Chikita Jasmine Patricia",
-  "Claudia Jeivinda Meirita",
-  "Fatkhurrozi Rizal Fathoni",
-  "Indita Melania",
-  "Rizkia Putri Anggraeni",
-  "Rizky Purnamasari Siregar",
-  "Safira Alif Suprarahardian"
+  {
+   "n": "Nadelia Ansasti Berlian Prananda",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/07/11/1765771141.png"
+  },
+  {
+   "n": "Adinda Putri Salsabila",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/17/1772699300.png"
+  },
+  {
+   "n": "Alya Sayyida Faradisa",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/05/1740456815.png"
+  },
+  {
+   "n": "Anfasa Isnurhakim",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/11/1756959361.png"
+  },
+  {
+   "n": "Chikita Jasmine Patricia",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/05/5289-F9F939A2-39B4-4257-AABF-CB3B4724AC0F.jpeg"
+  },
+  {
+   "n": "Claudia Jeivinda Meirita",
+   "a": null
+  },
+  {
+   "n": "Fatkhurrozi Rizal Fathoni",
+   "a": null
+  },
+  {
+   "n": "Indita Melania",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/12/1764076068.png"
+  },
+  {
+   "n": "Rizkia Putri Anggraeni",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/11/1740457505.png"
+  },
+  {
+   "n": "Rizky Purnamasari Siregar",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/05/1763961474.png"
+  },
+  {
+   "n": "Safira Alif Suprarahardian",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/02/12/1770863759.png"
+  }
  ],
  "11": [
-  "Annisa Permatasari",
-  "Asmaradita Nourisha Isthi",
-  "Destya Arizha Fatryana",
-  "Erlinda Yuly Ekasari",
-  "Fatimah Hanin",
-  "Rosalina Tri Wahyuningtyas"
+  {
+   "n": "Annisa Permatasari",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/11/1740457036.png"
+  },
+  {
+   "n": "Asmaradita Nourisha Isthi",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/11/1740457077.png"
+  },
+  {
+   "n": "Destya Arizha Fatryana",
+   "a": null
+  },
+  {
+   "n": "Erlinda Yuly Ekasari",
+   "a": "https://hrm.bfreshgigi.com/assets/bfresh/profile/1787538932.jpeg"
+  },
+  {
+   "n": "Fatimah Hanin",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/08/29/6a9243948b3f1.webp"
+  },
+  {
+   "n": "Rosalina Tri Wahyuningtyas",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/27/1770280419.png"
+  }
  ],
  "12": [
-  "Anggih Nawwira Putri",
-  "Gita Hindah Cahyani",
-  "Putri Anggun Larasati"
+  {
+   "n": "Anggih Nawwira Putri",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/11/1740456913.png"
+  },
+  {
+   "n": "Gita Hindah Cahyani",
+   "a": null
+  },
+  {
+   "n": "Putri Anggun Larasati",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/11/1764730992.png"
+  }
  ],
  "13": [
-  "Binar Nillakandi",
-  "drg. Khadijah Fauzi Basalamah, Sp.KG",
-  "Erinna Ardiyanti",
-  "Widya Nurfitriastuti Wulandari"
+  {
+   "n": "Binar Nillakandi",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/11/1740456971.png"
+  },
+  {
+   "n": "drg. Khadijah Fauzi Basalamah, Sp.KG",
+   "a": null
+  },
+  {
+   "n": "Erinna Ardiyanti",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/07/13/1756958214.jpeg"
+  },
+  {
+   "n": "Widya Nurfitriastuti Wulandari",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2025/12/15/1764667233.png"
+  }
  ],
  "14": [
-  "Abqho Fayodhy Lianvo",
-  "Agtadila Novitananda",
-  "Ameilia Rizkiani Fauzan Zahrani",
-  "Anggi Pramita",
-  "Antung Nurul Hidayah",
-  "Jihan Fahira",
-  "Mochamad Aldy Sudarminto",
-  "Putri Alfa Meirani Laksanti",
-  "Rizki Argananta Kusuma Sugianto",
-  "Ryan Hafidz Putra Pamungkas",
-  "Ryenita Aulia Faradila"
+  {
+   "n": "Abqho Fayodhy Lianvo",
+   "a": null
+  },
+  {
+   "n": "Agtadila Novitananda",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/03/11/1765771292.png"
+  },
+  {
+   "n": "Ameilia Rizkiani Fauzan Zahrani",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/05/1764045432.png"
+  },
+  {
+   "n": "Anggi Pramita",
+   "a": null
+  },
+  {
+   "n": "Antung Nurul Hidayah",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2025/12/24/1766548363.png"
+  },
+  {
+   "n": "Jihan Fahira",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/07/01/1773040839.png"
+  },
+  {
+   "n": "Mochamad Aldy Sudarminto",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/01/19/1766742647.png"
+  },
+  {
+   "n": "Putri Alfa Meirani Laksanti",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/04/18/1776474669.png"
+  },
+  {
+   "n": "Rizki Argananta Kusuma Sugianto",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/08/1768624858.png"
+  },
+  {
+   "n": "Ryan Hafidz Putra Pamungkas",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/02/11/1764337489.png"
+  },
+  {
+   "n": "Ryenita Aulia Faradila",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/05/1764311304.png"
+  }
  ],
  "15": [
-  "Aisyah Nurul Izzatil Muslimah",
-  "Aniendaghista Alifia Firdani F",
-  "Claudya Augustien Susanto",
-  "Devina Farahamida",
-  "Dinar Prafita Sari Dewi",
-  "Farah Tariza Harlens",
-  "Hananah Oktalidial Putri",
-  "Lailatul Hikmah Mazlan",
-  "Ni Luh Mas Pramertasari",
-  "Noor Muhammad Firdaus",
-  "Salma Andita Athalia",
-  "Sania Putri Rahmatina",
-  "Seema Azzahra Shafa",
-  "Theofany Listya Abri Santoso"
+  {
+   "n": "Aisyah Nurul Izzatil Muslimah",
+   "a": null
+  },
+  {
+   "n": "Aniendaghista Alifia Firdani F",
+   "a": "https://hrm.bfreshgigi.com/assets/bfresh/profile/1787196808.jpeg"
+  },
+  {
+   "n": "Claudya Augustien Susanto",
+   "a": null
+  },
+  {
+   "n": "Devina Farahamida",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/07/31/1785470114.png"
+  },
+  {
+   "n": "Dinar Prafita Sari Dewi",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/01/19/1763957896.png"
+  },
+  {
+   "n": "Farah Tariza Harlens",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/08/1776312367.jpeg"
+  },
+  {
+   "n": "Hananah Oktalidial Putri",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/05/28/1776827899.png"
+  },
+  {
+   "n": "Lailatul Hikmah Mazlan",
+   "a": null
+  },
+  {
+   "n": "Ni Luh Mas Pramertasari",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/07/31/1763948910.png"
+  },
+  {
+   "n": "Noor Muhammad Firdaus",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/08/31/6a957b077d3a4.webp"
+  },
+  {
+   "n": "Salma Andita Athalia",
+   "a": null
+  },
+  {
+   "n": "Sania Putri Rahmatina",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/02/10/1756959370.png"
+  },
+  {
+   "n": "Seema Azzahra Shafa",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/04/24/5946-foto.jpeg"
+  },
+  {
+   "n": "Theofany Listya Abri Santoso",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/05/11/1768624710.png"
+  }
  ],
  "16": [
-  "Diana Lilik Zainiyyah",
-  "Lailatul Fauziah",
-  "Muhammad Luqman Rahardian",
-  "Nadhya Feidora Putri",
-  "Nasywa Nabila Fairuz",
-  "Nisa Adei Putri Rahmawati",
-  "Nova Andriani Hepitaria",
-  "Nurul Machmuda",
-  "Viany"
+  {
+   "n": "Diana Lilik Zainiyyah",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/08/5879-WhatsApp Image 2026-04-14 at 09.37.40.jpeg"
+  },
+  {
+   "n": "Lailatul Fauziah",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/08/1764310999.png"
+  },
+  {
+   "n": "Muhammad Luqman Rahardian",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/04/27/1768039883.png"
+  },
+  {
+   "n": "Nadhya Feidora Putri",
+   "a": null
+  },
+  {
+   "n": "Nasywa Nabila Fairuz",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/06/18/1781751297.png"
+  },
+  {
+   "n": "Nisa Adei Putri Rahmawati",
+   "a": null
+  },
+  {
+   "n": "Nova Andriani Hepitaria",
+   "a": null
+  },
+  {
+   "n": "Nurul Machmuda",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/05/11/1778481356.jpeg"
+  },
+  {
+   "n": "Viany",
+   "a": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2026/07/03/1773030736.png"
+  }
  ]
 }

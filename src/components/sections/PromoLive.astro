@@ -91,7 +91,7 @@ const tanggalID = (iso: string) =>
       .then((d: { promo: PromoApi[] }) => {
         const items = d.promo ?? [];
         if (!items.length) {
-          root.innerHTML = `<p class="col-span-full rounded-card border border-dashed border-line bg-bg p-8 text-center text-sm text-ink-soft">Belum ada promo berjalan saat ini — pantau terus, promo baru hadir tiap bulan! 🎁</p>`;
+          root.innerHTML = `<p class="col-span-full rounded-card border border-dashed border-line bg-bg p-8 text-center text-sm text-ink-soft">Belum ada promo berjalan saat ini — pantau terus, promo baru hadir tiap bulan!</p>`;
           return;
         }
         root.innerHTML = items

@@ -1,0 +1,101 @@
+---
+/**
+ * Strip kartu promo SLIDING — menempel di bawah Hero (bagian layar pertama 100vh).
+ * Kartu compact ber-gambar berjalan horizontal (marquee, pause on hover),
+ * klik kartu → detail promo di app. Live dari /api/public/promo,
+ * fallback kartu statis hasil build.
+ */
+import promosJson from "../../data/promos.json";
+import { publicApi } from "../../utils/api";
+import type { Promo } from "../../data/types";
+import Icon from "../ui/Icon.astro";
+
+const promos = promosJson as Promo[];
+const API = `${publicApi}/api/public/promo`;
+const DETAIL = `${publicApi}/promo`;
+const sdShort = (iso: string) =>
+  new Date(iso + "T00:00:00").toLocaleDateString("id-ID", { day: "numeric", month: "short" });
+---
+<section class="border-t border-accent/20 bg-accent-soft/70 backdrop-blur-sm" aria-label="Promo berjalan" data-promo-cards data-api={API} data-detail={DETAIL}>
+  <div class="mx-auto max-w-7xl px-4 py-3">
+    <div class="flex items-center gap-3">
+      <span class="hidden shrink-0 items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-xs font-extrabold tracking-widest text-white uppercase shadow-card sm:inline-flex">
+        <Icon name="gift" class="size-4" /> Promo
+      </span>
+      <div class="group relative flex-1 overflow-hidden" style="mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)">
+        <div class="flex w-max animate-ticker items-center gap-3 group-hover:[animation-play-state:paused]" data-promo-track>
+          {[0, 1].map((dup) => (
+            <div class="flex shrink-0 items-center gap-3" aria-hidden={dup === 1 ? "true" : undefined} data-promo-list>
+              {promos.map((p) => (
+                <a
+                  href={`${DETAIL}/${p.id}`}
+                  target="_blank" rel="noopener"
+                  class="flex w-60 shrink-0 items-center gap-3 rounded-2xl border border-line bg-white p-2.5 shadow-card transition duration-200 hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-card-hover"
+                >
+                  {p.img && (
+                    <img
+                      src={`/images/promo/promo-${p.id}.webp`}
+                      alt={`Promo ${p.nama}`}
+                      width="96" height="96" loading="lazy" decoding="async"
+                      class="size-14 shrink-0 rounded-xl object-cover"
+                    />
+                  )}
+                  <span class="min-w-0">
+                    <span class="block truncate text-xs font-bold text-primary-deep">{p.nama}</span>
+                    {p.harga && <span class="mt-0.5 block font-heading text-sm font-extrabold text-accent">{p.harga}</span>}
+                    <span class="mt-0.5 block text-[10px] text-ink-soft">s.d. {sdShort(p.akhir)} · klik utk detail</span>
+                  </span>
+                </a>
+              ))}
+              <a href="/promo" class="flex w-40 shrink-0 items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-accent/40 bg-white/60 p-2.5 text-xs font-extrabold text-accent-dark transition hover:border-accent hover:bg-white">
+                Semua promo →
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-promo-cards]");
+  const track = root?.querySelector<HTMLElement>("[data-promo-track]");
+  const API = root?.dataset.api;
+  const DETAIL = root?.dataset.detail ?? "https://app.bfreshgigi.com/promo";
+
+  type PromoApi = { id: number; nama: string; harga: string | null; gambar_url: string | null; akhir: string };
+  const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+  const sdShort = (iso: string) =>
+    new Date(iso + "T00:00:00").toLocaleDateString("id-ID", { day: "numeric", month: "short" });
+
+  if (root && track && API) {
+    fetch(API)
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((d: { promo: PromoApi[] }) => {
+        const items = d.promo ?? [];
+        if (!items.length) return; // fallback statis tetap
+        const cards = items
+          .map(
+            (p) => `<a href="${DETAIL}/${p.id}" target="_blank" rel="noopener"
+              class="flex w-60 shrink-0 items-center gap-3 rounded-2xl border border-line bg-white p-2.5 shadow-card transition duration-200 hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-card-hover">
+              ${p.gambar_url ? `<img src="${p.gambar_url}" alt="Promo ${esc(p.nama)}" width="96" height="96" loading="lazy" decoding="async" class="size-14 shrink-0 rounded-xl object-cover" />` : ""}
+              <span class="min-w-0">
+                <span class="block truncate text-xs font-bold text-primary-deep">${esc(p.nama)}</span>
+                ${p.harga ? `<span class="mt-0.5 block font-heading text-sm font-extrabold text-accent">${p.harga}</span>` : ""}
+                <span class="mt-0.5 block text-[10px] text-ink-soft">s.d. ${sdShort(p.akhir)} · klik utk detail</span>
+              </span>
+            </a>`,
+          )
+          .join("");
+        const tail = `<a href="/promo" class="flex w-40 shrink-0 items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-accent/40 bg-white/60 p-2.5 text-xs font-extrabold text-accent-dark transition hover:border-accent hover:bg-white">Semua promo →</a>`;
+        track.querySelectorAll("[data-promo-list]").forEach((ul, i) => {
+          ul.innerHTML = cards + tail;
+          if (i === 1) ul.setAttribute("aria-hidden", "true");
+        });
+      })
+      .catch(() => {
+        /* fallback statis */
+      });
+  }
+</script>

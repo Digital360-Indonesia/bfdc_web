@@ -80,6 +80,44 @@ const allLd = [jsonLdOrg(), ...extraLd];
         { rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
       );
       document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+      // tinggi header (incl topbar) utk hero 100vh
+      const setHeaderVar = () => {
+        const h = document.getElementById("site-header");
+        if (!h) return;
+        const tb = h.previousElementSibling as HTMLElement | null;
+        const total = h.offsetHeight + (tb && !tb.hidden ? tb.offsetHeight : 0);
+        document.documentElement.style.setProperty("--site-header", total + "px");
+      };
+      setHeaderVar();
+      addEventListener("resize", setHeaderVar);
+
+      // fallback foto dokter/avatar: img gagal load → diganti lingkaran inisial
+      document.addEventListener(
+        "error",
+        (e) => {
+          const t = e.target as HTMLElement | null;
+          if (t?.tagName !== "IMG" || !t.hasAttribute("data-fb")) return;
+          const name = (t.getAttribute("alt") || "?").replace(/^drg\.?\s+/i, "");
+          const ini =
+            name
+              .split(/\s+/)
+              .slice(0, 2)
+              .map((w) => w[0])
+              .join("")
+              .toUpperCase() || "?";
+          const span = document.createElement("span");
+          span.textContent = ini;
+          span.className =
+            t.className
+              .replace(/border-\S+|object-cover/g, "")
+              .trim() +
+            " flex items-center justify-center bg-primary-soft font-heading font-extrabold text-primary";
+          span.setAttribute("aria-label", name);
+          t.replaceWith(span);
+        },
+        true,
+      );
     </script>
   </body>
 </html>

@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { KATEGORI } from "../../data/services";
 import { SITE } from "../../data/siteConfig";
+import Icon from "../../components/ui/Icon.astro";
 
 const services = await getCollection("services");
 const KAT_ICON: Record<string, string> = Object.fromEntries(KATEGORI.map((k) => [k.slug, k.icon]));
@@ -28,7 +29,7 @@ const KAT_ICON: Record<string, string> = Object.fromEntries(KATEGORI.map((k) => 
           return (
             <div class="reveal">
               <div class="flex items-center gap-3">
-                <span class="flex size-10 items-center justify-center rounded-xl bg-primary-soft text-lg">{KAT_ICON[k.slug]}</span>
+                <span class="flex size-10 items-center justify-center rounded-xl bg-primary-soft text-primary"><Icon name={KAT_ICON[k.slug]} class="size-5" /></span>
                 <h2 class="font-heading text-xl font-extrabold text-primary-deep">{k.label}</h2>
                 <a href={`/layanan#${k.slug}`} class="ml-auto text-xs font-bold text-accent hover:underline">Info layanan →</a>
               </div>

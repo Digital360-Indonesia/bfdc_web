@@ -3,6 +3,7 @@ import { KATEGORI } from "../../data/services";
 import { getCollection } from "astro:content";
 import { rupiah } from "../../utils/format";
 import SectionHeading from "../ui/SectionHeading.astro";
+import Icon from "../ui/Icon.astro";
 
 const services = await getCollection("services");
 const servicesBySlug = new Map(services.map((s) => [s.slug, s.data.slug]));
@@ -24,7 +25,7 @@ const servicesBySlug = new Map(services.map((s) => [s.slug, s.data.slug]));
             class="reveal group relative flex flex-col overflow-hidden rounded-card border border-line bg-white p-6 shadow-card transition duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-card-hover"
           >
             <span class="pointer-events-none absolute -top-10 -right-10 size-28 rounded-full bg-primary-soft/60 transition group-hover:scale-150" aria-hidden="true" />
-            <span class="relative mb-4 flex size-14 items-center justify-center rounded-2xl bg-primary-soft text-2xl">{k.icon}</span>
+            <span class="relative mb-4 flex size-14 items-center justify-center rounded-2xl bg-primary-soft text-primary"><Icon name={k.icon} class="size-7" /></span>
             <h3 class="relative font-heading text-lg font-bold text-primary-deep">{k.label}</h3>
             <p class="relative mt-0.5 text-xs font-bold tracking-wide text-secondary uppercase">{k.tagline}</p>
             <p class="relative mt-3 flex-1 text-sm leading-relaxed text-ink-soft">{k.desc}</p>

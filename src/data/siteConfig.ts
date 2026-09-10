@@ -35,7 +35,7 @@ export const STATS = [
   { value: "2009", label: "Berdiri & Melayani" },
   { value: "15", suffix: " cabang", label: "di 5 Kota Jawa Timur" },
   { value: "80+", label: "Dokter Gigi" },
-  { value: "9", label: "Dokter Spesialis" },
+  { value: "150+", label: "Jenis Perawatan" },
   { value: "57rb+", label: "Pasien Terdaftar" },
   { value: "95%", label: "Kepuasan Pasien" },
 ] as const;

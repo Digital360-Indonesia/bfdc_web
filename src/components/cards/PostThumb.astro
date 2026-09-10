@@ -1,4 +1,5 @@
 ---
+import Icon from "../ui/Icon.astro";
 /** Thumbnail artikel — gambar blur-up, atau placeholder branded bila tanpa gambar */
 interface Props {
   image?: string;
@@ -9,14 +10,14 @@ interface Props {
 }
 const { image, alt, category, eager = false, class: cls = "" } = Astro.props;
 const CAT_ICON: Record<string, string> = {
-  edukasi: "🦷",
-  informasi: "📰",
-  promo: "🎁",
-  "kegiatan-sosial": "🤲",
-  testimoni: "💬",
-  quote: "💬",
+  edukasi: "tooth",
+  informasi: "info",
+  promo: "gift",
+  "kegiatan-sosial": "heart",
+  testimoni: "message",
+  quote: "message",
 };
-const icon = CAT_ICON[category ?? ""] ?? "🦷";
+const icon = CAT_ICON[category ?? ""] ?? "tooth";
 ---
 {
   image ? (
@@ -34,7 +35,7 @@ const icon = CAT_ICON[category ?? ""] ?? "🦷";
       role="img"
       aria-label={alt}
     >
-      <span class="text-4xl opacity-80" aria-hidden="true">{icon}</span>
+      <Icon name={icon} class="size-10 text-primary/70" />
       <span class="text-[10px] font-bold tracking-widest text-primary uppercase">{category ?? "Artikel"}</span>
     </div>
   )

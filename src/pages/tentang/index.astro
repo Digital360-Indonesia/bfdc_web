@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { SITE, STATS } from "../../data/siteConfig";
+import Icon from "../../components/ui/Icon.astro";
 import branches from "../../data/branches.json";
 
 const milestones = [
@@ -10,9 +11,9 @@ const milestones = [
   { year: "2026", title: `${branches.length} Cabang, 5 Kota`, desc: `Kini ${branches.length} cabang dengan 80+ dokter gigi dan 9 dokter spesialis — dan terus bertumbuh menuju kota-kota baru.` },
 ];
 const values = [
-  { icon: "❤️", title: "Keluarga", desc: "Pasien diperlakukan seperti keluarga sendiri: didengarkan, dijelaskan, dan dirawat dengan tulus." },
-  { icon: "🤲", title: "Amanah", desc: "Rekomendasi perawatan selalu berdasarkan kebutuhan — bukan target penjualan. Kejujuran adalah standar kami." },
-  { icon: "🌱", title: "Tumbuh Bersama", desc: "Kompetensi tim terus dikembangkan lewat pelatihan internal; jaringan cabang tumbuh untuk semakin dekat dengan Anda." },
+  { icon: "heart", chip: "bg-primary-soft text-primary", title: "Keluarga", desc: "Pasien diperlakukan seperti keluarga sendiri: didengarkan, dijelaskan, dan dirawat dengan tulus." },
+  { icon: "shield-check", chip: "bg-secondary-soft text-secondary-dark", title: "Amanah", desc: "Rekomendasi perawatan selalu berdasarkan kebutuhan — bukan target penjualan. Kejujuran adalah standar kami." },
+  { icon: "sprout", chip: "bg-accent-soft text-accent-dark", title: "Tumbuh Bersama", desc: "Kompetensi tim terus dikembangkan lewat pelatihan internal; jaringan cabang tumbuh untuk semakin dekat dengan Anda." },
 ];
 ---
 <BaseLayout
@@ -52,7 +53,7 @@ const values = [
         {
           values.map((v) => (
             <div class="reveal rounded-card border border-line bg-white p-6 text-center shadow-card">
-              <span class="mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl bg-primary-soft text-2xl">{v.icon}</span>
+              <span class={`mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl ${v.chip}`}><Icon name={v.icon} class="size-7" /></span>
               <h3 class="font-heading text-lg font-bold text-primary-deep">{v.title}</h3>
               <p class="mt-2 text-sm leading-relaxed text-ink-soft">{v.desc}</p>
             </div>

@@ -1,6 +1,7 @@
 ---
 import { SITE, NAV, waLink } from "../../data/siteConfig";
 import { KATEGORI } from "../../data/services";
+import Icon from "../ui/Icon.astro";
 
 const path = Astro.url.pathname;
 const isActive = (href: string) =>
@@ -37,7 +38,7 @@ const socials = [
 <header id="site-header" class="sticky top-0 z-50 border-b border-line/70 bg-white/90 backdrop-blur-md">
   <div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4">
     <a href="/" class="flex shrink-0 items-center gap-2" aria-label="Beranda B Fresh Dental Care">
-      <img src="/images/logos/logo.png" alt="Logo B Fresh Dental Care" width="160" height="60" class="h-10 w-auto" />
+      <img src="/images/logos/logo.png" alt="Logo B Fresh Dental Care" width="200" height="75" class="h-12 w-auto md:h-14" />
     </a>
 
     <nav class="hidden items-center gap-1 lg:flex" aria-label="Navigasi utama">
@@ -51,7 +52,7 @@ const socials = [
             <div class="overflow-hidden rounded-2xl border border-line bg-white p-2 shadow-card-hover">
               {KATEGORI.map((k) => (
                 <a href={`/layanan#${k.slug}`} class="flex items-start gap-3 rounded-xl px-3 py-2.5 transition hover:bg-primary-soft">
-                  <span class="text-xl leading-none">{k.icon}</span>
+                  <Icon name={k.icon} class="size-5 text-primary" />
                   <span>
                     <span class="block text-sm font-bold text-primary-deep">{k.label}</span>
                     <span class="block text-xs text-ink-soft">{k.tagline}</span>
@@ -95,7 +96,7 @@ const socials = [
         <summary class="cursor-pointer list-none px-4 py-3 text-sm font-semibold text-ink">Layanan</summary>
         <div class="pb-2 pl-6">
           {KATEGORI.map((k) => (
-            <a href={`/layanan#${k.slug}`} class="block rounded-lg px-4 py-2 text-sm text-ink-soft hover:text-primary">{k.icon} {k.label}</a>
+            <a href={`/layanan#${k.slug}`} class="block rounded-lg px-4 py-2 text-sm text-ink-soft hover:text-primary"><Icon name={k.icon} class="size-4" /> {k.label}</a>
           ))}
         </div>
       </details>

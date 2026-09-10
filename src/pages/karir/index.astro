@@ -1,12 +1,13 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { SITE } from "../../data/siteConfig";
+import Icon from "../../components/ui/Icon.astro";
 
 const roles = [
-  { icon: "🦷", title: "Dokter Gigi (Umum & Spesialis)", desc: "Bergabunglah dengan tim medis yang kompetensi dan pengembangan dirinya didukung penuh — termasuk dokter Sp.Ort, Sp.KGA, Sp.Perio." },
-  { icon: "🧑‍⚕️", title: "Perawat & Asisten Dokter Gigi", desc: "Bagian penting dari setiap perawatan — terlatih standar sterilisasi dan penanganan pasien yang nyaman." },
-  { icon: "💬", title: "CS & Resepsionis", desc: "Wajah ramah klinik kami — berkomunikasi dengan empati, membantu pasien dari reservasi hingga pulang." },
-  { icon: "⚙️", title: "Tim Operasional & Support", desc: "IT, keuangan, HR, dan operasional yang menjaga 15 cabang berjalan dengan standar yang sama." },
+  { icon: "tooth", chip: "bg-primary-soft text-primary", title: "Dokter Gigi (Umum & Spesialis)", desc: "Bergabunglah dengan tim medis yang kompetensi dan pengembangan dirinya didukung penuh — termasuk dokter Sp.Ort, Sp.KGA, Sp.Perio." },
+  { icon: "user-round", chip: "bg-secondary-soft text-secondary-dark", title: "Perawat & Asisten Dokter Gigi", desc: "Bagian penting dari setiap perawatan — terlatih standar sterilisasi dan penanganan pasien yang nyaman." },
+  { icon: "message", chip: "bg-accent-soft text-accent-dark", title: "CS & Resepsionis", desc: "Wajah ramah klinik kami — berkomunikasi dengan empati, membantu pasien dari reservasi hingga pulang." },
+  { icon: "sliders", chip: "bg-primary-light/30 text-primary-dark", title: "Tim Operasional & Support", desc: "IT, keuangan, HR, dan operasional yang menjaga 15 cabang berjalan dengan standar yang sama." },
 ];
 ---
 <BaseLayout
@@ -33,7 +34,7 @@ const roles = [
         {
           roles.map((r) => (
             <div class="reveal flex gap-4 rounded-card border border-line bg-bg p-6">
-              <span class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-white text-xl shadow-card">{r.icon}</span>
+              <span class={`flex size-12 shrink-0 items-center justify-center rounded-2xl bg-white shadow-card ${r.chip}`}><Icon name={r.icon} class="size-6" /></span>
               <div>
                 <h3 class="font-heading text-base font-bold text-primary-deep">{r.title}</h3>
                 <p class="mt-1.5 text-sm leading-relaxed text-ink-soft">{r.desc}</p>

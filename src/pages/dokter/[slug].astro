@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection, render } from "astro:content";
 import { SITE } from "../../data/siteConfig";
+import Icon from "../../components/ui/Icon.astro";
 
 export async function getStaticPaths() {
   const doctors = await getCollection("doctors");
@@ -29,7 +30,7 @@ const { Content } = await render(doctor);
       <div>
         <h1 class="font-heading text-3xl font-extrabold text-primary-deep md:text-4xl">{doctor.data.name}</h1>
         <p class="mt-1.5 text-sm font-bold tracking-wide text-secondary uppercase">{doctor.data.specialty}</p>
-        <p class="mt-1 text-sm text-ink-soft">📍 {doctor.data.branch}</p>
+        <p class="mt-1 inline-flex items-center gap-1 text-sm text-ink-soft"><Icon name="map-pin" class="size-4 text-primary/60" /> {doctor.data.branch}</p>
         {doctor.data.passions.length > 0 && (
           <div class="mt-3 flex flex-wrap gap-2">
             {doctor.data.passions.map((p) => (

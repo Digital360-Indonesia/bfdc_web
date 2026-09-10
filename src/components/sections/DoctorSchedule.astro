@@ -80,7 +80,7 @@ const API = `${publicApi}/api/public/jadwal?cabang=${cabangId}&hari=${hari}`;
   const hhmm = `${get("hour") === "24" ? "00" : get("hour")}:${get("minute")}`;
 
   type Slot = { tanggal: string; mulai: string; selesai: string };
-  type Item = { dokter: string; jadwal: Slot[] };
+  type Item = { dokter: string; avatar?: string | null; jadwal: Slot[] };
 
   if (root && api) {
     fetch(api)
@@ -131,8 +131,11 @@ const API = `${publicApi}/api/public/jadwal?cabang=${cabangId}&hari=${hari}`;
               .map((w) => w[0])
               .join("")
               .toUpperCase();
+            const av = it.avatar
+              ? `<img src="${it.avatar}" alt="${esc(it.dokter)}" width="40" height="40" loading="lazy" decoding="async" class="size-10 shrink-0 rounded-full border-2 border-primary-soft object-cover" data-fb />`
+              : `<span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary-light text-xs font-extrabold text-white">${initials}</span>`;
             return `<div class="flex items-start gap-3 rounded-2xl border border-line bg-white p-4 shadow-card">
-              <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary-light text-xs font-extrabold text-white">${initials}</span>
+              ${av}
               <div class="min-w-0">
                 <p class="text-sm font-bold text-primary-deep">${esc(it.dokter)}</p>
                 <div class="mt-1.5 flex flex-wrap gap-1.5">${chips}</div>

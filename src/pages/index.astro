@@ -4,7 +4,7 @@ import Hero from "../components/sections/Hero.astro";
 import TrustBar from "../components/sections/TrustBar.astro";
 import BranchLocator from "../components/sections/BranchLocator.astro";
 import ServiceGrid from "../components/sections/ServiceGrid.astro";
-import PromoTicker from "../components/sections/PromoTicker.astro";
+import PromoCardsStrip from "../components/sections/PromoCardsStrip.astro";
 import WhyUs from "../components/sections/WhyUs.astro";
 import DoctorsGrid from "../components/sections/DoctorsGrid.astro";
 import DentalQuiz from "../components/sections/DentalQuiz.astro";
@@ -15,8 +15,10 @@ import ClosingCTA from "../components/sections/ClosingCTA.astro";
 ---
 
 <BaseLayout>
-  <Hero />
-  <PromoTicker />
+  <div class="flex min-h-[calc(100svh-var(--site-header,5.5rem))] flex-col">
+    <Hero />
+    <PromoCardsStrip />
+  </div>
   <TrustBar />
   <BranchLocator />
   <ServiceGrid />

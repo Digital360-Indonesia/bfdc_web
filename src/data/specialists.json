@@ -2,46 +2,55 @@
  {
   "name": "drg. Adi Rizal Soleh, Sp.BMM",
   "branch": "GKB",
-  "city": "Gresik"
+  "city": "Gresik",
+  "avatar": null
  },
  {
   "name": "drg. Delaneira Alvita Durrotul Hikma, Sp.KGA",
   "branch": "Buduran Jaya Harmoni",
-  "city": "Sidoarjo"
+  "city": "Sidoarjo",
+  "avatar": null
  },
  {
   "name": "drg. Dian Novita Purnamasari, Sp.Ort",
   "branch": "Buduran Jaya Harmoni",
-  "city": "Sidoarjo"
+  "city": "Sidoarjo",
+  "avatar": null
  },
  {
   "name": "drg. Dita Yuarita, Sp. KG",
   "branch": "Buduran Jaya Harmoni",
-  "city": "Sidoarjo"
+  "city": "Sidoarjo",
+  "avatar": null
  },
  {
   "name": "drg. Khadijah Fauzi Basalamah, Sp.KG",
   "branch": "Blimbing",
-  "city": "Malang"
+  "city": "Malang",
+  "avatar": null
  },
  {
   "name": "drg. Kurnia Ayu Lestari, Sp.Pros",
   "branch": "Buduran Jaya Harmoni",
-  "city": "Sidoarjo"
+  "city": "Sidoarjo",
+  "avatar": "https://assets.bfreshgigi.com/bfdc-hrm/profile/2025/12/24/1740457259.png"
  },
  {
   "name": "drg. Monika Nilam Suryani, Sp.Ort",
   "branch": "Buduran Jaya Harmoni",
-  "city": "Sidoarjo"
+  "city": "Sidoarjo",
+  "avatar": null
  },
  {
   "name": "drg. Novita Pratiwi, Sp. Perio",
   "branch": "Buduran Jaya Harmoni",
-  "city": "Sidoarjo"
+  "city": "Sidoarjo",
+  "avatar": null
  },
  {
   "name": "drg. Singgih Harseno, SP.KG",
   "branch": "Candi Bligo",
-  "city": "Sidoarjo"
+  "city": "Sidoarjo",
+  "avatar": null
  }
 ]

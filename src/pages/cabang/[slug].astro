@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import branches from "../../data/branches.json";
 import doctorsFeatured from "../../data/doctors-featured.json";
 import DoctorSchedule from "../../components/sections/DoctorSchedule.astro";
+import Icon from "../../components/ui/Icon.astro";
 import { SITE, waLink } from "../../data/siteConfig";
 import { jsonLdClinic } from "../../utils/schema";
 
@@ -11,7 +12,7 @@ export async function getStaticPaths() {
 }
 
 const { branch } = Astro.props;
-const doctors = (doctorsFeatured as Record<string, string[]>)[String(branch.id)] ?? [];
+const doctors = (doctorsFeatured as Record<string, { n: string; a: string | null }[]>)[String(branch.id)] ?? [];
 const waBranch = waLink(`Halo B Fresh Dental Care ${branch.name}, saya ingin reservasi di cabang ${branch.name}.`);
 const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(`B Fresh Dental Care ${branch.name} ${branch.cityLabel}`)}&output=embed`;
 ---
@@ -29,7 +30,7 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(`B Fresh De
       </nav>
       <div class="grid gap-8 md:grid-cols-2 md:items-center">
         <div>
-          <span class="mb-3 inline-block rounded-full bg-secondary-soft px-4 py-1 text-xs font-bold tracking-widest text-secondary-dark uppercase">📍 {branch.cityLabel}</span>
+          <span class="mb-3 inline-flex items-center gap-1.5 rounded-full bg-secondary-soft px-4 py-1 text-xs font-bold tracking-widest text-secondary-dark uppercase"><Icon name="map-pin" class="size-3.5" /> {branch.cityLabel}</span>
           <h1 class="text-balance font-heading text-3xl font-extrabold text-primary-deep md:text-4xl">B Fresh Dental Care {branch.name}</h1>
           <p class="mt-4 text-sm leading-relaxed text-ink-soft md:text-base">{branch.address}</p>
           <div class="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -79,11 +80,15 @@ const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(`B Fresh De
           <div class="mt-6 grid gap-3 sm:grid-cols-2">
             {doctors.slice(0, 4).map((d) => (
               <div class="flex items-center gap-3 rounded-2xl border border-line bg-white p-4">
-                <span class="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary-soft font-heading text-sm font-extrabold text-primary">
-                  {d.replace(/^drg\.?\s+/i, "").split(/\s+/).slice(0, 2).map((w) => w[0]).join("").toUpperCase()}
-                </span>
+                {d.a ? (
+                  <img src={d.a} alt={d.n} width="44" height="44" loading="lazy" decoding="async" class="size-11 shrink-0 rounded-full border-2 border-primary-soft object-cover" data-fb />
+                ) : (
+                  <span class="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary-soft font-heading text-sm font-extrabold text-primary">
+                    {d.n.replace(/^drg\.?\s+/i, "").split(/\s+/).slice(0, 2).map((w) => w[0]).join("").toUpperCase()}
+                  </span>
+                )}
                 <div>
-                  <p class="text-sm font-bold text-primary-deep">{d}</p>
+                  <p class="text-sm font-bold text-primary-deep">{d.n}</p>
                   <p class="text-xs text-ink-soft">Dokter Gigi</p>
                 </div>
               </div>

@@ -1,27 +1,32 @@
 ---
 import SectionHeading from "../ui/SectionHeading.astro";
+import Icon from "../ui/Icon.astro";
 
 const props = [
   {
-    icon: "👨‍👩‍👧‍👦",
+    icon: "users",
+    chip: "bg-primary-soft text-primary",
     title: "Kekeluargaan yang Tulus",
     desc: "Dokter ramah dan edukatif — menjelaskan kondisi mulut Anda sebelum, selama, dan sesudah perawatan. Tanpa rasa takut, tanpa istilah membingungkan.",
     stat: "95% pasien merasa puas",
   },
   {
-    icon: "💎",
+    icon: "shield-check",
+    chip: "bg-secondary-soft text-secondary-dark",
     title: "Dokter Berkompetensi",
-    desc: "80+ dokter gigi dan 9 dokter spesialis (Sp.KGA, Sp.Ort, Sp.Perio, Sp.BMM, Sp.Pros) dengan kompetensi yang terus dikembangkan lewat program pelatihan internal.",
-    stat: "9 dokter spesialis aktif",
+    desc: "80+ dokter gigi didukung dokter spesialis — kompetensi dikurasi dan dikembangkan lewat program pelatihan serta uji kompetensi internal yang rutin.",
+    stat: "Pelatihan internal berkelanjutan",
   },
   {
-    icon: "🪙",
+    icon: "coins",
+    chip: "bg-accent-soft text-accent-dark",
     title: "Harga Transparan",
     desc: "Estimasi biaya dijelaskan di awal — pilihan perawatan disesuaikan kebutuhan dan budget. Promo rutin tersedia di berbagai perawatan.",
     stat: "Scaling mulai Rp 150rb",
   },
   {
-    icon: "📍",
+    icon: "map-pin",
+    chip: "bg-primary-light/30 text-primary-dark",
     title: "Selalu di Dekat Anda",
     desc: "15 cabang di 5 kota — Sidoarjo, Surabaya, Gresik, Pasuruan, dan Malang. Standar alat, bahan, dan pelayanan yang sama di semua cabang.",
     stat: "15 cabang · 5 kota",
@@ -40,7 +45,7 @@ const props = [
       {
         props.map((p) => (
           <div class="reveal relative overflow-hidden rounded-card border border-line bg-bg p-6 transition duration-200 hover:-translate-y-1 hover:shadow-card">
-            <span class="mb-4 flex size-14 items-center justify-center rounded-2xl bg-white text-2xl shadow-card">{p.icon}</span>
+            <span class={`mb-4 flex size-14 items-center justify-center rounded-2xl shadow-card ${p.chip}`}><Icon name={p.icon} class="size-7" /></span>
             <h3 class="font-heading text-base font-bold text-primary-deep">{p.title}</h3>
             <p class="mt-2.5 text-sm leading-relaxed text-ink-soft">{p.desc}</p>
             <p class="mt-4 inline-block rounded-full bg-secondary-soft px-3 py-1 text-xs font-bold text-secondary-dark">{p.stat}</p>

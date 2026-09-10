@@ -38,7 +38,7 @@ const getCleanName = (name: string) => name.replace(/,?\s*,?\s*(Sp\.?\s?\w+(\.\w
     <SectionHeading
       eyebrow="Tim Dokter Kami"
       title="Ditangani Dokter yang Anda Percaya"
-      sub="9 dokter spesialis dan 80+ dokter gigi umum — kompetensi dikurasi dan dikembangkan secara berkelanjutan."
+      sub="80+ dokter gigi didukung dokter spesialis — kompetensi dikurasi dan dikembangkan secara berkelanjutan."
     >
       <a href="/dokter" slot="cta" class="inline-flex items-center gap-2 rounded-full border-2 border-primary/25 bg-white px-6 py-3 text-sm font-bold text-primary transition hover:border-primary hover:bg-primary-soft">
         Lihat semua dokter
@@ -48,12 +48,13 @@ const getCleanName = (name: string) => name.replace(/,?\s*,?\s*(Sp\.?\s?\w+(\.\w
 
     <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {
-        (specialists as { name: string; branch: string; city: string }[]).slice(0, 6).map((s) => (
+        (specialists as { name: string; branch: string; city: string; avatar: string | null }[]).slice(0, 6).map((s) => (
           <DoctorCard
             name={getCleanName(s.name)}
             specialty={getSpec(s.name)}
             branch={`${s.branch} · ${s.city}`}
             photo={getPhoto(s.name)}
+            avatar={s.avatar}
           />
         ))
       }

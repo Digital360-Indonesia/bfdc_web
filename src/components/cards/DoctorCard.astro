@@ -1,13 +1,16 @@
 ---
+import Icon from "../ui/Icon.astro";
 interface Props {
   name: string;
   specialty: string;
   branch?: string;
   photo?: string | null;
+  avatar?: string | null;
   href?: string;
   instagram?: string;
 }
-const { name, specialty, branch, photo, href, instagram } = Astro.props;
+const { name, specialty, branch, photo, avatar, href, instagram } = Astro.props;
+const pic = photo ?? avatar;
 const initials = name
   .replace(/^drg\.?\s+/i, "")
   .split(/\s+/)
@@ -23,7 +26,7 @@ const initials = name
   {
     photo ? (
       <img
-        src={photo}
+        src={pic}
         alt={name}
         width="160" height="160" loading="lazy" decoding="async"
         class="mb-4 size-32 rounded-full border-4 border-primary-soft object-cover transition group-hover:border-primary-light"
@@ -36,7 +39,7 @@ const initials = name
   }
   <h3 class="font-heading text-base font-bold text-primary-deep">{name}</h3>
   <p class="mt-1 text-xs font-bold tracking-wide text-secondary uppercase">{specialty}</p>
-  {branch && <p class="mt-2 text-xs text-ink-soft">📍 {branch}</p>}
+  {branch && <p class="mt-2 inline-flex items-center gap-1 text-xs text-ink-soft"><Icon name="map-pin" class="size-3.5 text-primary/60" /> {branch}</p>}
   <span class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-accent transition group-hover:gap-2">
     Lihat jadwal
     <svg class="size-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>

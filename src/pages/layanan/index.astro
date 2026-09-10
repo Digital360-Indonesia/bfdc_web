@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { KATEGORI } from "../../data/services";
 import { rupiah } from "../../utils/format";
+import Icon from "../../components/ui/Icon.astro";
 
 const services = await getCollection("services");
 const byKategori = (slug: string) =>
@@ -29,7 +30,7 @@ const byKategori = (slug: string) =>
           <div class="reveal flex flex-wrap items-end justify-between gap-4">
             <div class="max-w-xl">
               <div class="flex items-center gap-3">
-                <span class="flex size-12 items-center justify-center rounded-2xl bg-primary-soft text-xl">{k.icon}</span>
+                <span class="flex size-12 items-center justify-center rounded-2xl bg-primary-soft text-primary"><Icon name={k.icon} class="size-6" /></span>
                 <div>
                   <h2 class="font-heading text-2xl font-extrabold text-primary-deep md:text-3xl">{k.label}</h2>
                   <p class="text-xs font-bold tracking-wide text-secondary uppercase">{k.tagline}</p>

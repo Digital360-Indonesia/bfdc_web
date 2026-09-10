@@ -1,0 +1,97 @@
+---
+/**
+ * Gerbang reservasi — meniru modal guest di app (components/reservasi-modal.blade.php):
+ * "Apakah Anda sudah memiliki akun?" → login ATAU lanjut daftar via reservasi.
+ * Semua link menuju {publicApi}/reservasi di-intercept (kecuali klik dgn modifier).
+ * Tanpa JS: link tetap jalan langsung ke reservasi.
+ */
+import { publicApi } from "../../utils/api";
+const LOGIN = `${publicApi}/login`;
+const RESERVASI = `${publicApi}/reservasi`;
+import Icon from "../ui/Icon.astro";
+---
+<div
+  id="booking-gate"
+  class="fixed inset-0 z-[90] hidden items-center justify-center bg-primary-deep/60 p-4 backdrop-blur-sm"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="booking-gate-title"
+  data-base={RESERVASI}
+>
+  <div class="w-full max-w-sm rounded-card bg-white p-6 shadow-card-hover md:p-8">
+    <div class="mb-5 flex items-start justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <span class="flex size-11 items-center justify-center rounded-2xl bg-accent-soft text-accent">
+          <Icon name="calendar" class="size-6" />
+        </span>
+        <h2 id="booking-gate-title" class="font-heading text-lg font-extrabold text-primary-deep">Reservasi Perawatan</h2>
+      </div>
+      <button type="button" data-gate-close class="cursor-pointer rounded-full p-1.5 text-ink-soft transition hover:bg-bg" aria-label="Tutup">
+        <svg class="size-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <p class="text-center text-sm font-semibold text-ink">Apakah Anda sudah memiliki akun?</p>
+
+    <div class="mt-5 grid gap-2.5">
+      <a
+        href={LOGIN}
+        target="_blank" rel="noopener"
+        class="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-primary-dark"
+      >
+        <Icon name="user-round" class="size-4" />
+        Ya, saya sudah punya akun
+      </a>
+      <a
+        href={RESERVASI}
+        target="_blank" rel="noopener"
+        class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-primary/25 bg-white px-6 py-3.5 text-sm font-bold text-primary transition hover:border-primary hover:bg-primary-soft"
+      >
+        <Icon name="smile" class="size-4" />
+        Belum, saya daftar baru
+      </a>
+    </div>
+
+    <p class="mt-4 text-center text-xs text-ink-soft">Daftar baru hanya butuh nama &amp; nomor HP — bisa langsung reservasi.</p>
+  </div>
+</div>
+
+<script>
+  const gate = document.getElementById("booking-gate");
+  const BASE = gate?.dataset.base ?? "https://app.bfreshgigi.com/reservasi";
+
+  const open = () => {
+    if (!gate) return;
+    gate.classList.remove("hidden");
+    gate.classList.add("flex");
+    document.body.style.overflow = "hidden";
+    gate.querySelector<HTMLAnchorElement>("a")?.focus();
+  };
+  const close = () => {
+    if (!gate) return;
+    gate.classList.add("hidden");
+    gate.classList.remove("flex");
+    document.body.style.overflow = "";
+  };
+
+  // intercept SEMUA link menuju {base}/reservasi (delegasi — berlaku utk konten island dinamis juga)
+  document.addEventListener("click", (e) => {
+    const a = (e.target as HTMLElement)?.closest?.("a");
+    if (!a) return;
+    // biarkan ctrl/cmd/shift/middle-click terbuka langsung
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    const href = a.getAttribute("href") ?? "";
+    if (href === BASE || href.startsWith(BASE + "?") || href.startsWith(BASE + "#")) {
+      e.preventDefault();
+      open();
+    }
+  });
+
+  gate?.querySelector("[data-gate-close]")?.addEventListener("click", close);
+  gate?.addEventListener("click", (e) => {
+    if (e.target === gate) close(); // klik backdrop
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") close();
+  });
+</script>

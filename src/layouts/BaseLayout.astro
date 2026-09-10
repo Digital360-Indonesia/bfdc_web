@@ -3,6 +3,7 @@ import { SITE, STATS } from "../data/siteConfig";
 import Header from "../components/layout/Header.astro";
 import Footer from "../components/layout/Footer.astro";
 import StickyBookingBar from "../components/layout/StickyBookingBar.astro";
+import BookingGate from "../components/layout/BookingGate.astro";
 import { jsonLdOrg } from "../utils/schema";
 import "../styles/global.css";
 import "@fontsource-variable/plus-jakarta-sans";
@@ -65,6 +66,7 @@ const allLd = [jsonLdOrg(), ...extraLd];
     </main>
     <Footer />
     <StickyBookingBar />
+    <BookingGate />
 
     <script>
       // Reveal on scroll — vanilla, tanpa library (keputusan UX)

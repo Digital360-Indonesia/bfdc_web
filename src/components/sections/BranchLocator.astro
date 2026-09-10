@@ -1,12 +1,9 @@
 ---
 import branches from "../../data/branches.json";
-import { SITE } from "../../data/siteConfig";
-import { rupiah } from "../../utils/format";
 import Button from "../ui/Button.astro";
 import SectionHeading from "../ui/SectionHeading.astro";
 import BranchCard from "../cards/BranchCard.astro";
-
-const cities = [...new Set(branches.map((b) => b.cityLabel))];
+import CityFilter from "./CityFilter.astro";
 ---
 
 <section id="cabang" class="bg-bg py-16 md:py-20">
@@ -19,74 +16,10 @@ const cities = [...new Set(branches.map((b) => b.cityLabel))];
       <Button href="/cabang" variant="outline" slot="cta">Lihat semua cabang →</Button>
     </SectionHeading>
 
-    <div class="reveal mt-10" data-locator>
-      <!-- Filter kota -->
-      <div class="flex flex-wrap justify-center gap-2" data-locator-pills>
-        <button type="button" data-city="" class="cursor-pointer rounded-full border-2 border-primary/20 bg-white px-4 py-2 text-sm font-bold text-primary transition hover:border-primary">
-          Semua Kota
-        </button>
-        {
-          cities.map((c) => (
-            <button
-              type="button"
-              data-city={c}
-              class="cursor-pointer rounded-full border-2 border-line bg-white px-4 py-2 text-sm font-semibold text-ink-soft transition hover:border-primary/40 hover:text-primary"
-            >
-              {c}
-            </button>
-          ))
-        }
-      </div>
-
-      <!-- Grid cabang -->
-      <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-locator-grid>
+    <div class="mt-10">
+      <CityFilter>
         {branches.map((b) => <BranchCard branch={b} />)}
-      </div>
-      <p class="mt-6 hidden text-center text-sm text-ink-soft" data-locator-empty>
-        Tidak ada cabang yang cocok dengan pencarian Anda.
-      </p>
+      </CityFilter>
     </div>
   </div>
 </section>
-
-<script>
-  const root = document.querySelector("[data-locator]");
-  const pills = root?.querySelectorAll<HTMLButtonElement>("[data-city]");
-  const cards = root?.querySelectorAll<HTMLElement>("[data-city-card]");
-  const empty = root?.querySelector<HTMLElement>("[data-locator-empty]");
-
-  function setActive(btn: HTMLButtonElement) {
-    pills?.forEach((p) => {
-      const active = p === btn;
-      p.classList.toggle("border-primary", active);
-      p.classList.toggle("bg-primary-soft", active);
-      p.classList.toggle("text-primary", true);
-      p.classList.toggle("font-bold", active);
-      p.classList.toggle("border-line", !active);
-      p.classList.toggle("text-ink-soft", !active);
-      p.classList.toggle("font-semibold", !active);
-    });
-  }
-
-  pills?.forEach((btn) =>
-    btn.addEventListener("click", () => {
-      setActive(btn);
-      const city = btn.dataset.city ?? "";
-      let visible = 0;
-      cards?.forEach((card) => {
-        const match = !city || card.dataset.cityCard === city;
-        card.classList.toggle("hidden", !match);
-        if (match) visible++;
-      });
-      if (empty) empty.classList.toggle("hidden", visible > 0);
-    }),
-  );
-
-  // pre-select dari ?kota=
-  const param = new URLSearchParams(location.search).get("kota");
-  if (param) {
-    const target = [...(pills ?? [])].find((p) => (p.dataset.city ?? "").toLowerCase() === param.toLowerCase());
-    target?.click();
-    target?.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  }
-</script>

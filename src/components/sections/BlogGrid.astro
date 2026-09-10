@@ -20,7 +20,7 @@ const { posts } = Astro.props;
     posts.map((p) => (
       <a href={`/informasi/${p.data.slug}`} class="reveal group flex flex-col overflow-hidden rounded-card border border-line bg-white shadow-card transition duration-200 hover:-translate-y-1 hover:shadow-card-hover">
         <div class="relative aspect-[16/10] overflow-hidden bg-primary-soft">
-          <PostThumb image={p.data.image} alt={p.data.title} category={p.data.category} cls="skeleton transition duration-300 group-hover:scale-[1.04]" />
+          <PostThumb image={p.data.image} alt={p.data.title} category={p.data.category} class="skeleton transition duration-300 group-hover:scale-[1.04]" />
           <span class="absolute top-3 left-3 rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold tracking-wider text-primary uppercase backdrop-blur">{p.data.category}</span>
         </div>
         <div class="flex flex-1 flex-col p-5">

@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { tanggalID } from "../../utils/format";
+import PostThumb from "../../components/cards/PostThumb.astro";
 
 const all = (await getCollection("blog", ({ data }) => !data.draft))
   .sort((a, b) => +b.data.date - +a.data.date);
@@ -51,12 +52,7 @@ const q = (over: Record<string, string | number>) => {
           posts.map((p) => (
             <a href={`/informasi/${p.data.slug}`} class="reveal group flex flex-col overflow-hidden rounded-card border border-line bg-white shadow-card transition duration-200 hover:-translate-y-1 hover:shadow-card-hover">
               <div class="relative aspect-[16/10] overflow-hidden bg-primary-soft">
-                <img
-                  src={p.data.image ?? "/og-image.jpg"}
-                  alt={p.data.title}
-                  width="640" height="400" loading="lazy" decoding="async"
-                  class="size-full object-cover transition duration-300 group-hover:scale-[1.04]"
-                />
+                <PostThumb image={p.data.image} alt={p.data.title} category={p.data.category} />
                 <span class="absolute top-3 left-3 rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold tracking-wider text-primary uppercase backdrop-blur">{p.data.category}</span>
               </div>
               <div class="flex flex-1 flex-col p-5">

@@ -2,30 +2,36 @@
 import type { Branch } from "../../data/types";
 const { branch } = Astro.props as { branch: Branch };
 ---
-<a
-  href={`/cabang/${branch.slug}`}
+<article
   data-city-card={branch.cityLabel}
-  class="group flex flex-col rounded-card border border-line bg-white p-5 shadow-card transition duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-card-hover"
+  class="group relative flex flex-col rounded-card border border-line bg-white p-5 shadow-card transition duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-card-hover"
 >
-  <div class="mb-3 flex items-start justify-between gap-3">
-    <div class="flex items-center gap-3">
-      <span class="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary-soft font-heading text-sm font-extrabold text-primary">
-        {branch.cityLabel.slice(0, 2).toUpperCase()}
-      </span>
-      <div>
-        <h3 class="font-heading text-base leading-snug font-bold text-primary-deep group-hover:text-primary">{branch.name}</h3>
-        <p class="text-xs font-semibold tracking-wide text-secondary uppercase">{branch.cityLabel}</p>
-      </div>
+  <!-- stretched link: seluruh kartu klikabel -->
+  <a
+    href={`/cabang/${branch.slug}`}
+    class="after:absolute after:inset-0 after:rounded-card after:content-['']"
+    aria-label={`Detail cabang ${branch.name}`}
+  ></a>
+
+  <div class="mb-3 flex items-center gap-3">
+    <span class="relative z-10 flex size-11 shrink-0 items-center justify-center rounded-full bg-primary-soft font-heading text-sm font-extrabold text-primary" aria-hidden="true">
+      {branch.cityLabel.slice(0, 2).toUpperCase()}
+    </span>
+    <div>
+      <h3 class="font-heading text-base leading-snug font-bold text-primary-deep group-hover:text-primary">
+        <span class="after:absolute after:inset-0 after:rounded-card after:content-['']">{branch.name}</span>
+      </h3>
+      <p class="text-xs font-semibold tracking-wide text-secondary uppercase">{branch.cityLabel}</p>
     </div>
   </div>
 
-  <p class="line-clamp-2 flex-1 text-sm leading-relaxed text-ink-soft">{branch.address}</p>
+  <p class="relative z-10 line-clamp-2 flex-1 text-sm leading-relaxed text-ink-soft">{branch.address}</p>
 
-  <div class="mt-4 flex items-center justify-between gap-2 border-t border-line pt-4">
+  <div class="relative mt-4 flex items-center justify-between gap-2 border-t border-line pt-4">
+    <!-- z-10 supaya bisa diklik terpisah dari kartu -->
     <a
       href={`tel:${branch.phone.replace(/\D/g, "")}`}
-      class="inline-flex items-center gap-1.5 text-xs font-semibold text-ink-soft transition hover:text-primary"
-      onclick="event.stopPropagation()"
+      class="relative z-10 inline-flex items-center gap-1.5 text-xs font-semibold text-ink-soft transition hover:text-primary"
     >
       <svg class="size-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>
       {branch.phone}
@@ -35,4 +41,4 @@ const { branch } = Astro.props as { branch: Branch };
       <svg class="size-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
     </span>
   </div>
-</a>
+</article>

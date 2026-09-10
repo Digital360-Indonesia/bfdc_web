@@ -1,0 +1,41 @@
+---
+/** Thumbnail artikel — gambar blur-up, atau placeholder branded bila tanpa gambar */
+interface Props {
+  image?: string;
+  alt: string;
+  category?: string;
+  eager?: boolean;
+  class?: string;
+}
+const { image, alt, category, eager = false, class: cls = "" } = Astro.props;
+const CAT_ICON: Record<string, string> = {
+  edukasi: "🦷",
+  informasi: "📰",
+  promo: "🎁",
+  "kegiatan-sosial": "🤲",
+  testimoni: "💬",
+  quote: "💬",
+};
+const icon = CAT_ICON[category ?? ""] ?? "🦷";
+---
+{
+  image ? (
+    <img
+      src={image}
+      alt={alt}
+      width="640" height="400"
+      loading={eager ? "eager" : "lazy"}
+      decoding="async"
+      class={`size-full object-cover ${cls}`}
+    />
+  ) : (
+    <div
+      class={`flex size-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-primary-soft via-bg to-primary-light/30 ${cls}`}
+      role="img"
+      aria-label={alt}
+    >
+      <span class="text-4xl opacity-80" aria-hidden="true">{icon}</span>
+      <span class="text-[10px] font-bold tracking-widest text-primary uppercase">{category ?? "Artikel"}</span>
+    </div>
+  )
+}

@@ -1,0 +1,113 @@
+---
+/**
+ * Load More artikel — progressive enhancement di atas paginasi statis:
+ * klik → 3 kartu skeleton shimmer → fetch halaman berikutnya → kartu asli
+ * di-append dgn animasi. Nomor halaman (SEO/no-JS) disembunyikan saat aktif.
+ */
+interface Props {
+  nextUrl: string | null; // null = tidak ada halaman berikutnya
+  total: number;
+}
+const { nextUrl, total } = Astro.props;
+---
+{
+  nextUrl ? (
+    <div class="mt-10 text-center" data-loadmore data-next={nextUrl} data-total={total}>
+      <nav class="flex flex-wrap items-center justify-center gap-2" data-paged-nav aria-label="Navigasi halaman" hidden>
+        {/* fallback no-JS — disembunyikan, halaman riil tetap ada di /page/n */}
+      </nav>
+      <button
+        type="button"
+        data-loadmore-btn
+        class="inline-flex cursor-pointer items-center gap-2 rounded-full border-2 border-primary/25 bg-white px-8 py-3.5 text-sm font-bold text-primary shadow-card transition hover:border-primary hover:bg-primary-soft"
+      >
+        <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        Muat artikel lainnya
+      </button>
+      <p class="mt-3 text-xs text-ink-soft" data-loadmore-count></p>
+    </div>
+  ) : (
+    <p class="mt-10 text-center text-sm font-semibold text-ink-soft">Semua {total} artikel telah dimuat.</p>
+  )
+}
+---
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-loadmore]");
+  const btn = root?.querySelector<HTMLButtonElement>("[data-loadmore-btn]");
+  const grid = document.querySelector<HTMLElement>("[data-posts-grid]");
+
+  const SKELETON = `
+    <div class="flex flex-col overflow-hidden rounded-card border border-line bg-white shadow-card" aria-hidden="true">
+      <div class="aspect-[16/10] skeleton"></div>
+      <div class="flex flex-1 flex-col p-5">
+        <div class="h-3 w-20 rounded-full bg-line skeleton"></div>
+        <div class="mt-3 h-4 w-full rounded-full bg-line skeleton"></div>
+        <div class="mt-2 h-4 w-3/4 rounded-full bg-line skeleton"></div>
+        <div class="mt-4 h-3 w-full rounded-full bg-line skeleton"></div>
+        <div class="mt-2 h-3 w-5/6 rounded-full bg-line skeleton"></div>
+      </div>
+    </div>`;
+
+  if (root && btn && grid) {
+    let nextUrl = root.dataset.next ?? "";
+    const total = Number(root.dataset.total ?? "0");
+    const countEl = root.querySelector<HTMLElement>("[data-loadmore-count]");
+
+    const updateCount = (loaded: number) => {
+      if (countEl) countEl.textContent = `Menampilkan ${loaded} dari ${total} artikel`;
+    };
+    updateCount(grid.querySelectorAll("[data-post-card]").length);
+
+    const finish = () => {
+      root.innerHTML = `<p class="text-sm font-semibold text-ink-soft">Semua ${total} artikel telah dimuat.</p>`;
+    };
+
+    btn.addEventListener("click", async () => {
+      if (!nextUrl) return;
+      btn.disabled = true;
+      btn.classList.add("opacity-50", "pointer-events-none");
+
+      // skeleton sementara
+      const skels = document.createDocumentFragment();
+      const holders: HTMLElement[] = [];
+      for (let i = 0; i < 3; i++) {
+        const holder = document.createElement("div");
+        holder.innerHTML = SKELETON.trim();
+        const el = holder.firstElementChild as HTMLElement;
+        skels.append(el);
+        holders.push(el);
+      }
+      grid.append(skels);
+
+      try {
+        const res = await fetch(nextUrl);
+        if (!res.ok) throw new Error();
+        const html = new DOMParser().parseFromString(await res.text(), "text/html");
+        const cards = html.querySelectorAll<HTMLElement>("[data-post-card]");
+        const nextLink = html.querySelector<HTMLAnchorElement>('a[rel="next"]');
+        cards.forEach((c, i) => {
+          c.classList.add("reveal");
+          c.style.animation = `fade-up .5s ease ${i * 70}ms both`;
+          grid.append(c);
+        });
+        holders.forEach((h) => h.remove());
+        nextUrl = nextLink?.getAttribute("href") ?? "";
+        updateCount(grid.querySelectorAll("[data-post-card]").length);
+        if (!nextUrl) finish();
+        else {
+          btn.disabled = false;
+          btn.classList.remove("opacity-50", "pointer-events-none");
+        }
+      } catch {
+        holders.forEach((h) => h.remove());
+        btn.disabled = false;
+        btn.classList.remove("opacity-50", "pointer-events-none");
+        if (countEl) {
+          countEl.textContent = "Gagal memuat — coba lagi, atau buka halaman berikutnya langsung.";
+          countEl.classList.add("text-red-500");
+        }
+      }
+    });
+  }
+</script>

@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import BlogGrid from "../../components/sections/BlogGrid.astro";
+import LoadMore from "../../components/sections/LoadMore.astro";
 
 export const CATEGORIES = ["edukasi", "informasi", "promo", "kegiatan-sosial"] as const;
 
@@ -42,17 +43,7 @@ const activeCat = "semua";
     <div class="mx-auto max-w-7xl px-4">
       <BlogGrid posts={posts} />
 
-      {
-        totalPages > 1 && (
-          <nav class="mt-10 flex items-center justify-center gap-2" aria-label="Navigasi halaman">
-            <span class="rounded-full bg-primary px-4 py-2 text-sm font-bold text-white">1</span>
-            <a href="/informasi/page/2" class="min-w-10 rounded-full border border-line bg-white px-4 py-2 text-center text-sm font-bold text-ink-soft transition hover:border-primary/40 hover:text-primary">2</a>
-            <span class="px-1 text-ink-soft">…</span>
-            <a href={`/informasi/page/${totalPages}`} class="min-w-10 rounded-full border border-line bg-white px-4 py-2 text-center text-sm font-bold text-ink-soft transition hover:border-primary/40 hover:text-primary">{totalPages}</a>
-            <a href="/informasi/page/2" class="rounded-full border border-line bg-white px-4 py-2 text-sm font-bold text-primary transition hover:border-primary">Selanjutnya →</a>
-          </nav>
-        )
-      }
-    </div>
+      <LoadMore nextUrl={totalPages > 1 ? "/informasi/page/2" : null} total={all.length} />
+</div>
   </section>
 </BaseLayout>

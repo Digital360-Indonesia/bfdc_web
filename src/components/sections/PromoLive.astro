@@ -1,10 +1,18 @@
 ---
 /**
- * Promo LIVE dari API publik bfdc_app (tabel promos bfdc_marketing —
- * dikelola tim marketing). Grid statis hasil build tetap dirender sebagai
- * baseline SEO/no-JS; island menggantinya saat fetch sukses sehingga promo
- * kedaluwarsa tidak pernah tampil basi.
+ * Promo LIVE dari API publik bfdc_app (tabel promos bfdc_marketing).
+ * variant="grid"  → halaman /promo (kartu penuh)
+ * variant="strip" → homepage (strip horizontal compact)
+ * Kartu klik → halaman detail promo di app ({publicApi}/promo/{id},
+ * env-aware: lokal bfdc_app.test, produksi app.bfreshgigi.com).
+ * Tombol CTA tetap langsung ke reservasi.
+ * Grid statis hasil build = baseline SEO/no-JS; island menggantikan saat
+ * fetch sukses sehingga promo kedaluwarsa tidak pernah tampil basi.
  */
+interface Props {
+  variant?: "grid" | "strip";
+}
+const { variant = "grid" } = Astro.props;
 import promosJson from "../../data/promos.json";
 import { SITE } from "../../data/siteConfig";
 import { publicApi } from "../../utils/api";
@@ -12,27 +20,43 @@ import type { Promo } from "../../data/types";
 
 const promos = promosJson as Promo[];
 const API = `${publicApi}/api/public/promo`;
+const DETAIL = `${publicApi}/promo`; // halaman detail per promo di app
 const tanggalID = (iso: string) =>
   new Date(iso + "T00:00:00").toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
 ---
-
-<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4" data-promo-root data-api={API}>
+<div
+  class={variant === "grid"
+    ? "grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+    : "snap-strip -mx-4 flex gap-4 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-4 md:overflow-visible md:px-0"}
+  data-promo-root
+  data-api={API}
+  data-detail={DETAIL}
+>
   {
     promos.map((p) => (
-      <article class="reveal group flex flex-col overflow-hidden rounded-card border border-line bg-white shadow-card transition duration-200 hover:-translate-y-1 hover:shadow-card-hover">
+      <article class="group relative flex flex-col overflow-hidden rounded-card border border-line bg-white shadow-card transition duration-200 hover:-translate-y-1 hover:shadow-card-hover">
+        <!-- stretched link: seluruh kartu menuju detail promo di app -->
+        <a href={`${DETAIL}/${p.id}`} target="_blank" rel="noopener" class="after:absolute after:inset-0 after:rounded-card after:content-['']" aria-label={`Detail promo ${p.nama}`}>
+          <span class="sr-only">Lihat detail promo {p.nama}</span>
+        </a>
         {p.img && (
           <div class="relative aspect-[542/286] overflow-hidden bg-primary-soft">
             <img src={`/images/promo/promo-${p.id}.webp`} alt={`Promo ${p.nama}`} width="542" height="286" loading="lazy" decoding="async" class="size-full object-cover transition duration-300 group-hover:scale-[1.03]" />
           </div>
         )}
-        <div class="flex flex-1 flex-col p-5">
-          <h2 class="font-heading text-base leading-snug font-bold text-primary-deep">{p.nama}</h2>
+        <div class="relative z-10 flex flex-1 flex-col p-5">
+          <h3 class="font-heading text-base leading-snug font-bold text-primary-deep">{p.nama}</h3>
           {p.harga && <p class="mt-2 font-heading text-xl font-extrabold text-accent">{p.harga}</p>}
           <div class="mt-4 flex-1" />
           <p class="text-xs text-ink-soft">Berlaku s.d. {tanggalID(p.akhir)}</p>
-          <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="mt-4 inline-flex items-center justify-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-xs font-bold text-white transition hover:bg-primary-dark">
-            Klaim Promo — Reservasi
-          </a>
+          <div class="mt-4 grid grid-cols-2 gap-2">
+            <span class="inline-flex items-center justify-center rounded-full border-2 border-primary/20 bg-white px-4 py-2 text-xs font-bold text-primary">
+              Lihat Detail
+            </span>
+            <a href={SITE.bookingUrl} target="_blank" rel="noopener" class="relative z-20 inline-flex items-center justify-center rounded-full bg-primary px-4 py-2 text-xs font-bold text-white transition hover:bg-primary-dark">
+              Klaim — Reservasi
+            </a>
+          </div>
         </div>
       </article>
     ))
@@ -42,7 +66,9 @@ const tanggalID = (iso: string) =>
 <script>
   const root = document.querySelector<HTMLElement>("[data-promo-root]");
   const api = root?.dataset.api;
+  const detail = root?.dataset.detail ?? "https://app.bfreshgigi.com/promo";
   const BOOKING = "https://app.bfreshgigi.com/reservasi";
+  const compact = !root?.classList.contains("md:grid");
 
   type PromoApi = {
     id: number;
@@ -55,6 +81,9 @@ const tanggalID = (iso: string) =>
 
   const sdID = (iso: string) =>
     new Date(iso + "T00:00:00").toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+  const sdShort = (iso: string) =>
+    new Date(iso + "T00:00:00").toLocaleDateString("id-ID", { day: "numeric", month: "short" });
+  const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 
   if (root && api) {
     fetch(api)
@@ -66,28 +95,31 @@ const tanggalID = (iso: string) =>
           return;
         }
         root.innerHTML = items
-          .map(
-            (p) => `<article class="reveal is-visible group flex flex-col overflow-hidden rounded-card border border-line bg-white shadow-card transition duration-200 hover:-translate-y-1 hover:shadow-card-hover">
-              ${
-                p.gambar_url
-                  ? `<div class="relative aspect-[542/286] overflow-hidden bg-primary-soft">${
-                      p.spesial ? `<span class="absolute top-3 left-3 z-10 rounded-full bg-accent px-3 py-1 text-[10px] font-bold tracking-wider text-white uppercase">Spesial</span>` : ""
-                    }<img src="${p.gambar_url}" alt="Promo ${p.nama}" width="542" height="286" loading="lazy" decoding="async" class="size-full object-cover transition duration-300 group-hover:scale-[1.03]" /></div>`
-                  : ""
-              }
-              <div class="flex flex-1 flex-col p-5">
-                <h2 class="font-heading text-base leading-snug font-bold text-primary-deep">${p.nama}</h2>
-                ${p.harga ? `<p class="mt-2 font-heading text-xl font-extrabold text-accent">${p.harga}</p>` : ""}
-                <div class="mt-4 flex-1"></div>
-                <p class="text-xs text-ink-soft">Berlaku s.d. ${sdID(p.akhir)}</p>
-                <a href="${BOOKING}" target="_blank" rel="noopener" class="mt-4 inline-flex items-center justify-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-xs font-bold text-white transition hover:bg-primary-dark">Klaim Promo — Reservasi</a>
+          .map((p) => {
+            const img = p.gambar_url
+              ? `<div class="relative aspect-[542/286] overflow-hidden bg-primary-soft">${
+                  p.spesial ? `<span class="absolute top-3 left-3 z-10 rounded-full bg-accent px-3 py-1 text-[10px] font-bold tracking-wider text-white uppercase">Spesial</span>` : ""
+                }<img src="${p.gambar_url}" alt="Promo ${esc(p.nama)}" width="542" height="286" loading="lazy" decoding="async" class="size-full object-cover transition duration-300 group-hover:scale-[1.03]" /></div>`
+              : "";
+            return `<article class="group relative flex flex-col overflow-hidden rounded-card border border-line bg-white shadow-card transition duration-200 hover:-translate-y-1 hover:shadow-card-hover${compact ? " w-[70%] shrink-0 rounded-2xl md:w-auto md:rounded-card" : ""}">
+              <a href="${detail}/${p.id}" target="_blank" rel="noopener" class="after:absolute after:inset-0 after:rounded-card after:content-['']" aria-label="Detail promo ${esc(p.nama)}"></a>
+              ${img}
+              <div class="relative z-10 flex flex-1 flex-col ${compact ? "p-4" : "p-5"}">
+                <h3 class="font-heading ${compact ? "text-sm" : "text-base"} leading-snug font-bold text-primary-deep">${esc(p.nama)}</h3>
+                ${p.harga ? `<p class="mt-${compact ? "1.5" : "2"} font-heading ${compact ? "text-lg" : "text-xl"} font-extrabold text-accent">${p.harga}</p>` : ""}
+                <div class="mt-3 flex-1"></div>
+                <p class="${compact ? "text-[11px]" : "text-xs"} text-ink-soft">${compact ? "s.d." : "Berlaku s.d."} ${compact ? sdShort(p.akhir) : sdID(p.akhir)}</p>
+                <div class="mt-${compact ? "3" : "4"} grid grid-cols-2 gap-2">
+                  <span class="inline-flex items-center justify-center rounded-full border-2 border-primary/20 bg-white ${compact ? "px-3 py-1.5 text-[11px]" : "px-4 py-2 text-xs"} font-bold text-primary">Lihat Detail</span>
+                  <a href="${BOOKING}" target="_blank" rel="noopener" class="relative z-20 inline-flex items-center justify-center rounded-full bg-primary ${compact ? "px-3 py-1.5 text-[11px]" : "px-4 py-2 text-xs"} font-bold text-white transition hover:bg-primary-dark">Klaim — Reservasi</a>
+                </div>
               </div>
-            </article>`,
-          )
+            </article>`;
+          })
           .join("");
       })
       .catch(() => {
-        /* fetch gagal → biarkan grid statis hasil build tetap tampil */
+        /* fetch gagal → grid statis hasil build tetap tampil */
       });
   }
 </script>

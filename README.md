@@ -49,6 +49,11 @@ src/
 
 ## Catatan deploy
 
+- **API publik dinamis**: halaman cabang (jadwal dokter live) & /promo meng-fetch
+  `PUBLIC_API_URL` (default `https://app.bfreshgigi.com/api/public/*` — endpoint ada
+  di repo bfdc_app, jalankan `git pull` + `php artisan cache:clear` di server app).
+  Untuk pengembangan lokal: `.env` berisi `PUBLIC_API_URL=https://bfdc_app.test`
+  (gitignored). **Saat build produksi: hapus `.env`** (atau set ke URL produksi).
 - Build ulang data: jalankan ulang skrip ekstraksi DB (lihat `projects/bfdc-web.md` di memory opencode)
 - **301 redirect** level server (nginx/Apache) untuk URL WordPress lama — sebagian
   sudah disiapkan stub meta-refresh di `src/pages/{perjalanan,visi-misi,misi-sosial,cabang-klinik,blog}`

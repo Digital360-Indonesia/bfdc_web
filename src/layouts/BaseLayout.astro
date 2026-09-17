@@ -52,8 +52,48 @@ const allLd = [jsonLdOrg(), ...extraLd];
     <meta name="twitter:image" content={new URL(ogImage, SITE.url)} />
 
     {allLd.map((o) => <script type="application/ld+json" set:html={JSON.stringify(o)} />)}
+
+    <!-- Google Tag Manager (GA4 G-7761DFFM9W dimuat via container ini — JANGAN tambah snippet gtag.js terpisah, GA4 bisa dobel-hit) -->
+    <script is:inline define:vars={{ gtmId: "GTM-M8MTRT5Q" }}>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", gtmId);
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Meta Pixel Code -->
+    <meta name="facebook-domain-verification" content="rem07kvz766qv6eo50nesnyp5tgkke" />
+    <script is:inline define:vars={{ pixelId: "711175574443744" }}>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        (n.push = n), (n.loaded = !0), (n.version = "2.0"), (n.queue = []);
+        t = b.createElement(e), (t.async = !0), (t.src = v);
+        s = b.getElementsByTagName(e)[0], s.parentNode.insertBefore(t, s);
+      })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+      fbq("init", pixelId);
+      fbq("track", "PageView");
+    </script>
+    <!-- End Meta Pixel Code -->
   </head>
   <body>
+    <!-- Meta Pixel noscript -->
+    <noscript>
+      <img
+        height="1" width="1" style="display:none" alt=""
+        src={`https://www.facebook.com/tr?id=711175574443744&ev=PageView&noscript=1`}
+      />
+    </noscript>
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-primary focus:px-5 focus:py-2.5 focus:text-sm focus:font-bold focus:text-white"

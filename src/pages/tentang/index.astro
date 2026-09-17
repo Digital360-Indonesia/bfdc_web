@@ -5,10 +5,10 @@ import Icon from "../../components/ui/Icon.astro";
 import branches from "../../data/branches.json";
 
 const milestones = [
-  { year: "2009", title: "Awal Berdiri", desc: "Praktik dokter gigi pertama berdiri di Sidoarjo — awal dari komitmen panjang merawat senyum keluarga Jawa Timur." },
-  { year: "2019", title: "Hadir Digital", desc: "Situs bfreshgigi.com dirilis untuk memudahkan pasien menemukan layanan & artikel edukasi kesehatan gigi." },
+  { year: "2019", title: "Awal Perjalanan", desc: "Berawal dari komitmen melayani kesehatan masyarakat, kami memperluas layanan — selain perawatan gigi, sejak 2019 kami juga menghadirkan pelayanan dokter umum dengan nama Fresh Medika." },
+  { year: "Jan 2021", title: "Lahirnya B Fresh Dental Care", desc: "Kami fokus kembali ke bidang yang paling kami kuasai: kesehatan gigi dan mulut. Kami pun berganti nama menjadi B Fresh Dental Care — didukung dokter gigi ramah & profesional serta tim pendukung yang humble dan cekatan." },
   { year: "2022", title: "Ekspansi Cepat", desc: "Jaringan tumbuh lintas kota — Gresik, Surabaya, hingga Pasuruan. Sistem manajemen klinik internal dikembangkan." },
-  { year: "2026", title: `${branches.length} Cabang, 5 Kota`, desc: `Kini ${branches.length} cabang dengan 80+ dokter gigi dan 9 dokter spesialis — dan terus bertumbuh menuju kota-kota baru.` },
+  { year: "2026", title: `${branches.length} Cabang, 5 Kota`, desc: `Kini ${branches.length} cabang dengan 40+ dokter gigi dan 9 dokter spesialis — dan terus bertumbuh menuju kota-kota baru.` },
 ];
 const values = [
   { icon: "heart", chip: "bg-primary-soft text-primary", title: "Keluarga", desc: "Pasien diperlakukan seperti keluarga sendiri: didengarkan, dijelaskan, dan dirawat dengan tulus." },
@@ -18,7 +18,7 @@ const values = [
 ---
 <BaseLayout
   title="Tentang Kami"
-  description={`B Fresh Dental Care — jaringan klinik gigi keluarga sejak ${SITE.since}. ${branches.length} cabang di 5 kota Jawa Timur, 80+ dokter gigi & 9 spesialis. Bagian dari ${SITE.legalName}.`}
+  description={`B Fresh Dental Care — jaringan klinik gigi keluarga sejak ${SITE.since}. ${branches.length} cabang di 5 kota Jawa Timur, 40+ dokter gigi & 9 spesialis. Bagian dari ${SITE.legalName}.`}
 >
   <section class="bg-gradient-to-b from-primary-soft to-white py-14 md:py-18">
     <div class="mx-auto max-w-3xl px-4 text-center">
@@ -29,6 +29,23 @@ const values = [
   </section>
 
   <section class="bg-white py-12 md:py-16">
+    <div class="mx-auto max-w-3xl px-4">
+      <h2 class="text-center font-heading text-2xl font-extrabold text-primary-deep md:text-3xl">Cerita Kami</h2>
+      <div class="mt-6 space-y-4 text-center text-sm leading-relaxed text-ink-soft md:text-base">
+        <p>
+          Berawal dari komitmen melayani kesehatan masyarakat, seiring berjalannya waktu kami memperluas layanan —
+          selain perawatan gigi, sejak 2019 kami juga menghadirkan pelayanan dokter umum dengan nama <strong class="font-semibold text-ink">Fresh Medika</strong>.
+        </p>
+        <p>
+          Pada <strong class="font-semibold text-ink">Januari 2021</strong>, kami memutuskan untuk fokus kembali ke bidang yang paling kami kuasai:
+          kesehatan gigi dan mulut. Kami pun berganti nama menjadi <strong class="font-semibold text-ink">B Fresh Dental Care</strong>,
+          didukung tim dokter gigi yang ramah dan profesional, serta tim pendukung yang humble dan cekatan — melayani keluarga Jawa Timur hingga hari ini.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-bg py-12 md:py-16">
     <div class="mx-auto max-w-4xl px-4">
       <h2 class="text-center font-heading text-2xl font-extrabold text-primary-deep md:text-3xl">Perjalanan Kami</h2>
       <ol class="relative mx-auto mt-10 max-w-2xl border-l-2 border-primary-light pl-8">
@@ -46,7 +63,7 @@ const values = [
     </div>
   </section>
 
-  <section class="bg-bg py-12 md:py-16">
+  <section class="bg-white py-12 md:py-16">
     <div class="mx-auto max-w-6xl px-4">
       <h2 class="text-center font-heading text-2xl font-extrabold text-primary-deep md:text-3xl">Nilai yang Kami Pegang</h2>
       <div class="mt-10 grid gap-5 md:grid-cols-3">
@@ -63,7 +80,7 @@ const values = [
     </div>
   </section>
 
-  <section id="misi-sosial" class="scroll-mt-24 bg-white py-12 md:py-16">
+  <section id="misi-sosial" class="scroll-mt-24 bg-bg py-12 md:py-16">
     <div class="mx-auto grid max-w-5xl items-center gap-8 px-4 md:grid-cols-2">
       <div class="reveal">
         <span class="mb-3 inline-block rounded-full bg-secondary-soft px-4 py-1 text-xs font-bold tracking-widest text-secondary-dark uppercase">Misi Sosial</span>

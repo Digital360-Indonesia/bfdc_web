@@ -4,11 +4,11 @@
 export const SITE = {
   name: "B Fresh Dental Care",
   legalName: "PT Bertumbuh Melejit Berkah",
-  tagline: "Klinik Gigi Keluarga Terpercaya sejak 2009",
+  tagline: "Klinik Gigi Keluarga Terpercaya sejak 2019",
   description:
-    "B Fresh Dental Care — jaringan klinik dokter gigi keluarga di Sidoarjo, Surabaya, Gresik, Pasuruan & Malang. 15 cabang, 80+ dokter gigi & 9 dokter spesialis. Reservasi mudah, harga transparan.",
+    "B Fresh Dental Care — jaringan klinik dokter gigi keluarga di Sidoarjo, Surabaya, Gresik, Pasuruan & Malang. 15 cabang, 40+ dokter gigi & 9 dokter spesialis. Reservasi mudah, harga transparan.",
   url: "https://bfreshgigi.com",
-  since: 2009,
+  since: 2019,
   phone: "0857-9238-2539", // CS Reservasi (WA resmi web & T&C promo)
   phoneRaw: "6285792382539",
   waMessage:
@@ -32,11 +32,11 @@ export const waLink = (msg = SITE.waMessage) =>
 
 /** Angka TrustBar (sumber: audit DB produksi Sep 2026) */
 export const STATS = [
-  { value: "2009", label: "Berdiri & Melayani" },
+  { value: "2019", label: "Berdiri & Melayani" },
   { value: "15", suffix: " cabang", label: "di 5 Kota Jawa Timur" },
-  { value: "80+", label: "Dokter Gigi" },
+  { value: "40+", label: "Dokter Gigi" },
   { value: "50+", label: "Jenis Perawatan" },
-  { value: "100rb+", label: "Pasien Dilayani" },
+  { value: "52.000++", label: "Pasien Dilayani" },
   { value: "95%", label: "Kepuasan Pasien" },
 ] as const;
 
